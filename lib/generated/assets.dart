@@ -2,6 +2,11 @@
 class Assets {
   Assets._();
 
+  static const String constantsAppColors = 'lib/core/constants/app_colors.dart';
+  static const String constantsAppStrings = 'lib/core/constants/app_strings.dart';
+  static const String constantsAppTheme = 'lib/core/constants/app_theme.dart';
+  static const String constantsTextStyle = 'lib/core/constants/text_style.dart';
+  static const String databaseAppDatabase = 'lib/core/database/app_database.dart';
   static const String fontsIBMPlexSansArabicBold = 'assets/fonts/IBMPlexSansArabic-Bold.ttf';
   static const String fontsIBMPlexSansArabicExtraLight = 'assets/fonts/IBMPlexSansArabic-ExtraLight.ttf';
   static const String fontsIBMPlexSansArabicLight = 'assets/fonts/IBMPlexSansArabic-Light.ttf';
@@ -9,6 +14,26 @@ class Assets {
   static const String fontsIBMPlexSansArabicRegular = 'assets/fonts/IBMPlexSansArabic-Regular.ttf';
   static const String fontsIBMPlexSansArabicSemiBold = 'assets/fonts/IBMPlexSansArabic-SemiBold.ttf';
   static const String fontsIBMPlexSansArabicThin = 'assets/fonts/IBMPlexSansArabic-Thin.ttf';
-  static const String imagesSplash = 'assets/images/splash.png';
+  static const String generatedAssets = 'lib/generated/assets.dart';
+  static const String imagesLogo = 'assets/images/logo.png';
+  static const String libMain = 'lib/main.dart';
+  static const String routesAppRouter = 'lib/core/routes/app_router.dart';
+  static const String routesRouteNames = 'lib/core/routes/route_names.dart';
+  static const String servicesBackupService = 'lib/core/services/backup_service.dart';
+  static const String servicesExportService = 'lib/core/services/export_service.dart';
+  static const String servicesFileService = 'lib/core/services/file_service.dart';
+  static const String servicesStorageService = 'lib/core/services/storage_service.dart';
+  static const String splashSplash = 'lib/features/splash/splash.dart';
+  static const String tablesCategoryTable = 'lib/core/database/tables/category_table.dart';
+  static const String tablesInventoryTable = 'lib/core/database/tables/inventory_table.dart';
+  static const String tablesProductTable = 'lib/core/database/tables/product_table.dart';
+  static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
+  static const String widgetsBackupStatusCard = 'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
+  static const String widgetsBottomNavbar = 'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
+  static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
+  static const String widgetsNavBar = 'lib/core/widgets/nav_bar.dart';
+  static const String widgetsQuickActionButton = 'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
+  static const String widgetsRecentActivityItem = 'lib/features/dashboard/presentation/widgets/recent_activity_item.dart';
+  static const String widgetsStatisticsCard = 'lib/features/dashboard/presentation/widgets/statistics_card.dart';
 
 }
