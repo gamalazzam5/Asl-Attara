@@ -30,6 +30,7 @@ class Assets {
   static const String servicesBackupService = 'lib/core/services/backup_service.dart';
   static const String servicesExportService = 'lib/core/services/export_service.dart';
   static const String servicesFileService = 'lib/core/services/file_service.dart';
+  static const String servicesServiceLocator = 'lib/core/services/service_locator.dart';
   static const String servicesStorageService = 'lib/core/services/storage_service.dart';
   static const String splashSplash = 'lib/features/splash/splash.dart';
   static const String tablesCategoryTable = 'lib/core/database/tables/category_table.dart';

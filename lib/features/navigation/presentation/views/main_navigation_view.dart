@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/services/service_locator.dart';
 import '../../../../core/widgets/custom_bottom_navbar.dart';
-
-import '../../../categories/data/datasource/category_local_data_source.dart';
-import '../../../categories/data/repositories/category_repository_impl.dart';
-
-import '../../../categories/domain/usecases/get_categories.dart';
 
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
 import '../../../categories/presentation/views/categories_view.dart';
@@ -33,9 +29,7 @@ class _MainNavigationViewState extends State<MainNavigationView> {
       const DashboardView(),
 
       BlocProvider(
-        create: (_) => CategoryCubit(
-          GetCategories(CategoryRepositoryImpl(CategoryLocalDataSource())),
-        ),
+        create: (_) => getIt<CategoryCubit>(),
 
         child: const CategoriesView(),
       ),
