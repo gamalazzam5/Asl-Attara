@@ -31,7 +31,7 @@ class _SplashViewState extends State<SplashView> {
 
     if (mounted) {
       context.go(
-        RouteNames.dashboard,
+        RouteNames.mainNavigation,
       );
     }
   }

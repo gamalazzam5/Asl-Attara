@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../../core/widgets/nav_bar.dart';
 import '../widgets/backup_status_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/quick_action_button.dart';
@@ -14,38 +13,32 @@ class DashboardView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: const CustomBottomNavBar(currentIndex: 0,),
-
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: 20.w,
-            vertical: 16.h,
-          ),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 16.h),
           child: Column(
             children: [
-
               const DashboardHeader(),
-
               SizedBox(height: 24.h),
 
+              // Statistics Cards Row
               Row(
                 children: [
-
+                  Expanded(
+                    child: StatisticsCard(
+                      title: 'إجمالي المنتجات',
+                      value: '154',
+                      isAlert: false,
+                      icon: Icons.delete_outline_rounded,
+                    ),
+                  ),
+                  SizedBox(width: 12.w),
                   Expanded(
                     child: StatisticsCard(
                       title: 'منتجات منخفضة المخزون',
                       value: '12',
                       isAlert: true,
-                    ),
-                  ),
-
-                  SizedBox(width: 12.w),
-
-                  Expanded(
-                    child: StatisticsCard(
-                      title: 'إجمالي المنتجات',
-                      value: '154',
+                      icon: Icons.warning_rounded,
                     ),
                   ),
                 ],
@@ -58,12 +51,7 @@ class DashboardView extends StatelessWidget {
               SizedBox(height: 24.h),
 
               Expanded(
-                child: ListView.builder(
-                  itemCount: 2,
-                  itemBuilder: (_, index) {
-                    return RecentActivityItem();
-                  },
-                ),
+                child: RecentActivityItem(),
               ),
 
               SizedBox(height: 16.h),

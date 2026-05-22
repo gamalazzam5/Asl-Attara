@@ -28,12 +28,14 @@ class Assets {
   static const String tablesInventoryTable = 'lib/core/database/tables/inventory_table.dart';
   static const String tablesProductTable = 'lib/core/database/tables/product_table.dart';
   static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
+  static const String viewsMainNavigationView = 'lib/features/navigation/presentation/views/main_navigation_view.dart';
   static const String widgetsBackupStatusCard = 'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
   static const String widgetsBottomNavbar = 'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
+  static const String widgetsCustomBottomNavbar = 'lib/core/widgets/custom_bottom_navbar.dart';
   static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
-  static const String widgetsNavBar = 'lib/core/widgets/nav_bar.dart';
   static const String widgetsQuickActionButton = 'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
   static const String widgetsRecentActivityItem = 'lib/features/dashboard/presentation/widgets/recent_activity_item.dart';
+  static const String widgetsRecentActivityProcess = 'lib/features/dashboard/presentation/widgets/recent_activity_process.dart';
   static const String widgetsStatisticsCard = 'lib/features/dashboard/presentation/widgets/statistics_card.dart';
 
 }

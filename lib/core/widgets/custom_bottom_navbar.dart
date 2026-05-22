@@ -50,7 +50,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
       child: Row(
         mainAxisAlignment:
-        MainAxisAlignment.spaceAround,
+        .spaceAround,
 
         children: [
 
@@ -72,11 +72,6 @@ class CustomBottomNavBar extends StatelessWidget {
             index: 2,
           ),
 
-          _buildItem(
-            icon: Icons.settings_outlined,
-            label: 'الإعدادات',
-            index: 3,
-          ),
         ],
       ),
     );

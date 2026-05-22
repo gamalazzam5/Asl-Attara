@@ -13,5 +13,6 @@ abstract class RouteNames {
   static const backup = '/backup';
 
   static const settings = '/settings';
+  static const mainNavigation='/mainNavigation';
 
 }
