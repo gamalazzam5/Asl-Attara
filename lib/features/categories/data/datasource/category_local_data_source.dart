@@ -7,7 +7,7 @@ class CategoryLocalDataSource {
         id: 1,
         title: 'أعشاب',
         itemCount: '32',
-        imagePath: 'assets/icons/herbs.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#D4F1E4',
       ),
 
@@ -15,7 +15,7 @@ class CategoryLocalDataSource {
         id: 2,
         title: 'بهارات',
         itemCount: '28',
-        imagePath: 'assets/icons/spices.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#FFF3E0',
       ),
 
@@ -23,7 +23,7 @@ class CategoryLocalDataSource {
         id: 3,
         title: 'زيوت',
         itemCount: '18',
-        imagePath: 'assets/icons/oils.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#E8EAF6',
       ),
 
@@ -31,7 +31,7 @@ class CategoryLocalDataSource {
         id: 4,
         title: 'عطور',
         itemCount: '22',
-        imagePath: 'assets/icons/perfume.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#FCE4EC',
       ),
 
@@ -39,7 +39,7 @@ class CategoryLocalDataSource {
         id: 5,
         title: 'تمور',
         itemCount: '15',
-        imagePath: 'assets/icons/dates.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#F3E5F5',
       ),
 
@@ -47,7 +47,7 @@ class CategoryLocalDataSource {
         id: 6,
         title: 'بقوليات',
         itemCount: '20',
-        imagePath: 'assets/icons/legumes.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#FFF9C4',
       ),
 
@@ -55,7 +55,7 @@ class CategoryLocalDataSource {
         id: 7,
         title: 'حبوب',
         itemCount: '26',
-        imagePath: 'assets/icons/grains.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#E1F5FE',
       ),
 
@@ -63,7 +63,7 @@ class CategoryLocalDataSource {
         id: 8,
         title: 'مكسرات',
         itemCount: '14',
-        imagePath: 'assets/icons/nuts.png',
+        imagePath: 'assets/images/greens.png',
         backgroundColor: '#FBE9E7',
       ),
     ];

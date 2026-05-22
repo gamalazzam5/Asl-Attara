@@ -19,6 +19,7 @@ class Assets {
   static const String fontsIBMPlexSansArabicSemiBold = 'assets/fonts/IBMPlexSansArabic-SemiBold.ttf';
   static const String fontsIBMPlexSansArabicThin = 'assets/fonts/IBMPlexSansArabic-Thin.ttf';
   static const String generatedAssets = 'lib/generated/assets.dart';
+  static const String imagesGreens = 'assets/images/greens.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String libMain = 'lib/main.dart';
   static const String modelsCategoryModel = 'lib/features/categories/data/models/category_model.dart';
