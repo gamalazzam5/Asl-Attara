@@ -6,7 +6,11 @@ class Assets {
   static const String constantsAppStrings = 'lib/core/constants/app_strings.dart';
   static const String constantsAppTheme = 'lib/core/constants/app_theme.dart';
   static const String constantsTextStyle = 'lib/core/constants/text_style.dart';
+  static const String cubitsCategoryCubit = 'lib/features/categories/presentation/manger/cubits/category_cubit.dart';
+  static const String cubitsCategoryState = 'lib/features/categories/presentation/manger/cubits/category_state.dart';
   static const String databaseAppDatabase = 'lib/core/database/app_database.dart';
+  static const String datasourceCategoryLocalDataSource = 'lib/features/categories/data/datasource/category_local_data_source.dart';
+  static const String entitiesCategoryEntity = 'lib/features/categories/domain/entities/category_entity.dart';
   static const String fontsIBMPlexSansArabicBold = 'assets/fonts/IBMPlexSansArabic-Bold.ttf';
   static const String fontsIBMPlexSansArabicExtraLight = 'assets/fonts/IBMPlexSansArabic-ExtraLight.ttf';
   static const String fontsIBMPlexSansArabicLight = 'assets/fonts/IBMPlexSansArabic-Light.ttf';
@@ -17,6 +21,9 @@ class Assets {
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String libMain = 'lib/main.dart';
+  static const String modelsCategoryModel = 'lib/features/categories/data/models/category_model.dart';
+  static const String repositoriesCategoryRepository = 'lib/features/categories/domain/repositories/category_repository.dart';
+  static const String repositoriesCategoryRepositoryImpl = 'lib/features/categories/data/repositories/category_repository_impl.dart';
   static const String routesAppRouter = 'lib/core/routes/app_router.dart';
   static const String routesRouteNames = 'lib/core/routes/route_names.dart';
   static const String servicesBackupService = 'lib/core/services/backup_service.dart';
@@ -27,10 +34,14 @@ class Assets {
   static const String tablesCategoryTable = 'lib/core/database/tables/category_table.dart';
   static const String tablesInventoryTable = 'lib/core/database/tables/inventory_table.dart';
   static const String tablesProductTable = 'lib/core/database/tables/product_table.dart';
+  static const String usecasesGetCategories = 'lib/features/categories/domain/usecases/get_categories.dart';
+  static const String viewsCategoriesView = 'lib/features/categories/presentation/views/categories_view.dart';
   static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
   static const String viewsMainNavigationView = 'lib/features/navigation/presentation/views/main_navigation_view.dart';
   static const String widgetsBackupStatusCard = 'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
   static const String widgetsBottomNavbar = 'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
+  static const String widgetsCategoriesGrid = 'lib/features/categories/presentation/widgets/categories_grid.dart';
+  static const String widgetsCategoryCard = 'lib/features/categories/presentation/widgets/category_card.dart';
   static const String widgetsCustomBottomNavbar = 'lib/core/widgets/custom_bottom_navbar.dart';
   static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
   static const String widgetsQuickActionButton = 'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
