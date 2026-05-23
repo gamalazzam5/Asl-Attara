@@ -35,7 +35,7 @@ class DashboardView extends StatelessWidget {
                   SizedBox(width: 12.w),
                   Expanded(
                     child: StatisticsCard(
-                      title: 'منتجات منخفضة المخزون',
+                      title: ' منخفض المخزون',
                       value: '12',
                       isAlert: true,
                       icon: Icons.warning_rounded,

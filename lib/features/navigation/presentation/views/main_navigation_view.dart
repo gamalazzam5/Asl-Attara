@@ -7,6 +7,9 @@ import '../../../../core/widgets/custom_bottom_navbar.dart';
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
 import '../../../categories/presentation/views/categories_view.dart';
 
+import '../../../products/presentation/manger/cubits/product_cubit.dart';
+import '../../../products/presentation/views/products_view.dart';
+
 import '../../../dashboard/presentation/views/dashboard_view.dart';
 
 class MainNavigationView extends StatefulWidget {
@@ -34,7 +37,11 @@ class _MainNavigationViewState extends State<MainNavigationView> {
         child: const CategoriesView(),
       ),
 
-      Container(),
+      BlocProvider(
+        create: (_) => getIt<ProductCubit>(),
+
+        child: const ProductsView(),
+      ),
     ];
   }
 

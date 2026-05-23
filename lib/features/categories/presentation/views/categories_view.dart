@@ -58,13 +58,12 @@ class _CategoriesViewState extends State<CategoriesView> {
                 padding: EdgeInsets.all(20.r),
 
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
 
                   children: [
                     Text(
                       'الأقسام',
 
-                      style: TextStyles.text24.copyWith(
+                      style: TextStyles.text22.copyWith(
                         fontWeight: FontWeight.bold,
 
                         color: AppColors.primaryColor,
