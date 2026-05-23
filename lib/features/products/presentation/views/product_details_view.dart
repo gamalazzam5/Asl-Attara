@@ -23,6 +23,9 @@ class ProductDetailsView extends StatelessWidget {
       backgroundColor: Colors.grey.shade100,
 
       appBar: AppBar(
+        scrolledUnderElevation: 0,
+        backgroundColor: Colors.white,
+        elevation: 0,
         centerTitle: true,
 
         title: Text(

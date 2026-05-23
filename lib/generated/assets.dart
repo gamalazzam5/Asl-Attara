@@ -56,6 +56,7 @@ class Assets {
   static const String widgetsCategoriesGrid = 'lib/features/categories/presentation/widgets/categories_grid.dart';
   static const String widgetsCategoryCard = 'lib/features/categories/presentation/widgets/category_card.dart';
   static const String widgetsCustomBottomNavbar = 'lib/core/widgets/custom_bottom_navbar.dart';
+  static const String widgetsCustomButton = 'lib/core/widgets/custom_button.dart';
   static const String widgetsCustomSearchField = 'lib/core/widgets/custom_search_field.dart';
   static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
   static const String widgetsInfoCard = 'lib/features/products/presentation/widgets/info_card.dart';

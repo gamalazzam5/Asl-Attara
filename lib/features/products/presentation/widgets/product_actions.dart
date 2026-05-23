@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_colors.dart';
+import '../../../../core/widgets/custom_button.dart';
 
 class ProductActions extends StatelessWidget {
   const ProductActions({super.key});
@@ -10,22 +11,15 @@ class ProductActions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(
+        CustomButton(
           width: double.infinity,
+          onTap: () {},
 
-          child: ElevatedButton.icon(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primaryColor,
+          text: 'تعديل المنتج',
 
-              padding: EdgeInsets.symmetric(vertical: 16.h),
-            ),
+          backgroundColor: AppColors.primaryColor,
 
-            onPressed: () {},
-
-            icon: const Icon(Icons.edit),
-
-            label: const Text('تعديل المنتج'),
-          ),
+          icon: Icons.edit_outlined,
         ),
 
         SizedBox(height: 12.h),
@@ -33,22 +27,31 @@ class ProductActions extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: ElevatedButton(
-                onPressed: () {},
+              child: CustomButton(
+                onTap: () {},
 
-                child: const Text('سجل العمليات'),
+                text: 'سجل العمليات',
+
+                backgroundColor: Colors.white,
+
+                textColor: Colors.black,
+
+                icon: Icons.history,
+                iconColor: Colors.black,
               ),
             ),
 
             SizedBox(width: 12.w),
 
             Expanded(
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              child: CustomButton(
+                onTap: () {},
 
-                onPressed: () {},
+                text: 'حذف',
 
-                child: const Text('حذف'),
+                backgroundColor: Colors.red,
+
+                icon: Icons.delete_outline,
               ),
             ),
           ],
