@@ -45,10 +45,12 @@ class _ProductsViewState extends State<ProductsView> {
               CustomSearchField(
                 hintText: 'ابحث عن منتج...',
 
-                onChanged: (value) {
-                  // later:
-                  // context.read<ProductCubit>()
-                  // .search(value);
+                onChanged: (value){
+
+                  context
+                      .read<ProductCubit>()
+                      .search(value);
+
                 },
               ),
 
@@ -62,7 +64,7 @@ class _ProductsViewState extends State<ProductsView> {
                     }
 
                     if (state is ProductLoaded) {
-                      return ProductsList(products: state.products);
+                      return ProductsList(products: state.filteredProducts);
                     }
 
                     if (state is ProductError) {

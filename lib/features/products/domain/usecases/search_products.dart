@@ -6,6 +6,10 @@ class SearchProducts {
 
     required String query,
   }) {
+    if (query.isEmpty) {
+      return products;
+    }
+
     return products.where((product) {
       return product.name.toLowerCase().contains(query.toLowerCase());
     }).toList();

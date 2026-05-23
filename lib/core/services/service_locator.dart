@@ -12,6 +12,7 @@ import '../../features/products/data/datasource/product_local_data_source.dart';
 import '../../features/products/data/repositories/product_repository_impl.dart';
 import '../../features/products/domain/repositories/product_repository.dart';
 import '../../features/products/domain/usecases/get_products.dart';
+import '../../features/products/domain/usecases/search_products.dart';
 import '../../features/products/presentation/manger/cubits/product_cubit.dart';
 
 final getIt = GetIt.instance;
@@ -46,6 +47,7 @@ void setupServiceLocator() {
   );
 
   getIt.registerLazySingleton(() => GetProducts(getIt()));
+  getIt.registerLazySingleton(() => SearchProducts());
 
-  getIt.registerFactory(() => ProductCubit(getIt()));
+  getIt.registerFactory(() => ProductCubit(getIt(), getIt()));
 }
