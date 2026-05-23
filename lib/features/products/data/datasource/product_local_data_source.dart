@@ -12,7 +12,7 @@ class ProductLocalDataSource {
 
         unit: 'كجم',
 
-        lowStock: true,
+        minimumStockQuantity: 10,
 
         categoryId: 1,
 
@@ -32,7 +32,7 @@ class ProductLocalDataSource {
 
         unit: 'لتر',
 
-        lowStock: false,
+        minimumStockQuantity: 1,
 
         categoryId: 2,
 
@@ -52,13 +52,53 @@ class ProductLocalDataSource {
 
         unit: 'مل',
 
-        lowStock: false,
+        minimumStockQuantity: 100,
 
         categoryId: 3,
 
         categoryName: 'عطور',
 
         buyPrice: 100,
+
+        sellPrice: 180,
+      ),
+
+      ProductModel(
+        id: 4,
+
+        name: 'هيل هندي',
+
+        quantity: 500,
+
+        unit: 'جرام',
+
+        minimumStockQuantity: 200,
+
+        categoryId: 4,
+
+        categoryName: 'بهارات',
+
+        buyPrice: 55,
+
+        sellPrice: 85,
+      ),
+
+      ProductModel(
+        id: 5,
+
+        name: 'تمر عجوة',
+
+        quantity: 3,
+
+        unit: 'كجم',
+
+        minimumStockQuantity: 5,
+
+        categoryId: 5,
+
+        categoryName: 'تمور',
+
+        buyPrice: 140,
 
         sellPrice: 180,
       ),

@@ -1,18 +1,20 @@
 import 'package:aslattara/core/routes/route_names.dart';
 import 'package:aslattara/features/splash/splash.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/categories/presentation/manger/cubits/category_cubit.dart';
 import '../../features/dashboard/presentation/views/dashboard_view.dart';
 import '../../features/navigation/presentation/views/main_navigation_view.dart';
 
+import '../../features/products/presentation/views/add_product_view.dart';
+import '../services/service_locator.dart';
+
 class AppRouter {
-
   static final router = GoRouter(
-
     initialLocation: RouteNames.splash,
 
     routes: [
-
       GoRoute(
         path: RouteNames.splash,
         builder: (context, state) => const SplashView(),
@@ -22,37 +24,27 @@ class AppRouter {
         path: RouteNames.dashboard,
         builder: (context, state) => const DashboardView(),
       ),
+
       GoRoute(
         path: RouteNames.mainNavigation,
-        builder: (context,state)
-        => const MainNavigationView(),
+        builder: (context, state) => const MainNavigationView(),
       ),
 
-      // GoRoute(
-      //   path: RouteNames.products,
-      //   builder: (context, state) => const ProductsView(),
-      // ),
-      //
-      // GoRoute(
-      //   path: RouteNames.categories,
-      //   builder: (context, state) => const CategoriesView(),
-      // ),
-      //
-      // GoRoute(
-      //   path: RouteNames.inventory,
-      //   builder: (context, state) =>
-      //   const InventoryHistoryView(),
-      // ),
-      //
-      // GoRoute(
-      //   path: RouteNames.backup,
-      //   builder: (context, state) => const BackupView(),
-      // ),
-      //
-      // GoRoute(
-      //   path: RouteNames.settings,
-      //   builder: (context, state) => const SettingsView(),
-      // ),
+      /// Add Product
+      GoRoute(
+        path: RouteNames.addProduct,
+
+        builder: (context, state) {
+
+          return BlocProvider(
+
+            create: (_) => getIt<CategoryCubit>()
+              ..loadCategories(),
+
+            child: const AddProductView(),
+          );
+        },
+      ),
     ],
   );
 }

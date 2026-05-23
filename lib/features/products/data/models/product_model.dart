@@ -5,7 +5,7 @@ class ProductModel extends ProductEntity {
     required super.id,
     required super.name,
     required super.quantity,
-    required super.lowStock,
+    required super.minimumStockQuantity,
     required super.categoryId,
     required super.unit,
 
@@ -23,8 +23,7 @@ class ProductModel extends ProductEntity {
       unit: json['unit'],
       quantity: json['quantity'],
 
-      lowStock: json['lowStock'],
-
+      minimumStockQuantity: json['minimumStockQuantity'],
       categoryId: json['categoryId'],
 
       categoryName: json['categoryName'],
@@ -38,13 +37,11 @@ class ProductModel extends ProductEntity {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-
       'name': name,
       'unit': unit,
       'quantity': quantity,
 
-      'lowStock': lowStock,
-
+      'minimumStockQuantity': minimumStockQuantity,
       'categoryId': categoryId,
 
       'categoryName': categoryName,

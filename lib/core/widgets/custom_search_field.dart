@@ -12,6 +12,19 @@ class CustomSearchField extends StatelessWidget {
 
   final Widget? suffixIcon;
 
+  final TextInputType? keyboardType;
+
+  final bool readOnly;
+
+  final int? maxLines;
+
+  final VoidCallback? onTap;
+
+  final String? suffixText;
+
+  final Color? backgroundColor;
+  final String? Function(String?)? validator;
+
   const CustomSearchField({
     super.key,
 
@@ -24,25 +37,49 @@ class CustomSearchField extends StatelessWidget {
     this.prefixIcon,
 
     this.suffixIcon,
+
+    this.keyboardType,
+
+    this.readOnly = false,
+
+    this.maxLines = 1,
+
+    this.onTap,
+
+    this.suffixText,
+
+    this.backgroundColor, this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
       controller: controller,
-
+      validator: validator,
       onChanged: onChanged,
+
+      keyboardType: keyboardType,
+
+      readOnly: readOnly,
+
+      maxLines: maxLines,
+
+      onTap: onTap,
 
       textAlign: TextAlign.right,
 
       decoration: InputDecoration(
         hintText: hintText,
 
+        hintStyle: TextStyle(color: Colors.grey.shade500),
+
         filled: true,
 
-        fillColor: Colors.white,
+        fillColor: backgroundColor ?? const Color(0xffF7F8FA),
 
-        contentPadding: EdgeInsets.symmetric(vertical: 16.h),
+        suffixText: suffixText,
+
+        contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
 
         prefixIcon: prefixIcon ?? const Icon(Icons.search),
 
@@ -57,13 +94,13 @@ class CustomSearchField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
 
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.grey.shade200),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
 
-          borderSide: BorderSide.none,
+          borderSide: BorderSide(color: Colors.green.shade300, width: 1.3),
         ),
       ),
     );

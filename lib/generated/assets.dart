@@ -46,11 +46,13 @@ class Assets {
   static const String usecasesGetCategories = 'lib/features/categories/domain/usecases/get_categories.dart';
   static const String usecasesGetProducts = 'lib/features/products/domain/usecases/get_products.dart';
   static const String usecasesSearchProducts = 'lib/features/products/domain/usecases/search_products.dart';
+  static const String viewsAddProductView = 'lib/features/products/presentation/views/add_product_view.dart';
   static const String viewsCategoriesView = 'lib/features/categories/presentation/views/categories_view.dart';
   static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
   static const String viewsMainNavigationView = 'lib/features/navigation/presentation/views/main_navigation_view.dart';
   static const String viewsProductDetailsView = 'lib/features/products/presentation/views/product_details_view.dart';
   static const String viewsProductsView = 'lib/features/products/presentation/views/products_view.dart';
+  static const String widgetsAddProductForm = 'lib/features/products/presentation/widgets/add_product_form.dart';
   static const String widgetsBackupStatusCard = 'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
   static const String widgetsBottomNavbar = 'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
   static const String widgetsCategoriesGrid = 'lib/features/categories/presentation/widgets/categories_grid.dart';
@@ -60,14 +62,17 @@ class Assets {
   static const String widgetsCustomSearchField = 'lib/core/widgets/custom_search_field.dart';
   static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
   static const String widgetsInfoCard = 'lib/features/products/presentation/widgets/info_card.dart';
+  static const String widgetsPriceField = 'lib/features/products/presentation/widgets/price_field.dart';
   static const String widgetsProductActions = 'lib/features/products/presentation/widgets/product_actions.dart';
   static const String widgetsProductCard = 'lib/features/products/presentation/widgets/product_card.dart';
   static const String widgetsProductImageAvatar = 'lib/features/products/presentation/widgets/product_image_avatar.dart';
   static const String widgetsProductsList = 'lib/features/products/presentation/widgets/products_list.dart';
   static const String widgetsQuantityCard = 'lib/features/products/presentation/widgets/quantity_card.dart';
+  static const String widgetsQuantitySelector = 'lib/features/products/presentation/widgets/quantity_selector.dart';
   static const String widgetsQuickActionButton = 'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
   static const String widgetsRecentActivityItem = 'lib/features/dashboard/presentation/widgets/recent_activity_item.dart';
   static const String widgetsRecentActivityProcess = 'lib/features/dashboard/presentation/widgets/recent_activity_process.dart';
+  static const String widgetsSearchableCategoryDropdown = 'lib/features/products/presentation/widgets/searchable_category_dropdown.dart';
   static const String widgetsStatisticsCard = 'lib/features/dashboard/presentation/widgets/statistics_card.dart';
   static const String widgetsStockStatusBadge = 'lib/features/products/presentation/widgets/stock_status_badge.dart';
 
