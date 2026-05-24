@@ -302,7 +302,7 @@ class _AddProductViewState extends State<AddProductView> {
 
                 text: 'حفظ المنتج',
 
-                backgroundColor: Colors.green,
+                backgroundColor: AppColors.primaryColor,
 
                 onTap: () {
                   if (!_formKey.currentState!.validate()) {

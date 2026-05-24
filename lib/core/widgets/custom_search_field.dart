@@ -1,3 +1,4 @@
+import 'package:aslattara/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -100,7 +101,7 @@ class CustomSearchField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
 
-          borderSide: BorderSide(color: Colors.green.shade300, width: 1.3),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 1.3),
         ),
       ),
     );
