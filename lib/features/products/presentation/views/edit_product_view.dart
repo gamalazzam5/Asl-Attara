@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
-
 import '../../../../core/constants/text_style.dart';
 
 import '../../domain/entities/product_entity.dart';
@@ -24,19 +21,13 @@ class EditProductView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-
         backgroundColor: Colors.white,
-
         elevation: 0,
-
         scrolledUnderElevation: 0,
-
         title: Text(
           'تعديل المنتج',
-
           style: TextStyles.text18.copyWith(
             color: AppColors.primaryColor,
-
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -44,45 +35,31 @@ class EditProductView extends StatelessWidget {
 
       body: Padding(
         padding: const EdgeInsets.all(20),
-
         child: ProductForm(
           product: product,
-
           buttonText: 'حفظ التعديلات',
 
           onSave:
               ({
                 required name,
-
                 required category,
-
+                required categoryId, // ← بقى بياخد الـ id الحقيقي
                 required unit,
-
                 required quantity,
-
                 required lowStock,
-
                 required buyPrice,
-
                 required sellPrice,
               }) async {
                 final updatedProduct = ProductEntity(
                   id: product.id,
-
                   name: name,
-
                   quantity: quantity,
-
                   unit: unit,
-
                   minimumStockQuantity: lowStock,
-
-                  categoryId: product.categoryId,
-
+                  categoryId: categoryId,
+                  // ← مش product.categoryId القديم
                   categoryName: category,
-
                   buyPrice: buyPrice,
-
                   sellPrice: sellPrice,
                 );
 
@@ -96,13 +73,11 @@ class EditProductView extends StatelessWidget {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('تم حفظ التعديلات')),
                   );
-
                   context.pop();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       backgroundColor: Colors.orange,
-
                       content: Text('اسم المنتج مستخدم بالفعل'),
                     ),
                   );

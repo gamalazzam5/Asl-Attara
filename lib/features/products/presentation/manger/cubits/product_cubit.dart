@@ -18,27 +18,40 @@ class ProductCubit extends Cubit<ProductState> {
     this.updateProductUseCase,
   ) : super(ProductInitial());
 
+  /// كل المنتجات من الـ data source
   List<ProductEntity> _allProducts = [];
 
   /// المنتجات الحالية (قسم معين أو كل المنتجات)
   List<ProductEntity> _currentProducts = [];
 
+  /// الـ categoryId المحفوظ عشان نعمل reload صح بعد add/edit
+  int? _activeCategoryId;
+
   Future<void> loadProducts({int? categoryId}) async {
     emit(ProductLoading());
 
-    _allProducts = await getProductsUseCase();
+    try {
+      _activeCategoryId = categoryId;
 
-    if (categoryId != null) {
-      _currentProducts = _allProducts.where((product) {
-        return product.categoryId == categoryId;
-      }).toList();
-    } else {
-      _currentProducts = _allProducts;
+      _allProducts = await getProductsUseCase();
+
+      if (categoryId != null) {
+        _currentProducts = _allProducts
+            .where((product) => product.categoryId == categoryId)
+            .toList();
+      } else {
+        _currentProducts = List.from(_allProducts);
+      }
+
+      emit(
+        ProductLoaded(
+          products: _allProducts,
+          filteredProducts: _currentProducts,
+        ),
+      );
+    } catch (e) {
+      emit(ProductError(e.toString()));
     }
-
-    emit(
-      ProductLoaded(products: _allProducts, filteredProducts: _currentProducts),
-    );
   }
 
   Future<bool> addProduct(ProductEntity product) async {
@@ -50,8 +63,8 @@ class ProductCubit extends Cubit<ProductState> {
 
     await addProductUseCase(product);
 
-    /// Reload all products after add
-    await loadProducts();
+    // Reload بنفس الـ categoryId المحفوظ
+    await loadProducts(categoryId: _activeCategoryId);
 
     return true;
   }
@@ -67,8 +80,8 @@ class ProductCubit extends Cubit<ProductState> {
 
     await updateProductUseCase(product);
 
-    /// Reload all products after edit
-    await loadProducts();
+    // Reload بنفس الـ categoryId المحفوظ
+    await loadProducts(categoryId: _activeCategoryId);
 
     return true;
   }

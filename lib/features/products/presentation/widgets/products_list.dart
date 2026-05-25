@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/routes/route_names.dart';
 
 import '../../domain/entities/product_entity.dart';
-import '../views/product_details_view.dart';
+import '../manger/cubits/product_cubit.dart';
 import 'product_card.dart';
 
 class ProductsList extends StatelessWidget {
   final List<ProductEntity> products;
+  final ProductCubit? categoryProductCubit;
 
-  const ProductsList({super.key, required this.products});
+  const ProductsList({
+    super.key,
+    required this.products,
+    this.categoryProductCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,12 +30,12 @@ class ProductsList extends StatelessWidget {
           product: products[index],
 
           onTap: () {
-            Navigator.push(
-              context,
-
-              MaterialPageRoute(
-                builder: (_) => ProductDetailsView(product: products[index]),
-              ),
+            context.push(
+              RouteNames.productDetails,
+              extra: {
+                'product': products[index],
+                if (categoryProductCubit != null) 'cubit': categoryProductCubit,
+              },
             );
           },
         );

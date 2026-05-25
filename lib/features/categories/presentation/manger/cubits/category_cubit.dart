@@ -15,9 +15,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future<void> loadCategories() async {
     emit(CategoryLoading());
-
     final categories = await getCategoriesUseCase();
-
     emit(CategoryLoaded(categories));
   }
 
@@ -32,26 +30,25 @@ class CategoryCubit extends Cubit<CategoryState> {
           category.title.trim().toLowerCase() == title.trim().toLowerCase(),
     );
 
-    if (exists) {
-      return false;
-    }
+    if (exists) return false;
 
     final category = CategoryEntity(
       id: DateTime.now().millisecondsSinceEpoch,
-
       title: title,
-
       itemCount: '0',
-
       imagePath: 'assets/images/greens.png',
-
       backgroundColor: color,
     );
 
     await addCategoryUseCase(category);
-
     await loadCategories();
-
     return true;
+  }
+
+  /// بيتاستدعى لما يتضاف أو يتعدل منتج عشان يحدث الـ itemCount في كل category
+  Future<void> refreshCategoryCounts() async {
+    // مش بنعمل emit(CategoryLoading) عشان منعملش flash في الـ UI
+    final categories = await getCategoriesUseCase();
+    emit(CategoryLoaded(categories));
   }
 }

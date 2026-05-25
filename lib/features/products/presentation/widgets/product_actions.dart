@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
@@ -7,6 +8,7 @@ import '../../../../core/routes/route_names.dart';
 import '../../../../core/widgets/custom_button.dart';
 
 import '../../domain/entities/product_entity.dart';
+import '../manger/cubits/product_cubit.dart';
 
 class ProductActions extends StatelessWidget {
   final ProductEntity product;
@@ -21,7 +23,15 @@ class ProductActions extends StatelessWidget {
           width: double.infinity,
 
           onTap: () {
-            context.push(RouteNames.editProduct, extra: product);
+            // بنبعت Map فيها الـ product + الـ cubit الحالي من الـ context
+            // بكده سواء كنا في main nav أو category screen، هنستخدم الـ cubit الصح
+            context.push(
+              RouteNames.editProduct,
+              extra: {
+                'product': product,
+                'cubit': context.read<ProductCubit>(),
+              },
+            );
           },
 
           text: 'تعديل المنتج',

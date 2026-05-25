@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/services/service_locator.dart';
-
 import '../../../../core/widgets/custom_bottom_navbar.dart';
 
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
-
 import '../../../categories/presentation/views/categories_view.dart';
 
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
-
 import '../../../products/presentation/views/products_view.dart';
 
 import '../../../dashboard/presentation/views/dashboard_view.dart';
@@ -23,10 +20,8 @@ class MainNavigationView extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider.value(value: getIt<CategoryCubit>()),
-
         BlocProvider.value(value: getIt<ProductCubit>()),
       ],
-
       child: const _NavigationBody(),
     );
   }
@@ -49,6 +44,8 @@ class _NavigationBodyState extends State<_NavigationBody> {
     return Scaffold(
       backgroundColor: Colors.white,
 
+      // لا يوجد FAB هنا — كل صفحة بتدير الـ FAB بتاعها بنفسها
+      // مشكلة الـ duplicate hero اتحلت في ProductsView بإضافة heroTag فريد
       body: IndexedStack(index: currentIndex, children: pages),
 
       bottomNavigationBar: CustomBottomNavBar(

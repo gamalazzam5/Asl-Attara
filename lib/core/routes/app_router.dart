@@ -13,10 +13,15 @@ import '../../features/navigation/presentation/views/main_navigation_view.dart';
 
 import '../../features/products/domain/entities/product_entity.dart';
 
+import '../../features/products/domain/usecases/add_product_use_case.dart';
+import '../../features/products/domain/usecases/edit_product_use_case.dart';
+import '../../features/products/domain/usecases/get_products.dart';
+
 import '../../features/products/presentation/manger/cubits/product_cubit.dart';
 
 import '../../features/products/presentation/views/add_product_view.dart';
 import '../../features/products/presentation/views/edit_product_view.dart';
+import '../../features/products/presentation/views/product_details_view.dart';
 import '../../features/products/presentation/views/products_view.dart';
 
 import '../services/service_locator.dart';
@@ -41,15 +46,20 @@ class AppRouter {
       /// Add Product
       GoRoute(
         path: RouteNames.addProduct,
-        builder: (_, __) {
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>?;
+          final cubit =
+              (extra?['cubit'] as ProductCubit?) ?? getIt<ProductCubit>();
+          // بناخد الـ categoryId من الـ extra لو موجود
+          final categoryId = extra?['categoryId'] as int?;
+
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: getIt<ProductCubit>()),
-
+              BlocProvider.value(value: cubit),
               BlocProvider.value(value: getIt<CategoryCubit>()),
             ],
-
-            child: const AddProductView(),
+            // بنبعت الـ categoryId للـ AddProductView
+            child: AddProductView(categoryId: categoryId),
           );
         },
       ),
@@ -60,14 +70,36 @@ class AppRouter {
         builder: (_, state) {
           final data = state.extra as Map<String, dynamic>;
 
+          final categoryCubit = ProductCubit(
+            getIt<GetProducts>(),
+            getIt<AddProduct>(),
+            getIt<UpdateProduct>(),
+          );
+
           return BlocProvider(
             create: (_) =>
-                getIt<ProductCubit>()..loadProducts(categoryId: data['id']),
-
+                categoryCubit..loadProducts(categoryId: data['id'] as int),
             child: ProductsView(
-              categoryId: data['id'],
-              categoryName: data['name'],
+              categoryId: data['id'] as int,
+              categoryName: data['name'] as String,
+              categoryProductCubit: categoryCubit,
             ),
+          );
+        },
+      ),
+
+      /// Product Details
+      GoRoute(
+        path: RouteNames.productDetails,
+        builder: (_, state) {
+          final extra = state.extra as Map<String, dynamic>;
+          final product = extra['product'] as ProductEntity;
+          final cubit =
+              (extra['cubit'] as ProductCubit?) ?? getIt<ProductCubit>();
+
+          return BlocProvider.value(
+            value: cubit,
+            child: ProductDetailsView(product: product),
           );
         },
       ),
@@ -76,15 +108,16 @@ class AppRouter {
       GoRoute(
         path: RouteNames.editProduct,
         builder: (_, state) {
-          final product = state.extra as ProductEntity;
+          final extra = state.extra as Map<String, dynamic>;
+          final product = extra['product'] as ProductEntity;
+          final cubit =
+              (extra['cubit'] as ProductCubit?) ?? getIt<ProductCubit>();
 
           return MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: getIt<ProductCubit>()),
-
+              BlocProvider.value(value: cubit),
               BlocProvider.value(value: getIt<CategoryCubit>()),
             ],
-
             child: EditProductView(product: product),
           );
         },
