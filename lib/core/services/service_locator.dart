@@ -38,52 +38,54 @@ final getIt = GetIt.instance;
 
 void setupServiceLocator() {
   /// =========================
+  /// Products — Data Layer أولاً عشان Categories بتعتمد عليه
+  /// =========================
+
+  getIt.registerLazySingleton<ProductLocalDataSource>(
+        () => ProductLocalDataSource(),
+  );
+
+  getIt.registerLazySingleton<ProductRepository>(
+        () => ProductRepositoryImpl(getIt<ProductLocalDataSource>()),
+  );
+
+  getIt.registerLazySingleton(() => GetProducts(getIt<ProductRepository>()));
+  getIt.registerLazySingleton(() => AddProduct(getIt<ProductRepository>()));
+  getIt.registerLazySingleton(() => UpdateProduct(getIt<ProductRepository>()));
+  getIt.registerLazySingleton(() => SearchProducts());
+
+  /// =========================
   /// Categories
   /// =========================
 
   getIt.registerLazySingleton<CategoryLocalDataSource>(
-    () => CategoryLocalDataSource(getIt<ProductLocalDataSource>()),
+        () => CategoryLocalDataSource(getIt<ProductLocalDataSource>()),
   );
 
   getIt.registerLazySingleton<CategoryRepository>(
-    () => CategoryRepositoryImpl(getIt<CategoryLocalDataSource>()),
+        () => CategoryRepositoryImpl(getIt<CategoryLocalDataSource>()),
   );
 
   getIt.registerLazySingleton(() => GetCategories(getIt<CategoryRepository>()));
-
   getIt.registerLazySingleton(() => AddCategory(getIt<CategoryRepository>()));
 
   getIt.registerLazySingleton(
-    () =>
-        CategoryCubit(getIt<GetCategories>(), getIt<AddCategory>())
-          ..loadCategories(),
+        () => CategoryCubit(getIt<GetCategories>(), getIt<AddCategory>())
+      ..loadCategories(),
   );
 
   /// =========================
-  /// Products
+  /// ProductCubit — بعد CategoryCubit عشان نقدر نبعت الـ callback
   /// =========================
-
-  getIt.registerLazySingleton<ProductLocalDataSource>(
-    () => ProductLocalDataSource(),
-  );
-
-  getIt.registerLazySingleton<ProductRepository>(
-    () => ProductRepositoryImpl(getIt<ProductLocalDataSource>()),
-  );
-
-  getIt.registerLazySingleton(() => GetProducts(getIt<ProductRepository>()));
-
-  getIt.registerLazySingleton(() => AddProduct(getIt<ProductRepository>()));
-
-  getIt.registerLazySingleton(() => UpdateProduct(getIt<ProductRepository>()));
-
-  getIt.registerLazySingleton(() => SearchProducts());
 
   getIt.registerLazySingleton(
-    () => ProductCubit(
+        () => ProductCubit(
       getIt<GetProducts>(),
       getIt<AddProduct>(),
       getIt<UpdateProduct>(),
+      // الـ callback ده بيتنادى بعد كل add/edit
+      // بيعمل reload للـ CategoryCubit عشان يحدث الـ itemCount في كل category card
+      onProductChanged: () => getIt<CategoryCubit>().loadCategories(),
     )..loadProducts(),
   );
 }

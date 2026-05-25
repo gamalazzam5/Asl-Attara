@@ -12,19 +12,19 @@ class ProductCubit extends Cubit<ProductState> {
   final AddProduct addProductUseCase;
   final UpdateProduct updateProductUseCase;
 
+  /// callback اختياري بيتنادى بعد كل add أو edit
+  /// بنستخدمه عشان نعمل reload للـ CategoryCubit من برا
+  final Future<void> Function()? onProductChanged;
+
   ProductCubit(
-    this.getProductsUseCase,
-    this.addProductUseCase,
-    this.updateProductUseCase,
-  ) : super(ProductInitial());
+      this.getProductsUseCase,
+      this.addProductUseCase,
+      this.updateProductUseCase, {
+        this.onProductChanged,
+      }) : super(ProductInitial());
 
-  /// كل المنتجات من الـ data source
   List<ProductEntity> _allProducts = [];
-
-  /// المنتجات الحالية (قسم معين أو كل المنتجات)
   List<ProductEntity> _currentProducts = [];
-
-  /// الـ categoryId المحفوظ عشان نعمل reload صح بعد add/edit
   int? _activeCategoryId;
 
   Future<void> loadProducts({int? categoryId}) async {
@@ -32,7 +32,6 @@ class ProductCubit extends Cubit<ProductState> {
 
     try {
       _activeCategoryId = categoryId;
-
       _allProducts = await getProductsUseCase();
 
       if (categoryId != null) {
@@ -56,32 +55,34 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<bool> addProduct(ProductEntity product) async {
     final exists = _allProducts.any(
-      (p) => p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
+          (p) => p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
     );
 
     if (exists) return false;
 
     await addProductUseCase(product);
-
-    // Reload بنفس الـ categoryId المحفوظ
     await loadProducts(categoryId: _activeCategoryId);
+
+    // بعد الـ reload، نعمل trigger للـ CategoryCubit عشان يحدث الـ itemCount
+    await onProductChanged?.call();
 
     return true;
   }
 
   Future<bool> updateProduct(ProductEntity product) async {
     final exists = _allProducts.any(
-      (p) =>
-          p.id != product.id &&
+          (p) =>
+      p.id != product.id &&
           p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
     );
 
     if (exists) return false;
 
     await updateProductUseCase(product);
-
-    // Reload بنفس الـ categoryId المحفوظ
     await loadProducts(categoryId: _activeCategoryId);
+
+    // بعد الـ reload، نعمل trigger للـ CategoryCubit عشان يحدث الـ itemCount
+    await onProductChanged?.call();
 
     return true;
   }
@@ -92,8 +93,8 @@ class ProductCubit extends Cubit<ProductState> {
     final filtered = query.isEmpty
         ? _currentProducts
         : _currentProducts.where((product) {
-            return product.name.toLowerCase().contains(query.toLowerCase());
-          }).toList();
+      return product.name.toLowerCase().contains(query.toLowerCase());
+    }).toList();
 
     emit(ProductLoaded(products: _allProducts, filteredProducts: filtered));
   }
