@@ -98,7 +98,9 @@ class ProductDetailsView extends StatelessWidget {
 
             SizedBox(height: 30.h),
 
-            const ProductActions(),
+             ProductActions(
+              product: product,
+            ),
           ],
         ),
       ),

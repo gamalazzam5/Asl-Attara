@@ -46,8 +46,9 @@ void setupServiceLocator() {
     () => ProductRepositoryImpl(getIt<ProductLocalDataSource>()),
   );
 
-  getIt.registerLazySingleton(() => GetProducts(getIt()));
+  getIt.registerLazySingleton(() => GetProducts(getIt<ProductRepository>()));
+
   getIt.registerLazySingleton(() => SearchProducts());
 
-  getIt.registerFactory(() => ProductCubit(getIt(), getIt()));
+  getIt.registerFactory(() => ProductCubit(getIt<GetProducts>()));
 }

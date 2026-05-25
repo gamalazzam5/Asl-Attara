@@ -1,38 +1,54 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
+import '../../../domain/entities/product_entity.dart';
 import '../../../domain/usecases/get_products.dart';
-import '../../../domain/usecases/search_products.dart';
+
 import 'product_state.dart';
 
 class ProductCubit extends Cubit<ProductState> {
-  final GetProducts getProducts;
+  final GetProducts getProductsUseCase;
 
-  final SearchProducts searchProducts;
+  ProductCubit(this.getProductsUseCase) : super(ProductInitial());
 
-  ProductCubit(this.getProducts, this.searchProducts) : super(ProductInitial());
+  List<ProductEntity> _allProducts = [];
 
-  Future<void> loadProducts() async {
+  List<ProductEntity> _currentProducts = [];
+
+  Future<void> loadProducts({int? categoryId}) async {
     try {
       emit(ProductLoading());
 
-      final products = await getProducts();
+      _allProducts = await getProductsUseCase();
 
-      emit(ProductLoaded(products: products, filteredProducts: products));
+      _currentProducts = categoryId == null
+          ? _allProducts
+          : _allProducts.where((product) {
+              return product.categoryId == categoryId;
+            }).toList();
+
+      emit(
+        ProductLoaded(
+          products: _currentProducts,
+
+          filteredProducts: _currentProducts,
+        ),
+      );
     } catch (e) {
       emit(ProductError(e.toString()));
     }
   }
 
   void search(String query) {
-    if (state is ProductLoaded) {
-      final current = state as ProductLoaded;
-
-      final filtered = searchProducts(products: current.products, query: query);
-
-      emit(
-        ProductLoaded(products: current.products, filteredProducts: filtered),
-      );
+    if (state is! ProductLoaded) {
+      return;
     }
+
+    final filtered = query.isEmpty
+        ? _currentProducts
+        : _currentProducts.where((product) {
+            return product.name.toLowerCase().contains(query.toLowerCase());
+          }).toList();
+
+    emit(ProductLoaded(products: _currentProducts, filteredProducts: filtered));
   }
 }

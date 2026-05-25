@@ -15,7 +15,6 @@ class ProductLocalDataSource {
         minimumStockQuantity: 10,
 
         categoryId: 1,
-
         categoryName: 'أعشاب',
 
         buyPrice: 45,
@@ -34,8 +33,9 @@ class ProductLocalDataSource {
 
         minimumStockQuantity: 1,
 
-        categoryId: 2,
+        categoryId: 3,
 
+        // ← زيوت
         categoryName: 'زيوت',
 
         buyPrice: 80,
@@ -54,8 +54,9 @@ class ProductLocalDataSource {
 
         minimumStockQuantity: 100,
 
-        categoryId: 3,
+        categoryId: 4,
 
+        // ← عطور
         categoryName: 'عطور',
 
         buyPrice: 100,
@@ -74,8 +75,9 @@ class ProductLocalDataSource {
 
         minimumStockQuantity: 200,
 
-        categoryId: 4,
+        categoryId: 2,
 
+        // ← بهارات
         categoryName: 'بهارات',
 
         buyPrice: 55,

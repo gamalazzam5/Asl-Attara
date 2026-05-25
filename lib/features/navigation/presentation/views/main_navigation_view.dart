@@ -31,33 +31,33 @@ class _MainNavigationViewState extends State<MainNavigationView> {
     pages = [
       const DashboardView(),
 
-      BlocProvider(
-        create: (_) => getIt<CategoryCubit>(),
+      const CategoriesView(),
 
-        child: const CategoriesView(),
-      ),
-
-      BlocProvider(
-        create: (_) => getIt<ProductCubit>(),
-
-        child: const ProductsView(),
-      ),
+      const ProductsView(),
     ];
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: IndexedStack(index: currentIndex, children: pages),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<CategoryCubit>()),
 
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: currentIndex,
+        BlocProvider(create: (_) => getIt<ProductCubit>()),
+      ],
 
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+      child: Scaffold(
+        body: IndexedStack(index: currentIndex, children: pages),
+
+        bottomNavigationBar: CustomBottomNavBar(
+          currentIndex: currentIndex,
+
+          onTap: (index) {
+            setState(() {
+              currentIndex = index;
+            });
+          },
+        ),
       ),
     );
   }

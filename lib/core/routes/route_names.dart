@@ -1,10 +1,10 @@
 abstract class RouteNames {
-
   static const splash = '/';
 
   static const dashboard = '/dashboard';
 
   static const products = '/products';
+
   static const addProduct = '/addProduct';
 
   static const categories = '/categories';
@@ -14,6 +14,10 @@ abstract class RouteNames {
   static const backup = '/backup';
 
   static const settings = '/settings';
-  static const mainNavigation='/mainNavigation';
 
+  static const mainNavigation = '/mainNavigation';
+
+  /// NEW
+  static const categoryProducts = '/categoryProducts';
+  static const editProduct='/editProduct';
 }

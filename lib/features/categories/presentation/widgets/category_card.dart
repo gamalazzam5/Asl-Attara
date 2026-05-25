@@ -8,7 +8,9 @@ import '../../domain/entities/category_entity.dart';
 class CategoryCard extends StatelessWidget {
   final CategoryEntity category;
 
-  const CategoryCard({super.key, required this.category});
+  final VoidCallback? onTap;
+
+  const CategoryCard({super.key, required this.category, this.onTap});
 
   Color getColor(String hex) {
     hex = hex.replaceAll('#', '');
@@ -18,45 +20,53 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20.r),
+    return InkWell(
+      onTap: onTap,
 
-      decoration: BoxDecoration(
-        color: getColor(category.backgroundColor),
+      borderRadius: BorderRadius.circular(24.r),
 
-        borderRadius: BorderRadius.circular(24.r),
-      ),
+      child: Container(
+        padding: EdgeInsets.all(20.r),
 
-      child: Column(
-        mainAxisAlignment: .spaceBetween,
+        decoration: BoxDecoration(
+          color: getColor(category.backgroundColor),
 
-        children: [
-          Container(
-            padding: EdgeInsets.all(12.r),
+          borderRadius: BorderRadius.circular(24.r),
+        ),
 
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.6),
+        child: Column(
+          mainAxisAlignment: .spaceBetween,
 
-              shape: BoxShape.circle,
+          children: [
+            Container(
+              padding: EdgeInsets.all(12.r),
+
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: .6),
+
+                shape: BoxShape.circle,
+              ),
+
+              child: Image.asset(category.imagePath, width: 28.r, height: 28.r),
             ),
 
-            child: Image.asset(category.imagePath, width: 28.r, height: 28.r),
-          ),
+            Text(
+              category.title,
 
-          Text(
-            category.title,
-            style: TextStyles.text16.copyWith(
-              color: AppColors.primaryColor,
-              fontWeight: FontWeight.w600,
+              style: TextStyles.text16.copyWith(
+                color: AppColors.primaryColor,
+
+                fontWeight: FontWeight.w600,
+              ),
             ),
-          ),
 
-          Text(
-            '${category.itemCount} items',
+            Text(
+              '${category.itemCount} منتج',
 
-            style: TextStyles.text14.copyWith(color: Colors.grey),
-          ),
-        ],
+              style: TextStyles.text14.copyWith(color: Colors.grey),
+            ),
+          ],
+        ),
       ),
     );
   }
