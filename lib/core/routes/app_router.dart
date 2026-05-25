@@ -16,9 +16,7 @@ import '../../features/products/domain/entities/product_entity.dart';
 import '../../features/products/presentation/manger/cubits/product_cubit.dart';
 
 import '../../features/products/presentation/views/add_product_view.dart';
-
 import '../../features/products/presentation/views/edit_product_view.dart';
-
 import '../../features/products/presentation/views/products_view.dart';
 
 import '../services/service_locator.dart';
@@ -43,8 +41,7 @@ class AppRouter {
       /// Add Product
       GoRoute(
         path: RouteNames.addProduct,
-
-        builder: (_, state) {
+        builder: (_, __) {
           return MultiBlocProvider(
             providers: [
               BlocProvider.value(value: getIt<ProductCubit>()),
@@ -57,15 +54,15 @@ class AppRouter {
         },
       ),
 
-      /// Products by Category
+      /// Products by category
       GoRoute(
         path: RouteNames.categoryProducts,
-
         builder: (_, state) {
           final data = state.extra as Map<String, dynamic>;
 
-          return BlocProvider.value(
-            value: getIt<ProductCubit>()..loadProducts(categoryId: data['id']),
+          return BlocProvider(
+            create: (_) =>
+                getIt<ProductCubit>()..loadProducts(categoryId: data['id']),
 
             child: ProductsView(
               categoryId: data['id'],
@@ -78,7 +75,6 @@ class AppRouter {
       /// Edit Product
       GoRoute(
         path: RouteNames.editProduct,
-
         builder: (_, state) {
           final product = state.extra as ProductEntity;
 
@@ -97,11 +93,9 @@ class AppRouter {
       /// Low Stock
       GoRoute(
         path: RouteNames.lowStock,
-
-        builder: (_, state) {
+        builder: (_, __) {
           return BlocProvider.value(
             value: getIt<ProductCubit>(),
-
             child: const LowStockView(),
           );
         },

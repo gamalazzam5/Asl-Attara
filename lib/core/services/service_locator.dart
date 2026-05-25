@@ -42,7 +42,7 @@ void setupServiceLocator() {
   /// =========================
 
   getIt.registerLazySingleton<CategoryLocalDataSource>(
-    () => CategoryLocalDataSource(),
+    () => CategoryLocalDataSource(getIt<ProductLocalDataSource>()),
   );
 
   getIt.registerLazySingleton<CategoryRepository>(

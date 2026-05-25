@@ -5,7 +5,6 @@ import 'package:aslattara/core/widgets/custom_search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:go_router/go_router.dart';
 
 import '../manger/cubits/product_cubit.dart';
@@ -41,27 +40,20 @@ class _ProductsViewState extends State<ProductsView> {
       appBar: fromCategory
           ? AppBar(
               backgroundColor: Colors.white,
-
               elevation: 0,
-
               scrolledUnderElevation: 0,
-
               centerTitle: true,
 
               leading: IconButton(
-                onPressed: () {
-                  context.pop();
-                },
+                onPressed: () => context.pop(),
 
                 icon: Icon(Icons.arrow_back, color: AppColors.primaryColor),
               ),
 
               title: Text(
                 widget.categoryName!,
-
-                style: TextStyles.text22.copyWith(
+                style: TextStyles.text18.copyWith(
                   fontWeight: FontWeight.bold,
-
                   color: AppColors.primaryColor,
                 ),
               ),
@@ -77,9 +69,9 @@ class _ProductsViewState extends State<ProductsView> {
               if (!fromCategory) ...[
                 Text(
                   'أصل العطارة',
-
                   style: TextStyles.text22.copyWith(
                     fontWeight: FontWeight.bold,
+                    color: AppColors.primaryColor,
                   ),
                 ),
 
@@ -88,7 +80,6 @@ class _ProductsViewState extends State<ProductsView> {
 
               CustomSearchField(
                 hintText: 'ابحث عن منتج...',
-
                 onChanged: (value) {
                   context.read<ProductCubit>().search(value);
                 },
@@ -108,7 +99,6 @@ class _ProductsViewState extends State<ProductsView> {
                         return Center(
                           child: Text(
                             'لا توجد منتجات',
-
                             style: TextStyles.text16,
                           ),
                         );

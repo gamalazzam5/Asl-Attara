@@ -109,6 +109,7 @@ class _ProductFormState extends State<ProductForm> {
         crossAxisAlignment: .start,
 
         children: [
+          /// Product Name
           Text('اسم المنتج', style: TextStyles.text16),
 
           SizedBox(height: 8.h),
