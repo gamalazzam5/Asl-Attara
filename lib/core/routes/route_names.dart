@@ -20,4 +20,5 @@ abstract class RouteNames {
   /// NEW
   static const categoryProducts = '/categoryProducts';
   static const editProduct='/editProduct';
+  static const lowStock='/lowStock';
 }

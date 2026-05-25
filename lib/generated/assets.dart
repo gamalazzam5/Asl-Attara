@@ -43,6 +43,9 @@ class Assets {
   static const String tablesCategoryTable = 'lib/core/database/tables/category_table.dart';
   static const String tablesInventoryTable = 'lib/core/database/tables/inventory_table.dart';
   static const String tablesProductTable = 'lib/core/database/tables/product_table.dart';
+  static const String usecasesAddCategoryUseCase = 'lib/features/categories/domain/usecases/add_category_use_case.dart';
+  static const String usecasesAddProductUseCase = 'lib/features/products/domain/usecases/add_product_use_case.dart';
+  static const String usecasesEditProductUseCase = 'lib/features/products/domain/usecases/edit_product_use_case.dart';
   static const String usecasesGetCategories = 'lib/features/categories/domain/usecases/get_categories.dart';
   static const String usecasesGetProducts = 'lib/features/products/domain/usecases/get_products.dart';
   static const String usecasesSearchProducts = 'lib/features/products/domain/usecases/search_products.dart';
@@ -50,6 +53,7 @@ class Assets {
   static const String viewsCategoriesView = 'lib/features/categories/presentation/views/categories_view.dart';
   static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
   static const String viewsEditProductView = 'lib/features/products/presentation/views/edit_product_view.dart';
+  static const String viewsLowStockView = 'lib/features/dashboard/presentation/views/low_stock_view.dart';
   static const String viewsMainNavigationView = 'lib/features/navigation/presentation/views/main_navigation_view.dart';
   static const String viewsProductDetailsView = 'lib/features/products/presentation/views/product_details_view.dart';
   static const String viewsProductsView = 'lib/features/products/presentation/views/products_view.dart';

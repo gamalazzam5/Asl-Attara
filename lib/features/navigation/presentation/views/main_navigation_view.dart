@@ -2,62 +2,63 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/services/service_locator.dart';
+
 import '../../../../core/widgets/custom_bottom_navbar.dart';
 
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
+
 import '../../../categories/presentation/views/categories_view.dart';
 
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
+
 import '../../../products/presentation/views/products_view.dart';
 
 import '../../../dashboard/presentation/views/dashboard_view.dart';
 
-class MainNavigationView extends StatefulWidget {
+class MainNavigationView extends StatelessWidget {
   const MainNavigationView({super.key});
-
-  @override
-  State<MainNavigationView> createState() => _MainNavigationViewState();
-}
-
-class _MainNavigationViewState extends State<MainNavigationView> {
-  int currentIndex = 0;
-
-  late final List<Widget> pages;
-
-  @override
-  void initState() {
-    super.initState();
-
-    pages = [
-      const DashboardView(),
-
-      const CategoriesView(),
-
-      const ProductsView(),
-    ];
-  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => getIt<CategoryCubit>()),
+        BlocProvider.value(value: getIt<CategoryCubit>()),
 
-        BlocProvider(create: (_) => getIt<ProductCubit>()),
+        BlocProvider.value(value: getIt<ProductCubit>()),
       ],
 
-      child: Scaffold(
-        body: IndexedStack(index: currentIndex, children: pages),
+      child: const _NavigationBody(),
+    );
+  }
+}
 
-        bottomNavigationBar: CustomBottomNavBar(
-          currentIndex: currentIndex,
+class _NavigationBody extends StatefulWidget {
+  const _NavigationBody({super.key});
 
-          onTap: (index) {
-            setState(() {
-              currentIndex = index;
-            });
-          },
-        ),
+  @override
+  State<_NavigationBody> createState() => _NavigationBodyState();
+}
+
+class _NavigationBodyState extends State<_NavigationBody> {
+  int currentIndex = 0;
+
+  final pages = const [DashboardView(), CategoriesView(), ProductsView()];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+
+      body: IndexedStack(index: currentIndex, children: pages),
+
+      bottomNavigationBar: CustomBottomNavBar(
+        currentIndex: currentIndex,
+
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
       ),
     );
   }

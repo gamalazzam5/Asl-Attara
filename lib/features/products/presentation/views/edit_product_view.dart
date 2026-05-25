@@ -1,8 +1,17 @@
-import 'package:aslattara/core/constants/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:go_router/go_router.dart';
+
+import '../../../../core/constants/app_colors.dart';
+
 import '../../../../core/constants/text_style.dart';
+
 import '../../domain/entities/product_entity.dart';
+
+import '../manger/cubits/product_cubit.dart';
+
 import '../widgets/product_form.dart';
 
 class EditProductView extends StatelessWidget {
@@ -15,8 +24,23 @@ class EditProductView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title:  Text('تعديل المنتج',style: TextStyles.text18.copyWith(color: AppColors.primaryColor,fontWeight: .bold),), backgroundColor: Colors.white,
-      elevation: 0, scrolledUnderElevation: 0,),
+
+        backgroundColor: Colors.white,
+
+        elevation: 0,
+
+        scrolledUnderElevation: 0,
+
+        title: Text(
+          'تعديل المنتج',
+
+          style: TextStyles.text18.copyWith(
+            color: AppColors.primaryColor,
+
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -29,14 +53,60 @@ class EditProductView extends StatelessWidget {
           onSave:
               ({
                 required name,
+
                 required category,
+
                 required unit,
+
                 required quantity,
+
                 required lowStock,
+
                 required buyPrice,
+
                 required sellPrice,
-              }) {
-                // update product cubit
+              }) async {
+                final updatedProduct = ProductEntity(
+                  id: product.id,
+
+                  name: name,
+
+                  quantity: quantity,
+
+                  unit: unit,
+
+                  minimumStockQuantity: lowStock,
+
+                  categoryId: product.categoryId,
+
+                  categoryName: category,
+
+                  buyPrice: buyPrice,
+
+                  sellPrice: sellPrice,
+                );
+
+                final updated = await context
+                    .read<ProductCubit>()
+                    .updateProduct(updatedProduct);
+
+                if (!context.mounted) return;
+
+                if (updated) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('تم حفظ التعديلات')),
+                  );
+
+                  context.pop();
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      backgroundColor: Colors.orange,
+
+                      content: Text('اسم المنتج مستخدم بالفعل'),
+                    ),
+                  );
+                }
               },
         ),
       ),

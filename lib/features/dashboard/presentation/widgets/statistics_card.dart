@@ -8,6 +8,7 @@ class StatisticsCard extends StatelessWidget {
   final String value;
   final bool isAlert;
   final IconData? icon;
+  final VoidCallback? onTap;
 
   const StatisticsCard({
     super.key,
@@ -15,6 +16,7 @@ class StatisticsCard extends StatelessWidget {
     required this.value,
     this.isAlert = false,
     this.icon,
+    this.onTap,
   });
 
   @override
@@ -22,44 +24,51 @@ class StatisticsCard extends StatelessWidget {
     final iconColor = isAlert ? AppColors.errorColor : AppColors.primaryColor;
     final backgroundColor = isAlert ? Colors.red.shade50 : Colors.white;
 
-    return Container(
-      height: 140.h,
-      padding: EdgeInsets.all(16.r),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: Colors.grey.shade200),
-      ),
-      child: Column(
-        crossAxisAlignment: .start,
-        mainAxisAlignment: .spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(icon, color: iconColor, size: 20.r),
-              SizedBox(width: 8.w),
-              Expanded(
-                child: Text(
-                  title,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                  style: TextStyles.text14.copyWith(
-                    color: isAlert ? AppColors.errorColor : AppColors.primaryColor,
-                    fontWeight: FontWeight.w500,
+    return InkWell(
+      onTap: onTap,
+
+      borderRadius: BorderRadius.circular(20.r),
+      child: Container(
+        height: 140.h,
+        padding: EdgeInsets.all(16.r),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(20.r),
+          border: Border.all(color: Colors.grey.shade200),
+        ),
+        child: Column(
+          crossAxisAlignment: .start,
+          mainAxisAlignment: .spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(icon, color: iconColor, size: 20.r),
+                SizedBox(width: 8.w),
+                Expanded(
+                  child: Text(
+                    title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyles.text14.copyWith(
+                      color: isAlert
+                          ? AppColors.errorColor
+                          : AppColors.primaryColor,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          Text(
-            value,
-            style: TextStyles.text24.copyWith(
-              fontWeight: FontWeight.bold,
-              color: isAlert ? AppColors.errorColor :AppColors.primaryColor,
-              fontSize: 28.sp,
+              ],
             ),
-          ),
-        ],
+            Text(
+              value,
+              style: TextStyles.text24.copyWith(
+                fontWeight: FontWeight.bold,
+                color: isAlert ? AppColors.errorColor : AppColors.primaryColor,
+                fontSize: 28.sp,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
