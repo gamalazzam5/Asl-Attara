@@ -151,7 +151,7 @@ class _CategoriesViewState extends State<CategoriesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      backgroundColor: Colors.white,
 
       floatingActionButton: FloatingActionButton(
         // heroTag فريد عشان مش بيتعارض مع الـ FAB في ProductsView

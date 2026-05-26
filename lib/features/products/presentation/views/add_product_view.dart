@@ -67,7 +67,7 @@ class AddProductView extends StatelessWidget {
 
             if (added) {
               ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('تم إضافة المنتج بنجاح')),
+                const SnackBar(content: Text('تم إضافة المنتج بنجاح'),backgroundColor: AppColors.primaryColor,),
               );
               context.pop();
             } else {

@@ -20,7 +20,7 @@ class ProductCard extends StatelessWidget {
 
       child: Card(
         elevation: 1,
-        color: Colors.white,
+        color: Color(0xFFF7F8FA),
 
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),

@@ -42,7 +42,6 @@ class _ProductsViewState extends State<ProductsView> {
     context.push(
       RouteNames.addProduct,
       extra: {
-        // بنبعت الـ categoryId عشان الـ AddProductView يعرف يضبطه صح
         if (widget.categoryId != null) 'categoryId': widget.categoryId,
         if (widget.categoryProductCubit != null)
           'cubit': widget.categoryProductCubit,
@@ -55,7 +54,7 @@ class _ProductsViewState extends State<ProductsView> {
     final bool fromCategory = widget.categoryId != null;
 
     return Scaffold(
-      backgroundColor: Colors.grey.shade100,
+      backgroundColor: Colors.white,
 
       appBar: fromCategory
           ? AppBar(
