@@ -1,61 +1,39 @@
-import '../../../products/data/datasource/product_local_data_source.dart';
+import '../../../../core/database/app_database.dart';
+
+import '../../../../core/database/tables/category_table.dart';
+
+import '../../../../core/database/tables/product_table.dart';
 
 import '../models/category_model.dart';
 
 class CategoryLocalDataSource {
-  final ProductLocalDataSource productDataSource;
+  final AppDatabase appDatabase;
 
-  CategoryLocalDataSource(this.productDataSource);
-
-  final List<CategoryModel> _categories = [
-    CategoryModel(
-      id: 1,
-      title: 'أعشاب',
-      itemCount: '0',
-      imagePath: 'assets/images/greens.png',
-      backgroundColor: '#D4F1E4',
-    ),
-
-    CategoryModel(
-      id: 2,
-      title: 'بهارات',
-      itemCount: '0',
-      imagePath: 'assets/images/greens.png',
-      backgroundColor: '#FFF3E0',
-    ),
-
-    CategoryModel(
-      id: 3,
-      title: 'زيوت',
-      itemCount: '0',
-      imagePath: 'assets/images/greens.png',
-      backgroundColor: '#E8EAF6',
-    ),
-  ];
+  CategoryLocalDataSource(this.appDatabase);
 
   Future<List<CategoryModel>> getCategories() async {
-    final products = await productDataSource.getProducts();
+    final db = await appDatabase.database;
 
-    return _categories.map((category) {
-      final count = products
-          .where((product) => product.categoryId == category.id)
-          .length;
+    final result = await db.rawQuery('''
+      SELECT
+        c.${CategoryTable.id},
+        c.${CategoryTable.title},
+        c.${CategoryTable.imagePath},
+        c.${CategoryTable.backgroundColor},
+        COUNT(p.${ProductTable.id}) AS itemCount
+      FROM ${CategoryTable.tableName} c
+      LEFT JOIN ${ProductTable.tableName} p
+        ON c.${CategoryTable.id} = p.${ProductTable.categoryId}
+      GROUP BY c.${CategoryTable.id}
+      ORDER BY c.${CategoryTable.id} ASC
+    ''');
 
-      return CategoryModel(
-        id: category.id,
-
-        title: category.title,
-
-        itemCount: count.toString(),
-
-        imagePath: category.imagePath,
-
-        backgroundColor: category.backgroundColor,
-      );
-    }).toList();
+    return result.map((e) => CategoryModel.fromJson(e)).toList();
   }
 
   Future<void> addCategory(CategoryModel category) async {
-    _categories.add(category);
+    final db = await appDatabase.database;
+
+    await db.insert(CategoryTable.tableName, category.toDatabaseJson());
   }
 }

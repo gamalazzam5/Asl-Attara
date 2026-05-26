@@ -21,16 +21,16 @@ class ProductModel extends ProductEntity {
 
       name: json['name'],
       unit: json['unit'],
-      quantity: json['quantity'],
+      quantity: (json['quantity'] as num).toDouble(),
 
-      minimumStockQuantity: json['minimumStockQuantity'],
+      minimumStockQuantity: (json['minimumStockQuantity'] as num).toDouble(),
       categoryId: json['categoryId'],
 
       categoryName: json['categoryName'],
 
-      buyPrice: json['buyPrice'],
+      buyPrice: (json['buyPrice'] as num).toDouble(),
 
-      sellPrice: json['sellPrice'],
+      sellPrice: (json['sellPrice'] as num).toDouble(),
     );
   }
 

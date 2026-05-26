@@ -25,15 +25,16 @@ class ProductForm extends StatefulWidget {
   final int? initialCategoryId;
 
   final Function({
-  required String name,
-  required String category,
-  required int categoryId,      // ← أضفنا categoryId هنا
-  required String unit,
-  required double quantity,
-  required double lowStock,
-  required double buyPrice,
-  required double sellPrice,
-  }) onSave;
+    required String name,
+    required String category,
+    required int categoryId, // ← أضفنا categoryId هنا
+    required String unit,
+    required double quantity,
+    required double lowStock,
+    required double buyPrice,
+    required double sellPrice,
+  })
+  onSave;
 
   const ProductForm({
     super.key,
@@ -59,7 +60,7 @@ class _ProductFormState extends State<ProductForm> {
   late TextEditingController sellController;
 
   String? selectedCategory;
-  int? selectedCategoryId;       // ← بنحفظ الـ id مش بس الاسم
+  int? selectedCategoryId; // ← بنحفظ الـ id مش بس الاسم
   String? selectedUnit;
 
   @override
@@ -124,12 +125,27 @@ class _ProductFormState extends State<ProductForm> {
           BlocBuilder<CategoryCubit, CategoryState>(
             builder: (context, state) {
               if (state is CategoryLoaded) {
+                if (state.categories.isEmpty) {
+                  return Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(14.r),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey.shade300),
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: Text(
+                      'أضف قسم أولاً قبل إضافة منتج',
+                      style: TextStyles.text14.copyWith(color: Colors.grey),
+                    ),
+                  );
+                }
+
                 // لو في initialCategoryId وما اتضبطتش الـ selectedCategory لسه
                 // نضبطها من الـ categories list
                 if (widget.initialCategoryId != null &&
                     selectedCategoryId == null) {
                   final match = state.categories.where(
-                        (c) => c.id == widget.initialCategoryId,
+                    (c) => c.id == widget.initialCategoryId,
                   );
                   if (match.isNotEmpty) {
                     // بعد الـ build نضبط الـ state عشان مينفعش نعمل setState جوا build
@@ -151,7 +167,7 @@ class _ProductFormState extends State<ProductForm> {
                   onSelected: (value) {
                     // لما المستخدم يختار category، بنحفظ الاسم والـ id
                     final selected = state.categories.firstWhere(
-                          (c) => c.title == value,
+                      (c) => c.title == value,
                     );
                     setState(() {
                       selectedCategory = value;
@@ -222,11 +238,17 @@ class _ProductFormState extends State<ProductForm> {
           Row(
             children: [
               Expanded(
-                child: PriceField(hint: 'سعر البيع', controller: sellController),
+                child: PriceField(
+                  hint: 'سعر البيع',
+                  controller: sellController,
+                ),
               ),
               SizedBox(width: 12.w),
               Expanded(
-                child: PriceField(hint: 'سعر الشراء', controller: buyController),
+                child: PriceField(
+                  hint: 'سعر الشراء',
+                  controller: buyController,
+                ),
               ),
             ],
           ),
@@ -243,23 +265,23 @@ class _ProductFormState extends State<ProductForm> {
               if (!formKey.currentState!.validate()) return;
 
               if (selectedCategory == null || selectedCategoryId == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('اختر القسم')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('اختر القسم')));
                 return;
               }
 
               if (selectedUnit == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text('اختر الوحدة')),
-                );
+                ScaffoldMessenger.of(
+                  context,
+                ).showSnackBar(const SnackBar(content: Text('اختر الوحدة')));
                 return;
               }
 
               widget.onSave(
                 name: productController.text.trim(),
                 category: selectedCategory!,
-                categoryId: selectedCategoryId!,   // ← بنبعت الـ id الحقيقي
+                categoryId: selectedCategoryId!, // ← بنبعت الـ id الحقيقي
                 unit: selectedUnit!,
                 quantity: double.parse(quantityController.text),
                 lowStock: double.parse(lowStockController.text),

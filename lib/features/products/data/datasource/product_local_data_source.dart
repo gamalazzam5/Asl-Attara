@@ -1,45 +1,39 @@
+import '../../../../core/database/app_database.dart';
+
+import '../../../../core/database/tables/product_table.dart';
+
 import '../models/product_model.dart';
 
 class ProductLocalDataSource {
-  final List<ProductModel> _products = [
-    ProductModel(
-      id: 1,
-      name: 'زعتر جاف',
-      quantity: 5.5,
-      unit: 'كجم',
-      minimumStockQuantity: 10,
-      categoryId: 1,
-      categoryName: 'أعشاب',
-      buyPrice: 45,
-      sellPrice: 65,
-    ),
+  final AppDatabase appDatabase;
 
-    ProductModel(
-      id: 2,
-      name: 'زيت زيتون',
-      quantity: 2,
-      unit: 'لتر',
-      minimumStockQuantity: 1,
-      categoryId: 3,
-      categoryName: 'زيوت',
-      buyPrice: 80,
-      sellPrice: 120,
-    ),
-  ];
+  ProductLocalDataSource(this.appDatabase);
 
   Future<List<ProductModel>> getProducts() async {
-    return _products;
+    final db = await appDatabase.database;
+
+    final products = await db.query(
+      ProductTable.tableName,
+      orderBy: '${ProductTable.id} ASC',
+    );
+
+    return products.map((e) => ProductModel.fromJson(e)).toList();
   }
 
   Future<void> addProduct(ProductModel product) async {
-    _products.add(product);
+    final db = await appDatabase.database;
+
+    await db.insert(ProductTable.tableName, product.toJson());
   }
 
   Future<void> updateProduct(ProductModel product) async {
-    final index = _products.indexWhere((e) => e.id == product.id);
+    final db = await appDatabase.database;
 
-    if (index != -1) {
-      _products[index] = product;
-    }
+    await db.update(
+      ProductTable.tableName,
+      product.toJson(),
+      where: '${ProductTable.id} = ?',
+      whereArgs: [product.id],
+    );
   }
 }

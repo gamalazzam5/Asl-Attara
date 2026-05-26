@@ -15,40 +15,52 @@ class CategoryCubit extends Cubit<CategoryState> {
 
   Future<void> loadCategories() async {
     emit(CategoryLoading());
-    final categories = await getCategoriesUseCase();
-    emit(CategoryLoaded(categories));
+
+    try {
+      final categories = await getCategoriesUseCase();
+      emit(CategoryLoaded(categories));
+    } catch (e) {
+      emit(CategoryError(e.toString()));
+    }
   }
 
   Future<bool> addCategory({
     required String title,
     required String color,
   }) async {
-    final categories = await getCategoriesUseCase();
+    try {
+      final categories = await getCategoriesUseCase();
+      final normalizedTitle = title.trim().toLowerCase();
 
-    final exists = categories.any(
-      (category) =>
-          category.title.trim().toLowerCase() == title.trim().toLowerCase(),
-    );
+      final exists = categories.any(
+        (category) => category.title.trim().toLowerCase() == normalizedTitle,
+      );
 
-    if (exists) return false;
+      if (exists) return false;
 
-    final category = CategoryEntity(
-      id: DateTime.now().millisecondsSinceEpoch,
-      title: title,
-      itemCount: '0',
-      imagePath: 'assets/images/greens.png',
-      backgroundColor: color,
-    );
+      final category = CategoryEntity(
+        id: DateTime.now().millisecondsSinceEpoch,
+        title: title.trim(),
+        itemCount: '0',
+        imagePath: 'assets/images/greens.png',
+        backgroundColor: color,
+      );
 
-    await addCategoryUseCase(category);
-    await loadCategories();
-    return true;
+      await addCategoryUseCase(category);
+      await loadCategories();
+      return true;
+    } catch (e) {
+      emit(CategoryError(e.toString()));
+      return false;
+    }
   }
 
-  /// بيتاستدعى لما يتضاف أو يتعدل منتج عشان يحدث الـ itemCount في كل category
   Future<void> refreshCategoryCounts() async {
-    // مش بنعمل emit(CategoryLoading) عشان منعملش flash في الـ UI
-    final categories = await getCategoriesUseCase();
-    emit(CategoryLoaded(categories));
+    try {
+      final categories = await getCategoriesUseCase();
+      emit(CategoryLoaded(categories));
+    } catch (e) {
+      emit(CategoryError(e.toString()));
+    }
   }
 }

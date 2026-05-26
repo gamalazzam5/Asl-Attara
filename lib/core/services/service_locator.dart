@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 
+import '../database/app_database.dart';
+
 /// =========================
 /// Categories
 /// =========================
@@ -37,16 +39,18 @@ import '../../features/products/presentation/manger/cubits/product_cubit.dart';
 final getIt = GetIt.instance;
 
 void setupServiceLocator() {
+  getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
+
   /// =========================
   /// Products — Data Layer أولاً عشان Categories بتعتمد عليه
   /// =========================
 
   getIt.registerLazySingleton<ProductLocalDataSource>(
-        () => ProductLocalDataSource(),
+    () => ProductLocalDataSource(getIt<AppDatabase>()),
   );
 
   getIt.registerLazySingleton<ProductRepository>(
-        () => ProductRepositoryImpl(getIt<ProductLocalDataSource>()),
+    () => ProductRepositoryImpl(getIt<ProductLocalDataSource>()),
   );
 
   getIt.registerLazySingleton(() => GetProducts(getIt<ProductRepository>()));
@@ -59,19 +63,20 @@ void setupServiceLocator() {
   /// =========================
 
   getIt.registerLazySingleton<CategoryLocalDataSource>(
-        () => CategoryLocalDataSource(getIt<ProductLocalDataSource>()),
+    () => CategoryLocalDataSource(getIt<AppDatabase>()),
   );
 
   getIt.registerLazySingleton<CategoryRepository>(
-        () => CategoryRepositoryImpl(getIt<CategoryLocalDataSource>()),
+    () => CategoryRepositoryImpl(getIt<CategoryLocalDataSource>()),
   );
 
   getIt.registerLazySingleton(() => GetCategories(getIt<CategoryRepository>()));
   getIt.registerLazySingleton(() => AddCategory(getIt<CategoryRepository>()));
 
   getIt.registerLazySingleton(
-        () => CategoryCubit(getIt<GetCategories>(), getIt<AddCategory>())
-      ..loadCategories(),
+    () =>
+        CategoryCubit(getIt<GetCategories>(), getIt<AddCategory>())
+          ..loadCategories(),
   );
 
   /// =========================
@@ -79,7 +84,7 @@ void setupServiceLocator() {
   /// =========================
 
   getIt.registerLazySingleton(
-        () => ProductCubit(
+    () => ProductCubit(
       getIt<GetProducts>(),
       getIt<AddProduct>(),
       getIt<UpdateProduct>(),

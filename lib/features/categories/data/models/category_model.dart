@@ -12,9 +12,13 @@ class CategoryModel extends CategoryEntity {
   factory CategoryModel.fromJson(Map<String, dynamic> json) {
     return CategoryModel(
       id: json['id'],
+
       title: json['title'],
-      itemCount: json['itemCount'],
+
+      itemCount: json['itemCount'].toString(),
+
       imagePath: json['imagePath'],
+
       backgroundColor: json['backgroundColor'],
     );
   }
@@ -24,6 +28,15 @@ class CategoryModel extends CategoryEntity {
       'id': id,
       'title': title,
       'itemCount': itemCount,
+      'imagePath': imagePath,
+      'backgroundColor': backgroundColor,
+    };
+  }
+
+  Map<String, dynamic> toDatabaseJson() {
+    return {
+      'id': id,
+      'title': title,
       'imagePath': imagePath,
       'backgroundColor': backgroundColor,
     };

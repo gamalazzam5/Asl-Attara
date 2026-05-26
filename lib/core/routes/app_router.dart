@@ -74,6 +74,7 @@ class AppRouter {
             getIt<GetProducts>(),
             getIt<AddProduct>(),
             getIt<UpdateProduct>(),
+            onProductChanged: () => getIt<CategoryCubit>().loadCategories(),
           );
 
           return BlocProvider(

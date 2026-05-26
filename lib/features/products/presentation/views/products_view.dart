@@ -8,6 +8,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../categories/presentation/manger/cubits/category_cubit.dart';
+import '../../../categories/presentation/manger/cubits/category_state.dart';
 import '../manger/cubits/product_cubit.dart';
 import '../manger/cubits/product_state.dart';
 
@@ -38,7 +40,26 @@ class _ProductsViewState extends State<ProductsView> {
     }
   }
 
-  void _navigateToAddProduct() {
+  Future<void> _navigateToAddProduct() async {
+    if (widget.categoryId == null) {
+      final categoryCubit = context.read<CategoryCubit>();
+      var categoryState = categoryCubit.state;
+
+      if (categoryState is! CategoryLoaded) {
+        await categoryCubit.loadCategories();
+        categoryState = categoryCubit.state;
+      }
+
+      if (!mounted) return;
+
+      if (categoryState is CategoryLoaded && categoryState.categories.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('أضف قسم أولاً قبل إضافة منتج')),
+        );
+        return;
+      }
+    }
+
     context.push(
       RouteNames.addProduct,
       extra: {
@@ -58,22 +79,22 @@ class _ProductsViewState extends State<ProductsView> {
 
       appBar: fromCategory
           ? AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: Icon(Icons.arrow_back, color: AppColors.primaryColor),
-        ),
-        title: Text(
-          widget.categoryName!,
-          style: TextStyles.text18.copyWith(
-            fontWeight: FontWeight.bold,
-            color: AppColors.primaryColor,
-          ),
-        ),
-      )
+              backgroundColor: Colors.white,
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              centerTitle: true,
+              leading: IconButton(
+                onPressed: () => context.pop(),
+                icon: Icon(Icons.arrow_back, color: AppColors.primaryColor),
+              ),
+              title: Text(
+                widget.categoryName!,
+                style: TextStyles.text18.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                ),
+              ),
+            )
           : null,
 
       floatingActionButton: FloatingActionButton(

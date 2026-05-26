@@ -3,9 +3,13 @@ import 'package:aslattara/core/constants/text_style.dart';
 import 'package:aslattara/core/routes/route_names.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:go_router/go_router.dart';
+
+import '../../../categories/presentation/manger/cubits/category_cubit.dart';
+import '../../../categories/presentation/manger/cubits/category_state.dart';
 
 class QuickActionButton extends StatelessWidget {
   const QuickActionButton({super.key});
@@ -33,7 +37,25 @@ class QuickActionButton extends StatelessWidget {
         InkWell(
           borderRadius: BorderRadius.circular(16.r),
 
-          onTap: () {
+          onTap: () async {
+            final categoryCubit = context.read<CategoryCubit>();
+            var categoryState = categoryCubit.state;
+
+            if (categoryState is! CategoryLoaded) {
+              await categoryCubit.loadCategories();
+              categoryState = categoryCubit.state;
+            }
+
+            if (!context.mounted) return;
+
+            if (categoryState is CategoryLoaded &&
+                categoryState.categories.isEmpty) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('أضف قسم أولاً قبل إضافة منتج')),
+              );
+              return;
+            }
+
             context.push(RouteNames.addProduct);
           },
 

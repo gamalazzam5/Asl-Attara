@@ -16,6 +16,10 @@ class CategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (categories.isEmpty) {
+      return const Center(child: Text('لا توجد أقسام حتى الآن'));
+    }
+
     return GridView.builder(
       padding: EdgeInsets.all(20.r),
 
