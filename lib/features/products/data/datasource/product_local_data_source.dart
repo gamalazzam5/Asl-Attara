@@ -36,4 +36,14 @@ class ProductLocalDataSource {
       whereArgs: [product.id],
     );
   }
+
+  Future<void> deleteProduct(int id) async {
+    final db = await appDatabase.database;
+
+    await db.delete(
+      ProductTable.tableName,
+      where: '${ProductTable.id} = ?',
+      whereArgs: [id],
+    );
+  }
 }

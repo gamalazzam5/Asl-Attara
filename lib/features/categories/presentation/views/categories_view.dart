@@ -73,32 +73,36 @@ class _CategoriesViewState extends State<CategoriesView> {
                     SizedBox(height: 20.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        '#D4F1E4',
-                        '#FFF3E0',
-                        '#E8EAF6',
-                        '#FCE4EC',
-                      ].map((color) {
-                        return GestureDetector(
-                          onTap: () => setModal(() => selectedColor = color),
-                          child: Container(
-                            width: 40.w,
-                            height: 40.h,
-                            decoration: BoxDecoration(
-                              color: Color(
-                                int.parse('0xFF${color.replaceAll('#', '')}'),
+                      children:
+                          const [
+                            '#D4F1E4',
+                            '#FFF3E0',
+                            '#E8EAF6',
+                            '#FCE4EC',
+                          ].map((color) {
+                            return GestureDetector(
+                              onTap: () =>
+                                  setModal(() => selectedColor = color),
+                              child: Container(
+                                width: 40.w,
+                                height: 40.h,
+                                decoration: BoxDecoration(
+                                  color: Color(
+                                    int.parse(
+                                      '0xFF${color.replaceAll('#', '')}',
+                                    ),
+                                  ),
+                                  shape: BoxShape.circle,
+                                  border: selectedColor == color
+                                      ? Border.all(
+                                          width: 3,
+                                          color: AppColors.primaryColor,
+                                        )
+                                      : null,
+                                ),
                               ),
-                              shape: BoxShape.circle,
-                              border: selectedColor == color
-                                  ? Border.all(
-                                width: 3,
-                                color: AppColors.primaryColor,
-                              )
-                                  : null,
-                            ),
-                          ),
-                        );
-                      }).toList(),
+                            );
+                          }).toList(),
                     ),
                     SizedBox(height: 25.h),
                     ElevatedButton(
@@ -154,8 +158,6 @@ class _CategoriesViewState extends State<CategoriesView> {
       backgroundColor: Colors.white,
 
       floatingActionButton: FloatingActionButton(
-        // heroTag فريد عشان مش بيتعارض مع الـ FAB في ProductsView
-        // (الاتنين موجودين في نفس الوقت في IndexedStack)
         heroTag: 'categories_fab',
         backgroundColor: AppColors.primaryColor,
         onPressed: addCategory,

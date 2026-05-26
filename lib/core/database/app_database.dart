@@ -1,12 +1,13 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+import 'tables/activity_log_table.dart';
 import 'tables/category_table.dart';
 import 'tables/product_table.dart';
 
 class AppDatabase {
   static const _defaultDatabaseName = 'aslattara.db';
-  static const _databaseVersion = 3;
+  static const _databaseVersion = 4;
 
   final String databaseName;
   Database? _database;
@@ -35,6 +36,7 @@ class AppDatabase {
       onCreate: (db, version) async {
         await db.execute(CategoryTable.createTable);
         await db.execute(ProductTable.createTable);
+        await db.execute(ActivityLogTable.createTable);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
@@ -44,6 +46,10 @@ class AppDatabase {
         if (oldVersion < 3) {
           await _removeSeedProducts(db);
           await _removeSeedCategories(db);
+        }
+
+        if (oldVersion < 4) {
+          await db.execute(ActivityLogTable.createTable);
         }
       },
     );

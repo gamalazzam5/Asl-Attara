@@ -31,7 +31,13 @@ class _LowStockViewState extends State<LowStockView> {
         scrolledUnderElevation: 0,
         centerTitle: true,
 
-        title:  Text('المنتجات منخفضة المخزون',style: TextStyles.text18.copyWith(fontWeight: .bold,color: AppColors.errorColor),),
+        title: Text(
+          'المنتجات منخفضة المخزون',
+          style: TextStyles.text18.copyWith(
+            fontWeight: .bold,
+            color: AppColors.errorColor,
+          ),
+        ),
       ),
 
       body: BlocBuilder<ProductCubit, ProductState>(

@@ -9,8 +9,14 @@ class CategoryCard extends StatelessWidget {
   final CategoryEntity category;
 
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
-  const CategoryCard({super.key, required this.category, this.onTap});
+  const CategoryCard({
+    super.key,
+    required this.category,
+    this.onTap,
+    this.onLongPress,
+  });
 
   Color getColor(String hex) {
     hex = hex.replaceAll('#', '');
@@ -22,6 +28,7 @@ class CategoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
 
       borderRadius: BorderRadius.circular(24.r),
 

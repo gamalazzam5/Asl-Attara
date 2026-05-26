@@ -36,4 +36,14 @@ class CategoryLocalDataSource {
 
     await db.insert(CategoryTable.tableName, category.toDatabaseJson());
   }
+
+  Future<void> deleteCategory(int id) async {
+    final db = await appDatabase.database;
+
+    await db.delete(
+      CategoryTable.tableName,
+      where: '${CategoryTable.id} = ?',
+      whereArgs: [id],
+    );
+  }
 }

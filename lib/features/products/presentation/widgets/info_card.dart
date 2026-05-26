@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -6,12 +5,12 @@ import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
 
 Widget infoCard(
-    BuildContext context, {
+  BuildContext context, {
 
-      required String title,
-      required String value,
-      required IconData icon,
-    }) {
+  required String title,
+  required String value,
+  required IconData icon,
+}) {
   return Container(
     width: (MediaQuery.of(context).size.width - 64.w) / 2,
 
@@ -46,4 +45,3 @@ Widget infoCard(
     ),
   );
 }
-

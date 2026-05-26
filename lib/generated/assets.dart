@@ -3,83 +3,151 @@ class Assets {
   Assets._();
 
   static const String constantsAppColors = 'lib/core/constants/app_colors.dart';
-  static const String constantsAppStrings = 'lib/core/constants/app_strings.dart';
+  static const String constantsAppStrings =
+      'lib/core/constants/app_strings.dart';
   static const String constantsAppTheme = 'lib/core/constants/app_theme.dart';
   static const String constantsTextStyle = 'lib/core/constants/text_style.dart';
-  static const String cubitsCategoryCubit = 'lib/features/categories/presentation/manger/cubits/category_cubit.dart';
-  static const String cubitsCategoryState = 'lib/features/categories/presentation/manger/cubits/category_state.dart';
-  static const String cubitsProductCubit = 'lib/features/products/presentation/manger/cubits/product_cubit.dart';
-  static const String cubitsProductState = 'lib/features/products/presentation/manger/cubits/product_state.dart';
-  static const String databaseAppDatabase = 'lib/core/database/app_database.dart';
-  static const String datasourceCategoryLocalDataSource = 'lib/features/categories/data/datasource/category_local_data_source.dart';
-  static const String datasourceProductLocalDataSource = 'lib/features/products/data/datasource/product_local_data_source.dart';
-  static const String entitiesCategoryEntity = 'lib/features/categories/domain/entities/category_entity.dart';
-  static const String entitiesProductEntity = 'lib/features/products/domain/entities/product_entity.dart';
-  static const String fontsIBMPlexSansArabicBold = 'assets/fonts/IBMPlexSansArabic-Bold.ttf';
-  static const String fontsIBMPlexSansArabicExtraLight = 'assets/fonts/IBMPlexSansArabic-ExtraLight.ttf';
-  static const String fontsIBMPlexSansArabicLight = 'assets/fonts/IBMPlexSansArabic-Light.ttf';
-  static const String fontsIBMPlexSansArabicMedium = 'assets/fonts/IBMPlexSansArabic-Medium.ttf';
-  static const String fontsIBMPlexSansArabicRegular = 'assets/fonts/IBMPlexSansArabic-Regular.ttf';
-  static const String fontsIBMPlexSansArabicSemiBold = 'assets/fonts/IBMPlexSansArabic-SemiBold.ttf';
-  static const String fontsIBMPlexSansArabicThin = 'assets/fonts/IBMPlexSansArabic-Thin.ttf';
+  static const String cubitsCategoryCubit =
+      'lib/features/categories/presentation/manger/cubits/category_cubit.dart';
+  static const String cubitsCategoryState =
+      'lib/features/categories/presentation/manger/cubits/category_state.dart';
+  static const String cubitsProductCubit =
+      'lib/features/products/presentation/manger/cubits/product_cubit.dart';
+  static const String cubitsProductState =
+      'lib/features/products/presentation/manger/cubits/product_state.dart';
+  static const String databaseAppDatabase =
+      'lib/core/database/app_database.dart';
+  static const String datasourceCategoryLocalDataSource =
+      'lib/features/categories/data/datasource/category_local_data_source.dart';
+  static const String datasourceProductLocalDataSource =
+      'lib/features/products/data/datasource/product_local_data_source.dart';
+  static const String entitiesCategoryEntity =
+      'lib/features/categories/domain/entities/category_entity.dart';
+  static const String entitiesProductEntity =
+      'lib/features/products/domain/entities/product_entity.dart';
+  static const String fontsIBMPlexSansArabicBold =
+      'assets/fonts/IBMPlexSansArabic-Bold.ttf';
+  static const String fontsIBMPlexSansArabicExtraLight =
+      'assets/fonts/IBMPlexSansArabic-ExtraLight.ttf';
+  static const String fontsIBMPlexSansArabicLight =
+      'assets/fonts/IBMPlexSansArabic-Light.ttf';
+  static const String fontsIBMPlexSansArabicMedium =
+      'assets/fonts/IBMPlexSansArabic-Medium.ttf';
+  static const String fontsIBMPlexSansArabicRegular =
+      'assets/fonts/IBMPlexSansArabic-Regular.ttf';
+  static const String fontsIBMPlexSansArabicSemiBold =
+      'assets/fonts/IBMPlexSansArabic-SemiBold.ttf';
+  static const String fontsIBMPlexSansArabicThin =
+      'assets/fonts/IBMPlexSansArabic-Thin.ttf';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String imagesGreens = 'assets/images/greens.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String libMain = 'lib/main.dart';
-  static const String modelsCategoryModel = 'lib/features/categories/data/models/category_model.dart';
-  static const String modelsProductModel = 'lib/features/products/data/models/product_model.dart';
-  static const String repositoriesCategoryRepository = 'lib/features/categories/domain/repositories/category_repository.dart';
-  static const String repositoriesCategoryRepositoryImpl = 'lib/features/categories/data/repositories/category_repository_impl.dart';
-  static const String repositoriesProductRepository = 'lib/features/products/domain/repositories/product_repository.dart';
-  static const String repositoriesProductRepositoryImpl = 'lib/features/products/data/repositories/product_repository_impl.dart';
+  static const String modelsCategoryModel =
+      'lib/features/categories/data/models/category_model.dart';
+  static const String modelsProductModel =
+      'lib/features/products/data/models/product_model.dart';
+  static const String repositoriesCategoryRepository =
+      'lib/features/categories/domain/repositories/category_repository.dart';
+  static const String repositoriesCategoryRepositoryImpl =
+      'lib/features/categories/data/repositories/category_repository_impl.dart';
+  static const String repositoriesProductRepository =
+      'lib/features/products/domain/repositories/product_repository.dart';
+  static const String repositoriesProductRepositoryImpl =
+      'lib/features/products/data/repositories/product_repository_impl.dart';
   static const String routesAppRouter = 'lib/core/routes/app_router.dart';
   static const String routesRouteNames = 'lib/core/routes/route_names.dart';
-  static const String servicesBackupService = 'lib/core/services/backup_service.dart';
-  static const String servicesExportService = 'lib/core/services/export_service.dart';
-  static const String servicesFileService = 'lib/core/services/file_service.dart';
-  static const String servicesServiceLocator = 'lib/core/services/service_locator.dart';
-  static const String servicesStorageService = 'lib/core/services/storage_service.dart';
+  static const String servicesBackupService =
+      'lib/core/services/backup_service.dart';
+  static const String servicesExportService =
+      'lib/core/services/export_service.dart';
+  static const String servicesFileService =
+      'lib/core/services/file_service.dart';
+  static const String servicesServiceLocator =
+      'lib/core/services/service_locator.dart';
+  static const String servicesStorageService =
+      'lib/core/services/storage_service.dart';
   static const String splashSplash = 'lib/features/splash/splash.dart';
-  static const String tablesCategoryTable = 'lib/core/database/tables/category_table.dart';
-  static const String tablesInventoryTable = 'lib/core/database/tables/inventory_table.dart';
-  static const String tablesProductTable = 'lib/core/database/tables/product_table.dart';
-  static const String usecasesAddCategoryUseCase = 'lib/features/categories/domain/usecases/add_category_use_case.dart';
-  static const String usecasesAddProductUseCase = 'lib/features/products/domain/usecases/add_product_use_case.dart';
-  static const String usecasesEditProductUseCase = 'lib/features/products/domain/usecases/edit_product_use_case.dart';
-  static const String usecasesGetCategories = 'lib/features/categories/domain/usecases/get_categories.dart';
-  static const String usecasesGetProducts = 'lib/features/products/domain/usecases/get_products.dart';
-  static const String usecasesSearchProducts = 'lib/features/products/domain/usecases/search_products.dart';
-  static const String viewsAddProductView = 'lib/features/products/presentation/views/add_product_view.dart';
-  static const String viewsCategoriesView = 'lib/features/categories/presentation/views/categories_view.dart';
-  static const String viewsDashboardView = 'lib/features/dashboard/presentation/views/dashboard_view.dart';
-  static const String viewsEditProductView = 'lib/features/products/presentation/views/edit_product_view.dart';
-  static const String viewsLowStockView = 'lib/features/dashboard/presentation/views/low_stock_view.dart';
-  static const String viewsMainNavigationView = 'lib/features/navigation/presentation/views/main_navigation_view.dart';
-  static const String viewsProductDetailsView = 'lib/features/products/presentation/views/product_details_view.dart';
-  static const String viewsProductsView = 'lib/features/products/presentation/views/products_view.dart';
-  static const String widgetsAddProductForm = 'lib/features/products/presentation/widgets/add_product_form.dart';
-  static const String widgetsBackupStatusCard = 'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
-  static const String widgetsBottomNavbar = 'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
-  static const String widgetsCategoriesGrid = 'lib/features/categories/presentation/widgets/categories_grid.dart';
-  static const String widgetsCategoryCard = 'lib/features/categories/presentation/widgets/category_card.dart';
-  static const String widgetsCustomBottomNavbar = 'lib/core/widgets/custom_bottom_navbar.dart';
-  static const String widgetsCustomButton = 'lib/core/widgets/custom_button.dart';
-  static const String widgetsCustomSearchField = 'lib/core/widgets/custom_search_field.dart';
-  static const String widgetsDashboardHeader = 'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
-  static const String widgetsInfoCard = 'lib/features/products/presentation/widgets/info_card.dart';
-  static const String widgetsPriceField = 'lib/features/products/presentation/widgets/price_field.dart';
-  static const String widgetsProductActions = 'lib/features/products/presentation/widgets/product_actions.dart';
-  static const String widgetsProductCard = 'lib/features/products/presentation/widgets/product_card.dart';
-  static const String widgetsProductForm = 'lib/features/products/presentation/widgets/product_form.dart';
-  static const String widgetsProductImageAvatar = 'lib/features/products/presentation/widgets/product_image_avatar.dart';
-  static const String widgetsProductsList = 'lib/features/products/presentation/widgets/products_list.dart';
-  static const String widgetsQuantityCard = 'lib/features/products/presentation/widgets/quantity_card.dart';
-  static const String widgetsQuantitySelector = 'lib/features/products/presentation/widgets/quantity_selector.dart';
-  static const String widgetsQuickActionButton = 'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
-  static const String widgetsRecentActivityItem = 'lib/features/dashboard/presentation/widgets/recent_activity_item.dart';
-  static const String widgetsRecentActivityProcess = 'lib/features/dashboard/presentation/widgets/recent_activity_process.dart';
-  static const String widgetsSearchableCategoryDropdown = 'lib/features/products/presentation/widgets/searchable_category_dropdown.dart';
-  static const String widgetsStatisticsCard = 'lib/features/dashboard/presentation/widgets/statistics_card.dart';
-  static const String widgetsStockStatusBadge = 'lib/features/products/presentation/widgets/stock_status_badge.dart';
-
+  static const String tablesCategoryTable =
+      'lib/core/database/tables/category_table.dart';
+  static const String tablesInventoryTable =
+      'lib/core/database/tables/inventory_table.dart';
+  static const String tablesProductTable =
+      'lib/core/database/tables/product_table.dart';
+  static const String usecasesAddCategoryUseCase =
+      'lib/features/categories/domain/usecases/add_category_use_case.dart';
+  static const String usecasesAddProductUseCase =
+      'lib/features/products/domain/usecases/add_product_use_case.dart';
+  static const String usecasesEditProductUseCase =
+      'lib/features/products/domain/usecases/edit_product_use_case.dart';
+  static const String usecasesGetCategories =
+      'lib/features/categories/domain/usecases/get_categories.dart';
+  static const String usecasesGetProducts =
+      'lib/features/products/domain/usecases/get_products.dart';
+  static const String usecasesSearchProducts =
+      'lib/features/products/domain/usecases/search_products.dart';
+  static const String viewsAddProductView =
+      'lib/features/products/presentation/views/add_product_view.dart';
+  static const String viewsCategoriesView =
+      'lib/features/categories/presentation/views/categories_view.dart';
+  static const String viewsDashboardView =
+      'lib/features/dashboard/presentation/views/dashboard_view.dart';
+  static const String viewsEditProductView =
+      'lib/features/products/presentation/views/edit_product_view.dart';
+  static const String viewsLowStockView =
+      'lib/features/dashboard/presentation/views/low_stock_view.dart';
+  static const String viewsMainNavigationView =
+      'lib/features/navigation/presentation/views/main_navigation_view.dart';
+  static const String viewsProductDetailsView =
+      'lib/features/products/presentation/views/product_details_view.dart';
+  static const String viewsProductsView =
+      'lib/features/products/presentation/views/products_view.dart';
+  static const String widgetsAddProductForm =
+      'lib/features/products/presentation/widgets/add_product_form.dart';
+  static const String widgetsBackupStatusCard =
+      'lib/features/dashboard/presentation/widgets/backup_status_card.dart';
+  static const String widgetsBottomNavbar =
+      'lib/features/dashboard/presentation/widgets/bottom_navbar.dart';
+  static const String widgetsCategoriesGrid =
+      'lib/features/categories/presentation/widgets/categories_grid.dart';
+  static const String widgetsCategoryCard =
+      'lib/features/categories/presentation/widgets/category_card.dart';
+  static const String widgetsCustomBottomNavbar =
+      'lib/core/widgets/custom_bottom_navbar.dart';
+  static const String widgetsCustomButton =
+      'lib/core/widgets/custom_button.dart';
+  static const String widgetsCustomSearchField =
+      'lib/core/widgets/custom_search_field.dart';
+  static const String widgetsDashboardHeader =
+      'lib/features/dashboard/presentation/widgets/dashboard_header.dart';
+  static const String widgetsInfoCard =
+      'lib/features/products/presentation/widgets/info_card.dart';
+  static const String widgetsPriceField =
+      'lib/features/products/presentation/widgets/price_field.dart';
+  static const String widgetsProductActions =
+      'lib/features/products/presentation/widgets/product_actions.dart';
+  static const String widgetsProductCard =
+      'lib/features/products/presentation/widgets/product_card.dart';
+  static const String widgetsProductForm =
+      'lib/features/products/presentation/widgets/product_form.dart';
+  static const String widgetsProductImageAvatar =
+      'lib/features/products/presentation/widgets/product_image_avatar.dart';
+  static const String widgetsProductsList =
+      'lib/features/products/presentation/widgets/products_list.dart';
+  static const String widgetsQuantityCard =
+      'lib/features/products/presentation/widgets/quantity_card.dart';
+  static const String widgetsQuantitySelector =
+      'lib/features/products/presentation/widgets/quantity_selector.dart';
+  static const String widgetsQuickActionButton =
+      'lib/features/dashboard/presentation/widgets/quick_action_button.dart';
+  static const String widgetsRecentActivityItem =
+      'lib/features/dashboard/presentation/widgets/recent_activity_item.dart';
+  static const String widgetsRecentActivityProcess =
+      'lib/features/dashboard/presentation/widgets/recent_activity_process.dart';
+  static const String widgetsSearchableCategoryDropdown =
+      'lib/features/products/presentation/widgets/searchable_category_dropdown.dart';
+  static const String widgetsStatisticsCard =
+      'lib/features/dashboard/presentation/widgets/statistics_card.dart';
+  static const String widgetsStockStatusBadge =
+      'lib/features/products/presentation/widgets/stock_status_badge.dart';
 }

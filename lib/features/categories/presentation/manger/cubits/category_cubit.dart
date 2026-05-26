@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entities/category_entity.dart';
 import '../../../domain/usecases/add_category_use_case.dart';
+import '../../../domain/usecases/delete_category_use_case.dart';
 import '../../../domain/usecases/get_categories.dart';
 
 import 'category_state.dart';
@@ -9,9 +10,15 @@ import 'category_state.dart';
 class CategoryCubit extends Cubit<CategoryState> {
   final GetCategories getCategoriesUseCase;
   final AddCategory addCategoryUseCase;
+  final DeleteCategory deleteCategoryUseCase;
+  final Future<void> Function()? onActivityChanged;
 
-  CategoryCubit(this.getCategoriesUseCase, this.addCategoryUseCase)
-    : super(CategoryInitial());
+  CategoryCubit(
+    this.getCategoriesUseCase,
+    this.addCategoryUseCase,
+    this.deleteCategoryUseCase, {
+    this.onActivityChanged,
+  }) : super(CategoryInitial());
 
   Future<void> loadCategories() async {
     emit(CategoryLoading());
@@ -48,6 +55,7 @@ class CategoryCubit extends Cubit<CategoryState> {
 
       await addCategoryUseCase(category);
       await loadCategories();
+      await onActivityChanged?.call();
       return true;
     } catch (e) {
       emit(CategoryError(e.toString()));
@@ -61,6 +69,20 @@ class CategoryCubit extends Cubit<CategoryState> {
       emit(CategoryLoaded(categories));
     } catch (e) {
       emit(CategoryError(e.toString()));
+    }
+  }
+
+  Future<bool> deleteCategory(CategoryEntity category) async {
+    if (int.tryParse(category.itemCount) != 0) return false;
+
+    try {
+      await deleteCategoryUseCase(category);
+      await loadCategories();
+      await onActivityChanged?.call();
+      return true;
+    } catch (e) {
+      emit(CategoryError(e.toString()));
+      return false;
     }
   }
 }

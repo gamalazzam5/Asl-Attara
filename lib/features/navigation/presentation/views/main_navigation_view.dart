@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/services/service_locator.dart';
 import '../../../../core/widgets/custom_bottom_navbar.dart';
 
+import '../../../activity/presentation/manger/cubits/activity_cubit.dart';
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
 import '../../../categories/presentation/views/categories_view.dart';
 
@@ -21,6 +22,7 @@ class MainNavigationView extends StatelessWidget {
       providers: [
         BlocProvider.value(value: getIt<CategoryCubit>()),
         BlocProvider.value(value: getIt<ProductCubit>()),
+        BlocProvider.value(value: getIt<ActivityCubit>()),
       ],
       child: const _NavigationBody(),
     );

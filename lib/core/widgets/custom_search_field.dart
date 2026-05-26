@@ -49,7 +49,8 @@ class CustomSearchField extends StatelessWidget {
 
     this.suffixText,
 
-    this.backgroundColor, this.validator,
+    this.backgroundColor,
+    this.validator,
   });
 
   @override

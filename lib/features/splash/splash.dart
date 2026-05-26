@@ -15,7 +15,6 @@ class SplashView extends StatefulWidget {
 }
 
 class _SplashViewState extends State<SplashView> {
-
   @override
   void initState() {
     super.initState();
@@ -24,15 +23,10 @@ class _SplashViewState extends State<SplashView> {
   }
 
   Future<void> navigateToDashboard() async {
-
-    await Future.delayed(
-      const Duration(milliseconds: 1200),
-    );
+    await Future.delayed(const Duration(milliseconds: 1200));
 
     if (mounted) {
-      context.go(
-        RouteNames.mainNavigation,
-      );
+      context.go(RouteNames.mainNavigation);
     }
   }
 
@@ -45,15 +39,9 @@ class _SplashViewState extends State<SplashView> {
         child: Column(
           mainAxisAlignment: .center,
           children: [
+            Image.asset(Assets.imagesLogo, height: 140.h),
 
-            Image.asset(
-              Assets.imagesLogo,
-              height: 140.h,
-            ),
-
-            SizedBox(
-              height: 12.h,
-            ),
+            SizedBox(height: 12.h),
 
             Text(
               'أصل العطارة',

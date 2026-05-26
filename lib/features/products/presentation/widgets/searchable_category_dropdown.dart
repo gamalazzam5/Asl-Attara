@@ -26,7 +26,8 @@ class SearchableCategoryDropdown extends StatelessWidget {
 
     this.searchHint = 'ابحث...',
 
-    this.selectedItem, this.validator,
+    this.selectedItem,
+    this.validator,
   });
 
   @override

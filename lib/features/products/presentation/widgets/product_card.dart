@@ -8,13 +8,20 @@ import '../../domain/entities/product_entity.dart';
 class ProductCard extends StatelessWidget {
   final ProductEntity product;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
 
-  const ProductCard({super.key, required this.product, this.onTap});
+  const ProductCard({
+    super.key,
+    required this.product,
+    this.onTap,
+    this.onLongPress,
+  });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
+      onLongPress: onLongPress,
 
       borderRadius: BorderRadius.circular(16.r),
 

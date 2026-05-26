@@ -5,7 +5,6 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/routes/route_names.dart';
 
-import '../../../products/domain/entities/product_entity.dart';
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
 import '../../../products/presentation/manger/cubits/product_state.dart';
 
@@ -37,10 +36,8 @@ class _DashboardViewState extends State<DashboardView> {
             int totalProducts = 0;
 
             int lowStockProducts = 0;
-            List<ProductEntity> products = [];
 
             if (state is ProductLoaded) {
-              products = state.products;
               totalProducts = state.products.length;
 
               lowStockProducts = state.products
@@ -95,7 +92,7 @@ class _DashboardViewState extends State<DashboardView> {
 
                   SizedBox(height: 24.h),
 
-                  RecentActivityItem(products: products),
+                  const RecentActivityItem(),
 
                   SizedBox(height: 20.h),
 

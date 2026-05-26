@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
-import '../../../products/domain/entities/product_entity.dart';
-import 'recent_activity_process.dart';
+import '../../../../core/routes/route_names.dart';
+import '../../../activity/presentation/manger/cubits/activity_cubit.dart';
+import '../../../activity/presentation/manger/cubits/activity_state.dart';
+import '../../../activity/presentation/widgets/activity_tile.dart';
 
 class RecentActivityItem extends StatelessWidget {
-  final List<ProductEntity> products;
-
-  const RecentActivityItem({super.key, required this.products});
+  const RecentActivityItem({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final recentProducts = products.reversed.take(3).toList();
-
     return Column(
       children: [
         Row(
@@ -27,38 +27,53 @@ class RecentActivityItem extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
             ),
-            Text(
-              'عرض الكل',
-              style: TextStyles.text14.copyWith(color: AppColors.primaryColor),
+            TextButton(
+              onPressed: () => context.push(RouteNames.activities),
+              child: Text(
+                'عرض الكل',
+                style: TextStyles.text14.copyWith(
+                  color: AppColors.primaryColor,
+                ),
+              ),
             ),
           ],
         ),
         SizedBox(height: 12.h),
-        if (recentProducts.isEmpty)
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.all(16.r),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16.r),
-              border: Border.all(color: Colors.grey.shade200),
-            ),
-            child: Text(
-              'لا توجد عمليات حتى الآن',
-              style: TextStyles.text14.copyWith(color: Colors.grey),
-            ),
-          )
-        else
-          ListView.builder(
-            itemCount: recentProducts.length,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (_, index) {
-              return RecentActivityProcess(
-                productName: recentProducts[index].name,
+        BlocBuilder<ActivityCubit, ActivityState>(
+          builder: (context, state) {
+            if (state is ActivityLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is ActivityLoaded && state.activities.isNotEmpty) {
+              final recentActivities = state.activities.take(3).toList();
+
+              return ListView.separated(
+                itemCount: recentActivities.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => SizedBox(height: 12.h),
+                itemBuilder: (_, index) {
+                  return ActivityTile(activity: recentActivities[index]);
+                },
               );
-            },
-          ),
+            }
+
+            return Container(
+              width: double.infinity,
+              padding: EdgeInsets.all(16.r),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16.r),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: Text(
+                'لا توجد عمليات حتى الآن',
+                style: TextStyles.text14.copyWith(color: Colors.grey),
+              ),
+            );
+          },
+        ),
       ],
     );
   }

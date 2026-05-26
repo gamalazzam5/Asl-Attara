@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../domain/entities/product_entity.dart';
 import '../../../domain/usecases/add_product_use_case.dart';
+import '../../../domain/usecases/delete_product_use_case.dart';
 import '../../../domain/usecases/edit_product_use_case.dart';
 import '../../../domain/usecases/get_products.dart';
 
@@ -11,15 +12,19 @@ class ProductCubit extends Cubit<ProductState> {
   final GetProducts getProductsUseCase;
   final AddProduct addProductUseCase;
   final UpdateProduct updateProductUseCase;
+  final DeleteProduct deleteProductUseCase;
 
   final Future<void> Function()? onProductChanged;
+  final Future<void> Function()? onActivityChanged;
 
   ProductCubit(
-      this.getProductsUseCase,
-      this.addProductUseCase,
-      this.updateProductUseCase, {
-        this.onProductChanged,
-      }) : super(ProductInitial());
+    this.getProductsUseCase,
+    this.addProductUseCase,
+    this.updateProductUseCase, {
+    required this.deleteProductUseCase,
+    this.onProductChanged,
+    this.onActivityChanged,
+  }) : super(ProductInitial());
 
   List<ProductEntity> _allProducts = [];
   List<ProductEntity> _currentProducts = [];
@@ -53,7 +58,7 @@ class ProductCubit extends Cubit<ProductState> {
 
   Future<bool> addProduct(ProductEntity product) async {
     final exists = _allProducts.any(
-          (p) => p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
+      (p) => p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
     );
 
     if (exists) return false;
@@ -62,14 +67,15 @@ class ProductCubit extends Cubit<ProductState> {
     await loadProducts(categoryId: _activeCategoryId);
 
     await onProductChanged?.call();
+    await onActivityChanged?.call();
 
     return true;
   }
 
   Future<bool> updateProduct(ProductEntity product) async {
     final exists = _allProducts.any(
-          (p) =>
-      p.id != product.id &&
+      (p) =>
+          p.id != product.id &&
           p.name.trim().toLowerCase() == product.name.trim().toLowerCase(),
     );
 
@@ -79,8 +85,22 @@ class ProductCubit extends Cubit<ProductState> {
     await loadProducts(categoryId: _activeCategoryId);
 
     await onProductChanged?.call();
+    await onActivityChanged?.call();
 
     return true;
+  }
+
+  Future<bool> deleteProduct(ProductEntity product) async {
+    try {
+      await deleteProductUseCase(product);
+      await loadProducts(categoryId: _activeCategoryId);
+      await onProductChanged?.call();
+      await onActivityChanged?.call();
+      return true;
+    } catch (e) {
+      emit(ProductError(e.toString()));
+      return false;
+    }
   }
 
   void search(String query) {
@@ -89,8 +109,8 @@ class ProductCubit extends Cubit<ProductState> {
     final filtered = query.isEmpty
         ? _currentProducts
         : _currentProducts.where((product) {
-      return product.name.toLowerCase().contains(query.toLowerCase());
-    }).toList();
+            return product.name.toLowerCase().contains(query.toLowerCase());
+          }).toList();
 
     emit(ProductLoaded(products: _allProducts, filteredProducts: filtered));
   }

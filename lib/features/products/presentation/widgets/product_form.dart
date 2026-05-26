@@ -140,15 +140,12 @@ class _ProductFormState extends State<ProductForm> {
                   );
                 }
 
-                // لو في initialCategoryId وما اتضبطتش الـ selectedCategory لسه
-                // نضبطها من الـ categories list
                 if (widget.initialCategoryId != null &&
                     selectedCategoryId == null) {
                   final match = state.categories.where(
                     (c) => c.id == widget.initialCategoryId,
                   );
                   if (match.isNotEmpty) {
-                    // بعد الـ build نضبط الـ state عشان مينفعش نعمل setState جوا build
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       if (mounted) {
                         setState(() {
@@ -165,7 +162,6 @@ class _ProductFormState extends State<ProductForm> {
                   categories: state.categories.map((e) => e.title).toList(),
                   selectedItem: selectedCategory,
                   onSelected: (value) {
-                    // لما المستخدم يختار category، بنحفظ الاسم والـ id
                     final selected = state.categories.firstWhere(
                       (c) => c.title == value,
                     );
@@ -190,6 +186,7 @@ class _ProductFormState extends State<ProductForm> {
             children: [
               Expanded(
                 child: CustomSearchField(
+                  prefixIcon: const SizedBox(),
                   controller: quantityController,
                   hintText: 'أدخل الكمية',
                   keyboardType: TextInputType.number,
@@ -222,6 +219,8 @@ class _ProductFormState extends State<ProductForm> {
           Text('حد المخزون المنخفض', style: TextStyles.text16),
           SizedBox(height: 8.h),
           CustomSearchField(
+            prefixIcon: SizedBox(),
+            suffixIcon: null,
             controller: lowStockController,
             hintText: 'مثال : 10',
             keyboardType: TextInputType.number,

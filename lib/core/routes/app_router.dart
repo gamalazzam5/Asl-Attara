@@ -4,6 +4,8 @@ import 'package:aslattara/features/splash/splash.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../features/activity/presentation/manger/cubits/activity_cubit.dart';
+import '../../features/activity/presentation/views/activities_view.dart';
 import '../../features/categories/presentation/manger/cubits/category_cubit.dart';
 
 import '../../features/dashboard/presentation/views/dashboard_view.dart';
@@ -14,6 +16,7 @@ import '../../features/navigation/presentation/views/main_navigation_view.dart';
 import '../../features/products/domain/entities/product_entity.dart';
 
 import '../../features/products/domain/usecases/add_product_use_case.dart';
+import '../../features/products/domain/usecases/delete_product_use_case.dart';
 import '../../features/products/domain/usecases/edit_product_use_case.dart';
 import '../../features/products/domain/usecases/get_products.dart';
 
@@ -74,7 +77,10 @@ class AppRouter {
             getIt<GetProducts>(),
             getIt<AddProduct>(),
             getIt<UpdateProduct>(),
+            deleteProductUseCase: getIt<DeleteProduct>(),
             onProductChanged: () => getIt<CategoryCubit>().loadCategories(),
+            onActivityChanged: () =>
+                getIt<ActivityCubit>().loadActivities(refresh: true),
           );
 
           return BlocProvider(
@@ -131,6 +137,16 @@ class AppRouter {
           return BlocProvider.value(
             value: getIt<ProductCubit>(),
             child: const LowStockView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.activities,
+        builder: (_, __) {
+          return BlocProvider.value(
+            value: getIt<ActivityCubit>()..loadActivities(refresh: true),
+            child: const ActivitiesView(),
           );
         },
       ),

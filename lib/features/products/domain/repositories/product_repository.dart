@@ -6,4 +6,6 @@ abstract class ProductRepository {
   Future<void> addProduct(ProductEntity product);
 
   Future<void> updateProduct(ProductEntity product);
+
+  Future<void> deleteProduct(ProductEntity product);
 }

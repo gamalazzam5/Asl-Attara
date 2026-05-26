@@ -70,9 +70,12 @@ class EditProductView extends StatelessWidget {
 
                 if (updated) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم حفظ التعديلات'),backgroundColor: AppColors.primaryColor,),
+                    const SnackBar(
+                      content: Text('تم حفظ التعديلات'),
+                      backgroundColor: AppColors.primaryColor,
+                    ),
                   );
-                  context.pop();
+                  context.pop(true);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(

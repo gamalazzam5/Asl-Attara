@@ -8,7 +8,7 @@ class QuantityCard extends StatelessWidget {
   final double quantity;
   final String unit;
 
-  const QuantityCard({super.key,  required this.unit, required this.quantity});
+  const QuantityCard({super.key, required this.unit, required this.quantity});
 
   @override
   Widget build(BuildContext context) {
