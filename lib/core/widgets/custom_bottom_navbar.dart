@@ -28,7 +28,7 @@ class CustomBottomNavBar extends StatelessWidget {
 
       decoration: BoxDecoration(
 
-        color: Colors.white,
+        color: AppColors.primaryColor,
 
         borderRadius: BorderRadius.circular(
           20.r,
@@ -104,7 +104,7 @@ class CustomBottomNavBar extends StatelessWidget {
           Icon(
             icon,
             color: isSelected
-                ? AppColors.primaryColor
+                ? Colors.white
                 : Colors.grey,
           ),
 
@@ -117,7 +117,7 @@ class CustomBottomNavBar extends StatelessWidget {
             style: TextStyle(
               fontSize: 11.sp,
               color: isSelected
-                  ? AppColors.primaryColor
+                  ? Colors.white
                   : Colors.grey,
             ),
           ),

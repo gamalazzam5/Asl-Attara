@@ -38,7 +38,7 @@ class RecentActivityItem extends StatelessWidget {
         SizedBox(height: 12.h),
 
         ListView.builder(
-          itemCount: 5,
+          itemCount: 3,
 
           shrinkWrap: true,
 

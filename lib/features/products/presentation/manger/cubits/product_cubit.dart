@@ -12,8 +12,6 @@ class ProductCubit extends Cubit<ProductState> {
   final AddProduct addProductUseCase;
   final UpdateProduct updateProductUseCase;
 
-  /// callback اختياري بيتنادى بعد كل add أو edit
-  /// بنستخدمه عشان نعمل reload للـ CategoryCubit من برا
   final Future<void> Function()? onProductChanged;
 
   ProductCubit(
@@ -63,7 +61,6 @@ class ProductCubit extends Cubit<ProductState> {
     await addProductUseCase(product);
     await loadProducts(categoryId: _activeCategoryId);
 
-    // بعد الـ reload، نعمل trigger للـ CategoryCubit عشان يحدث الـ itemCount
     await onProductChanged?.call();
 
     return true;
@@ -81,7 +78,6 @@ class ProductCubit extends Cubit<ProductState> {
     await updateProductUseCase(product);
     await loadProducts(categoryId: _activeCategoryId);
 
-    // بعد الـ reload، نعمل trigger للـ CategoryCubit عشان يحدث الـ itemCount
     await onProductChanged?.call();
 
     return true;

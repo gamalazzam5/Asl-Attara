@@ -90,7 +90,7 @@ class _ProductsViewState extends State<ProductsView> {
             children: [
               if (!fromCategory) ...[
                 Text(
-                  'أصل العطارة',
+                  'المنتجات',
                   style: TextStyles.text22.copyWith(
                     fontWeight: FontWeight.bold,
                     color: AppColors.primaryColor,

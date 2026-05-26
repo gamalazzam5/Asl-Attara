@@ -43,7 +43,7 @@ class EditProductView extends StatelessWidget {
               ({
                 required name,
                 required category,
-                required categoryId, // ← بقى بياخد الـ id الحقيقي
+                required categoryId,
                 required unit,
                 required quantity,
                 required lowStock,
@@ -57,7 +57,6 @@ class EditProductView extends StatelessWidget {
                   unit: unit,
                   minimumStockQuantity: lowStock,
                   categoryId: categoryId,
-                  // ← مش product.categoryId القديم
                   categoryName: category,
                   buyPrice: buyPrice,
                   sellPrice: sellPrice,
@@ -71,7 +70,7 @@ class EditProductView extends StatelessWidget {
 
                 if (updated) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(content: Text('تم حفظ التعديلات')),
+                    const SnackBar(content: Text('تم حفظ التعديلات'),backgroundColor: AppColors.primaryColor,),
                   );
                   context.pop();
                 } else {
