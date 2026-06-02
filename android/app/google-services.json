@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137177383131",
+    "project_id": "asl-attara",
+    "storage_bucket": "asl-attara.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137177383131:android:17c88f6e34766bb4328cfe",
+        "android_client_info": {
+          "package_name": "com.example.aslattara"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDMkfA6CfPA2EyPTqJZTdth80eNXU6q_8E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
