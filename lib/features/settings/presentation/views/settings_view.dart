@@ -34,7 +34,7 @@ class _SettingsViewState extends State<SettingsView> {
           elevation: 0,
           title: const Text('استعادة النسخة الاحتياطية'),
           content: const Text(
-            'سيتم حذف البيانات الحالية واستبدالها بالنسخة المحفوظة على Firebase. استخدم هذا الخيار فقط عند فقدان التطبيق أو تلف قاعدة البيانات.',
+            'سيتم حذف البيانات الحالية واستبدالها بالنسخة المحفوظة على السحابه الالكترونيه. استخدم هذا الخيار فقط عند فقدان التطبيق أو تلف قاعدة البيانات.',
           ),
           actions: [
             TextButton(
@@ -99,11 +99,12 @@ class _SettingsViewState extends State<SettingsView> {
                     ),
                   ),
                   SizedBox(height: 24.h),
-                  const _AccountPanel(),
-                  SizedBox(height: 20.h),
+
                   _BackupPanel(state: state),
                   SizedBox(height: 20.h),
                   _DangerZone(state: state, onRestorePressed: _confirmRestore),
+                  SizedBox(height: 20.h),
+                  const _AccountPanel(),
                 ],
               ),
             );
@@ -170,7 +171,7 @@ class _BackupPanel extends StatelessWidget {
         border: Border.all(color: const Color(0xFFD7E8DE)),
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        crossAxisAlignment: .stretch,
         children: [
           Row(
             children: [
@@ -212,7 +213,7 @@ class _BackupPanel extends StatelessWidget {
                   )
                 : const Icon(Icons.sync, color: Colors.white),
             label: Text(
-              isUploading ? 'جاري الرفع...' : 'رفع نسخة إلى Firebase',
+              isUploading ? 'جاري الرفع...' : 'رفع نسخة إلى السحابه الالكترونيه',
               style: const TextStyle(color: Colors.white),
             ),
           ),

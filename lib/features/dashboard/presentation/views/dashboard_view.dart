@@ -7,7 +7,6 @@ import '../../../../core/routes/route_names.dart';
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
 import '../../../products/presentation/manger/cubits/product_state.dart';
 
-import '../widgets/backup_status_card.dart';
 import '../widgets/dashboard_header.dart';
 import '../widgets/quick_action_button.dart';
 import '../widgets/recent_activity_item.dart';
@@ -91,11 +90,6 @@ class _DashboardViewState extends State<DashboardView> {
                   SizedBox(height: 24.h),
 
                   const RecentActivityItem(),
-
-                  SizedBox(height: 20.h),
-
-                  const BackupStatusCard(),
-
                   SizedBox(height: 20.h),
                 ],
               ),

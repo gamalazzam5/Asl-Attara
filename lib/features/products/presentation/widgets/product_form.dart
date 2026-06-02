@@ -20,14 +20,12 @@ class ProductForm extends StatefulWidget {
   final ProductEntity? product;
 
   final String buttonText;
-
-  /// لو بنيجي من category screen، بنبعت الـ id عشان نضبط الـ category تلقائياً
   final int? initialCategoryId;
 
   final Function({
     required String name,
     required String category,
-    required int categoryId, // ← أضفنا categoryId هنا
+    required int categoryId,
     required String unit,
     required double quantity,
     required double lowStock,
@@ -60,7 +58,7 @@ class _ProductFormState extends State<ProductForm> {
   late TextEditingController sellController;
 
   String? selectedCategory;
-  int? selectedCategoryId; // ← بنحفظ الـ id مش بس الاسم
+  int? selectedCategoryId;
   String? selectedUnit;
 
   @override
@@ -135,7 +133,7 @@ class _ProductFormState extends State<ProductForm> {
                     ),
                     child: Text(
                       'أضف قسم أولاً قبل إضافة منتج',
-                      style: TextStyles.text14.copyWith(color: Colors.grey),
+                      style: TextStyles.text14.copyWith(color: Colors.orange),
                     ),
                   );
                 }
@@ -203,6 +201,12 @@ class _ProductFormState extends State<ProductForm> {
                   hintText: 'اختر الوحدة',
                   categories: units,
                   selectedItem: selectedUnit,
+                  validator: (value) {
+                    if (value == null || value.trim().isEmpty) {
+                      return 'الوحده مطلوبه';
+                    }
+                    return null;
+                  },
                   onSelected: (value) {
                     setState(() {
                       selectedUnit = value;
@@ -266,21 +270,22 @@ class _ProductFormState extends State<ProductForm> {
               if (selectedCategory == null || selectedCategoryId == null) {
                 ScaffoldMessenger.of(
                   context,
-                ).showSnackBar(const SnackBar(content: Text('اختر القسم')));
+                ).showSnackBar(const SnackBar(content: Text('اختر القسم'),backgroundColor: Colors.orange,));
                 return;
               }
 
               if (selectedUnit == null) {
                 ScaffoldMessenger.of(
                   context,
-                ).showSnackBar(const SnackBar(content: Text('اختر الوحدة')));
+                ).showSnackBar(const SnackBar(content: Text('اختر الوحدة'),backgroundColor: Colors.orange,));
                 return;
               }
 
               widget.onSave(
                 name: productController.text.trim(),
                 category: selectedCategory!,
-                categoryId: selectedCategoryId!, // ← بنبعت الـ id الحقيقي
+                categoryId: selectedCategoryId!,
+                // ← بنبعت الـ id الحقيقي
                 unit: selectedUnit!,
                 quantity: double.parse(quantityController.text),
                 lowStock: double.parse(lowStockController.text),
