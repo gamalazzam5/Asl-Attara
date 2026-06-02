@@ -10,6 +10,8 @@ import '../../../categories/presentation/views/categories_view.dart';
 
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
 import '../../../products/presentation/views/products_view.dart';
+import '../../../settings/presentation/manger/cubits/settings_cubit.dart';
+import '../../../settings/presentation/views/settings_view.dart';
 
 import '../../../dashboard/presentation/views/dashboard_view.dart';
 
@@ -23,6 +25,7 @@ class MainNavigationView extends StatelessWidget {
         BlocProvider.value(value: getIt<CategoryCubit>()),
         BlocProvider.value(value: getIt<ProductCubit>()),
         BlocProvider.value(value: getIt<ActivityCubit>()),
+        BlocProvider.value(value: getIt<SettingsCubit>()),
       ],
       child: const _NavigationBody(),
     );
@@ -30,7 +33,7 @@ class MainNavigationView extends StatelessWidget {
 }
 
 class _NavigationBody extends StatefulWidget {
-  const _NavigationBody({super.key});
+  const _NavigationBody();
 
   @override
   State<_NavigationBody> createState() => _NavigationBodyState();
@@ -39,7 +42,12 @@ class _NavigationBody extends StatefulWidget {
 class _NavigationBodyState extends State<_NavigationBody> {
   int currentIndex = 0;
 
-  final pages = const [DashboardView(), CategoriesView(), ProductsView()];
+  final pages = const [
+    DashboardView(),
+    CategoriesView(),
+    ProductsView(),
+    SettingsView(),
+  ];
 
   @override
   Widget build(BuildContext context) {

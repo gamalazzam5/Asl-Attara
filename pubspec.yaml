@@ -42,7 +42,6 @@ flutter:
 
   assets:
     - assets/images/
-    - lib/features/dashboard/presentation/widgets/
 
   fonts:
     - family: IBMPlexArabic

@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
-
   final Function(int)? onTap;
 
   const CustomBottomNavBar({super.key, required this.currentIndex, this.onTap});
@@ -13,14 +12,10 @@ class CustomBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(16.r),
-
       padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-
       decoration: BoxDecoration(
         color: AppColors.primaryColor,
-
         borderRadius: BorderRadius.circular(20.r),
-
         boxShadow: [
           BoxShadow(
             color: Colors.black12,
@@ -29,19 +24,20 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
         ],
       ),
-
       child: Row(
-        mainAxisAlignment: .spaceAround,
-
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildItem(icon: Icons.home, label: 'الرئيسية', index: 0),
-
           _buildItem(icon: Icons.grid_view, label: 'الأقسام', index: 1),
-
           _buildItem(
             icon: Icons.inventory_2_outlined,
             label: 'المنتجات',
             index: 2,
+          ),
+          _buildItem(
+            icon: Icons.settings_outlined,
+            label: 'الإعدادات',
+            index: 3,
           ),
         ],
       ),
@@ -53,21 +49,15 @@ class CustomBottomNavBar extends StatelessWidget {
     required String label,
     required int index,
   }) {
-    bool isSelected = currentIndex == index;
+    final isSelected = currentIndex == index;
 
     return GestureDetector(
-      onTap: () {
-        onTap?.call(index);
-      },
-
+      onTap: () => onTap?.call(index),
       child: Column(
         mainAxisSize: MainAxisSize.min,
-
         children: [
           Icon(icon, color: isSelected ? Colors.white : Colors.grey),
-
           SizedBox(height: 4.h),
-
           Text(
             label,
             style: TextStyle(

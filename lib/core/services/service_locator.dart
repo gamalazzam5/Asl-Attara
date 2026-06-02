@@ -21,12 +21,22 @@ import '../../features/products/domain/usecases/edit_product_use_case.dart';
 import '../../features/products/domain/usecases/get_products.dart';
 import '../../features/products/domain/usecases/search_products.dart';
 import '../../features/products/presentation/manger/cubits/product_cubit.dart';
+import '../../features/settings/data/repositories/settings_repository_impl.dart';
+import '../../features/settings/domain/repositories/settings_repository.dart';
+import '../../features/settings/domain/usecases/get_backup_metadata.dart';
+import '../../features/settings/domain/usecases/restore_backup.dart';
+import '../../features/settings/domain/usecases/upload_backup.dart';
+import '../../features/settings/presentation/manger/cubits/settings_cubit.dart';
 import '../database/app_database.dart';
+import 'backup_service.dart';
 
 final getIt = GetIt.instance;
 
 void setupServiceLocator() {
   getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
+  getIt.registerLazySingleton<BackupService>(
+    () => BackupService(appDatabase: getIt<AppDatabase>()),
+  );
 
   getIt.registerLazySingleton<ActivityLocalDataSource>(
     () => ActivityLocalDataSource(getIt<AppDatabase>()),
@@ -89,5 +99,26 @@ void setupServiceLocator() {
       onActivityChanged: () =>
           getIt<ActivityCubit>().loadActivities(refresh: true),
     )..loadProducts(),
+  );
+
+  getIt.registerLazySingleton<SettingsRepository>(
+    () => SettingsRepositoryImpl(getIt<BackupService>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetBackupMetadata(getIt<SettingsRepository>()),
+  );
+  getIt.registerLazySingleton(() => UploadBackup(getIt<SettingsRepository>()));
+  getIt.registerLazySingleton(() => RestoreBackup(getIt<SettingsRepository>()));
+  getIt.registerLazySingleton(
+    () => SettingsCubit(
+      getIt<GetBackupMetadata>(),
+      getIt<UploadBackup>(),
+      getIt<RestoreBackup>(),
+      onBackupRestored: () async {
+        await getIt<CategoryCubit>().loadCategories();
+        await getIt<ProductCubit>().loadProducts();
+        await getIt<ActivityCubit>().loadActivities(refresh: true);
+      },
+    ),
   );
 }
