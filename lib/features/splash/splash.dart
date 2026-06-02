@@ -60,11 +60,7 @@ class _SplashViewState extends State<SplashView> {
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              SizedBox(height: 10.h),
-              Text(
-                'تحت إدارة أستاذ إياد المغربي',
-                style: TextStyles.text14.copyWith(color: Colors.grey.shade600),
-              ),
+
             ],
           ),
         ),
