@@ -5,6 +5,7 @@ import '../../../../core/services/service_locator.dart';
 import '../../../../core/widgets/custom_bottom_navbar.dart';
 
 import '../../../activity/presentation/manger/cubits/activity_cubit.dart';
+import '../../../auth/presentation/cubits/auth_cubit.dart';
 import '../../../categories/presentation/manger/cubits/category_cubit.dart';
 import '../../../categories/presentation/views/categories_view.dart';
 
@@ -26,6 +27,7 @@ class MainNavigationView extends StatelessWidget {
         BlocProvider.value(value: getIt<ProductCubit>()),
         BlocProvider.value(value: getIt<ActivityCubit>()),
         BlocProvider.value(value: getIt<SettingsCubit>()),
+        BlocProvider.value(value: getIt<AuthCubit>()),
       ],
       child: const _NavigationBody(),
     );

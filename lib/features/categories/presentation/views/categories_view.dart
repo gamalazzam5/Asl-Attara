@@ -120,7 +120,7 @@ class _CategoriesViewState extends State<CategoriesView> {
                           color: selectedColor,
                         );
 
-                        if (!mounted) return;
+                        if (!context.mounted || !mounted) return;
 
                         Navigator.pop(context);
 

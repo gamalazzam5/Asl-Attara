@@ -1,6 +1,10 @@
 abstract class RouteNames {
   static const splash = '/';
 
+  static const login = '/login';
+  static const register = '/register';
+  static const forgotPassword = '/forgotPassword';
+
   static const dashboard = '/dashboard';
 
   static const products = '/products';

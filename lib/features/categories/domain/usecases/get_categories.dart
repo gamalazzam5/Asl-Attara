@@ -1,3 +1,4 @@
+import '../entities/category_entity.dart';
 import '../repositories/category_repository.dart';
 
 class GetCategories {
@@ -5,7 +6,7 @@ class GetCategories {
 
   GetCategories(this.repository);
 
-  call() {
+  Future<List<CategoryEntity>> call() {
     return repository.getCategories();
   }
 }

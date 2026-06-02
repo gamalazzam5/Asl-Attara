@@ -5,6 +5,16 @@ import '../../features/activity/data/repositories/activity_repository_impl.dart'
 import '../../features/activity/domain/repositories/activity_repository.dart';
 import '../../features/activity/domain/usecases/get_activities.dart';
 import '../../features/activity/presentation/manger/cubits/activity_cubit.dart';
+import '../../features/auth/data/datasource/auth_remote_data_source.dart';
+import '../../features/auth/data/repositories/auth_repository_impl.dart';
+import '../../features/auth/domain/repositories/auth_repository.dart';
+import '../../features/auth/domain/usecases/get_current_user_use_case.dart';
+import '../../features/auth/domain/usecases/reset_password_use_case.dart';
+import '../../features/auth/domain/usecases/sign_in_use_case.dart';
+import '../../features/auth/domain/usecases/sign_out_use_case.dart';
+import '../../features/auth/domain/usecases/sign_up_use_case.dart';
+import '../../features/auth/presentation/cubits/auth_guard.dart';
+import '../../features/auth/presentation/cubits/auth_cubit.dart';
 import '../../features/categories/data/datasource/category_local_data_source.dart';
 import '../../features/categories/data/repositories/category_repository_impl.dart';
 import '../../features/categories/domain/repositories/category_repository.dart';
@@ -36,6 +46,31 @@ void setupServiceLocator() {
   getIt.registerLazySingleton<AppDatabase>(() => AppDatabase());
   getIt.registerLazySingleton<BackupService>(
     () => BackupService(appDatabase: getIt<AppDatabase>()),
+  );
+  getIt.registerLazySingleton<AuthRemoteDataSource>(
+    () => AuthRemoteDataSource(),
+  );
+  getIt.registerLazySingleton<AuthRepository>(
+    () => AuthRepositoryImpl(getIt<AuthRemoteDataSource>()),
+  );
+  getIt.registerLazySingleton(() => SignUpUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => SignInUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(() => SignOutUseCase(getIt<AuthRepository>()));
+  getIt.registerLazySingleton(
+    () => ResetPasswordUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetCurrentUserUseCase(getIt<AuthRepository>()),
+  );
+  getIt.registerLazySingleton(() => AuthGuard(getIt<GetCurrentUserUseCase>()));
+  getIt.registerLazySingleton(
+    () => AuthCubit(
+      getIt<SignUpUseCase>(),
+      getIt<SignInUseCase>(),
+      getIt<SignOutUseCase>(),
+      getIt<ResetPasswordUseCase>(),
+      getIt<GetCurrentUserUseCase>(),
+    ),
   );
 
   getIt.registerLazySingleton<ActivityLocalDataSource>(

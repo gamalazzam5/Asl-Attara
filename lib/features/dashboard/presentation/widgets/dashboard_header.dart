@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -13,12 +11,11 @@ class DashboardHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-
       child: Column(
-        crossAxisAlignment: .start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "أصل العطارة",
+            'أصل العطارة',
             style: TextStyles.text24.copyWith(
               color: AppColors.primaryColor,
               fontWeight: FontWeight.w700,
@@ -26,13 +23,13 @@ class DashboardHeader extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           Text(
-            "مرحباً بعودتك!",
+            'مرحبا بعودتك!',
             style: TextStyles.text22.copyWith(fontWeight: FontWeight.w700),
           ),
           SizedBox(height: 4.h),
           Text(
-            "إليك نظرة عامة على متجرك اليوم.",
-            textAlign: .right,
+            'إليك نظرة عامة على متجرك اليوم.',
+            textAlign: TextAlign.right,
             style: TextStyles.text14.copyWith(color: Colors.grey),
           ),
         ],

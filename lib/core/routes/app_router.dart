@@ -6,6 +6,11 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/activity/presentation/manger/cubits/activity_cubit.dart';
 import '../../features/activity/presentation/views/activities_view.dart';
+import '../../features/auth/presentation/cubits/auth_cubit.dart';
+import '../../features/auth/presentation/cubits/auth_guard.dart';
+import '../../features/auth/presentation/views/forgot_password_view.dart';
+import '../../features/auth/presentation/views/login_view.dart';
+import '../../features/auth/presentation/views/register_view.dart';
 import '../../features/categories/presentation/manger/cubits/category_cubit.dart';
 
 import '../../features/dashboard/presentation/views/dashboard_view.dart';
@@ -32,18 +37,74 @@ import '../services/service_locator.dart';
 class AppRouter {
   static final router = GoRouter(
     initialLocation: RouteNames.splash,
+    redirect: (context, state) async {
+      final isLoggedIn = await getIt<AuthGuard>().isAuthenticated;
+      final location = state.matchedLocation;
+      final isAuthRoute =
+          location == RouteNames.login ||
+          location == RouteNames.register ||
+          location == RouteNames.forgotPassword;
+
+      if (!isLoggedIn && !isAuthRoute && location != RouteNames.splash) {
+        return RouteNames.login;
+      }
+
+      if (isLoggedIn && isAuthRoute) {
+        return RouteNames.mainNavigation;
+      }
+
+      return null;
+    },
 
     routes: [
-      GoRoute(path: RouteNames.splash, builder: (_, __) => const SplashView()),
+      GoRoute(
+        path: RouteNames.splash,
+        builder: (context, state) {
+          return BlocProvider.value(
+            value: getIt<AuthCubit>(),
+            child: const SplashView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.login,
+        builder: (context, state) {
+          return BlocProvider.value(
+            value: getIt<AuthCubit>(),
+            child: const LoginView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.register,
+        builder: (context, state) {
+          return BlocProvider.value(
+            value: getIt<AuthCubit>(),
+            child: const RegisterView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.forgotPassword,
+        builder: (context, state) {
+          return BlocProvider.value(
+            value: getIt<AuthCubit>(),
+            child: const ForgotPasswordView(),
+          );
+        },
+      ),
 
       GoRoute(
         path: RouteNames.dashboard,
-        builder: (_, __) => const DashboardView(),
+        builder: (context, state) => const DashboardView(),
       ),
 
       GoRoute(
         path: RouteNames.mainNavigation,
-        builder: (_, __) => const MainNavigationView(),
+        builder: (context, state) => const MainNavigationView(),
       ),
 
       /// Add Product
@@ -133,7 +194,7 @@ class AppRouter {
       /// Low Stock
       GoRoute(
         path: RouteNames.lowStock,
-        builder: (_, __) {
+        builder: (context, state) {
           return BlocProvider.value(
             value: getIt<ProductCubit>(),
             child: const LowStockView(),
@@ -143,7 +204,7 @@ class AppRouter {
 
       GoRoute(
         path: RouteNames.activities,
-        builder: (_, __) {
+        builder: (context, state) {
           return BlocProvider.value(
             value: getIt<ActivityCubit>()..loadActivities(refresh: true),
             child: const ActivitiesView(),
