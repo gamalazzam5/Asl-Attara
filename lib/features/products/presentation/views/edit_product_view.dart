@@ -19,6 +19,8 @@ class EditProductView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
@@ -33,60 +35,71 @@ class EditProductView extends StatelessWidget {
         ),
       ),
 
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ProductForm(
-          product: product,
-          buttonText: 'حفظ التعديلات',
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          FocusScope.of(context).unfocus();
+        },
+        child: SafeArea(
+        child: GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            padding: const EdgeInsets.all(20),
+            child: ProductForm(
+              product: product,
+              buttonText: 'حفظ التعديلات',
 
-          onSave:
-              ({
-                required name,
-                required category,
-                required categoryId,
-                required unit,
-                required quantity,
-                required lowStock,
-                required buyPrice,
-                required sellPrice,
-              }) async {
-                final updatedProduct = ProductEntity(
-                  id: product.id,
-                  name: name,
-                  quantity: quantity,
-                  unit: unit,
-                  minimumStockQuantity: lowStock,
-                  categoryId: categoryId,
-                  categoryName: category,
-                  buyPrice: buyPrice,
-                  sellPrice: sellPrice,
-                );
+              onSave:
+                  ({
+                    required name,
+                    required category,
+                    required categoryId,
+                    required unit,
+                    required quantity,
+                    required lowStock,
+                    required buyPrice,
+                    required sellPrice,
+                  }) async {
+                    final updatedProduct = ProductEntity(
+                      id: product.id,
+                      name: name,
+                      quantity: quantity,
+                      unit: unit,
+                      minimumStockQuantity: lowStock,
+                      categoryId: categoryId,
+                      categoryName: category,
+                      buyPrice: buyPrice,
+                      sellPrice: sellPrice,
+                    );
 
-                final updated = await context
-                    .read<ProductCubit>()
-                    .updateProduct(updatedProduct);
+                    final updated = await context
+                        .read<ProductCubit>()
+                        .updateProduct(updatedProduct);
 
-                if (!context.mounted) return;
+                    if (!context.mounted) return;
 
-                if (updated) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('تم حفظ التعديلات'),
-                      backgroundColor: AppColors.primaryColor,
-                    ),
-                  );
-                  context.pop(true);
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      backgroundColor: Colors.orange,
-                      content: Text('اسم المنتج مستخدم بالفعل'),
-                    ),
-                  );
-                }
-              },
+                    if (updated) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('تم حفظ التعديلات'),
+                          backgroundColor: AppColors.primaryColor,
+                        ),
+                      );
+                      context.pop(true);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          backgroundColor: Colors.orange,
+                          content: Text('اسم المنتج مستخدم بالفعل'),
+                        ),
+                      );
+                    }
+                  },
+            ),
+          ),
         ),
       ),
-    );
+    ),);
   }
 }
