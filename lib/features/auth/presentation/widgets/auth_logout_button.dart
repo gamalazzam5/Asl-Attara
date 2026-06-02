@@ -10,6 +10,39 @@ import '../cubits/auth_state.dart';
 class AuthLogoutButton extends StatelessWidget {
   const AuthLogoutButton({super.key});
 
+  Future<void> _confirmLogout(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: const Text('تسجيل الخروج'),
+          content: const Text('هل تريد حقا تسجيل الخروج ؟'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('إلغاء'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.errorColor,
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text(
+                'تسجيل الخروج',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && context.mounted) {
+      context.read<AuthCubit>().logout();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
@@ -33,9 +66,7 @@ class AuthLogoutButton extends StatelessWidget {
         final isLoading = state is AuthLoading;
 
         return OutlinedButton.icon(
-          onPressed: isLoading
-              ? null
-              : () => context.read<AuthCubit>().logout(),
+          onPressed: isLoading ? null : () => _confirmLogout(context),
           icon: isLoading
               ? const SizedBox(
                   width: 18,

@@ -61,6 +61,45 @@ class _SettingsViewState extends State<SettingsView> {
     }
   }
 
+  Future<void> _confirmUpload() async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          elevation: 0,
+          title: const Text('رفع نسخة احتياطية'),
+          content: const Text(
+            'سيتم استبدال النسخة الاحتياطية الحالية على Firebase ببيانات التطبيق الموجودة الآن. هل تريد المتابعة؟',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('إلغاء'),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryColor,
+              ),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text(
+                'رفع واستبدال',
+                style: TextStyle(color: Colors.white),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+
+    if (confirmed == true && mounted) {
+      context.read<SettingsCubit>().uploadBackup();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +139,7 @@ class _SettingsViewState extends State<SettingsView> {
                   ),
                   SizedBox(height: 24.h),
 
-                  _BackupPanel(state: state),
+                  _BackupPanel(state: state, onUploadPressed: _confirmUpload),
                   SizedBox(height: 20.h),
                   _DangerZone(state: state, onRestorePressed: _confirmRestore),
                   SizedBox(height: 20.h),
@@ -155,8 +194,9 @@ class _AccountPanel extends StatelessWidget {
 
 class _BackupPanel extends StatelessWidget {
   final SettingsState state;
+  final VoidCallback onUploadPressed;
 
-  const _BackupPanel({required this.state});
+  const _BackupPanel({required this.state, required this.onUploadPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -199,9 +239,7 @@ class _BackupPanel extends StatelessWidget {
                 borderRadius: BorderRadius.circular(14.r),
               ),
             ),
-            onPressed: state.isLoading
-                ? null
-                : () => context.read<SettingsCubit>().uploadBackup(),
+            onPressed: state.isLoading ? null : onUploadPressed,
             icon: isUploading
                 ? SizedBox(
                     width: 18.r,
@@ -213,7 +251,9 @@ class _BackupPanel extends StatelessWidget {
                   )
                 : const Icon(Icons.sync, color: Colors.white),
             label: Text(
-              isUploading ? 'جاري الرفع...' : 'رفع نسخة إلى السحابه الالكترونيه',
+              isUploading
+                  ? 'جاري الرفع...'
+                  : 'رفع نسخة إلى السحابه الالكترونيه',
               style: const TextStyle(color: Colors.white),
             ),
           ),

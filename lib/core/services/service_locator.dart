@@ -22,6 +22,12 @@ import '../../features/categories/domain/usecases/add_category_use_case.dart';
 import '../../features/categories/domain/usecases/delete_category_use_case.dart';
 import '../../features/categories/domain/usecases/get_categories.dart';
 import '../../features/categories/presentation/manger/cubits/category_cubit.dart';
+import '../../features/inventory/data/datasource/inventory_local_data_source.dart';
+import '../../features/inventory/data/repositories/inventory_repository_impl.dart';
+import '../../features/inventory/domain/repositories/inventory_repository.dart';
+import '../../features/inventory/domain/usecases/audit_product_use_case.dart';
+import '../../features/inventory/domain/usecases/get_product_movements_use_case.dart';
+import '../../features/inventory/presentation/cubits/inventory_cubit.dart';
 import '../../features/products/data/datasource/product_local_data_source.dart';
 import '../../features/products/data/repositories/product_repository_impl.dart';
 import '../../features/products/domain/repositories/product_repository.dart';
@@ -37,6 +43,12 @@ import '../../features/settings/domain/usecases/get_backup_metadata.dart';
 import '../../features/settings/domain/usecases/restore_backup.dart';
 import '../../features/settings/domain/usecases/upload_backup.dart';
 import '../../features/settings/presentation/manger/cubits/settings_cubit.dart';
+import '../../features/sales/data/datasource/sales_local_data_source.dart';
+import '../../features/sales/data/repositories/sales_repository_impl.dart';
+import '../../features/sales/domain/repositories/sales_repository.dart';
+import '../../features/sales/domain/usecases/create_sale_use_case.dart';
+import '../../features/sales/domain/usecases/get_today_sales_stats_use_case.dart';
+import '../../features/sales/presentation/cubits/sales_cubit.dart';
 import '../database/app_database.dart';
 import 'backup_service.dart';
 
@@ -99,6 +111,32 @@ void setupServiceLocator() {
   getIt.registerLazySingleton(() => DeleteProduct(getIt<ProductRepository>()));
   getIt.registerLazySingleton(() => SearchProducts());
 
+  getIt.registerLazySingleton<SalesLocalDataSource>(
+    () => SalesLocalDataSource(getIt<AppDatabase>()),
+  );
+  getIt.registerLazySingleton<SalesRepository>(
+    () => SalesRepositoryImpl(getIt<SalesLocalDataSource>()),
+  );
+  getIt.registerLazySingleton(
+    () => CreateSaleUseCase(getIt<SalesRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetTodaySalesStatsUseCase(getIt<SalesRepository>()),
+  );
+
+  getIt.registerLazySingleton<InventoryLocalDataSource>(
+    () => InventoryLocalDataSource(getIt<AppDatabase>()),
+  );
+  getIt.registerLazySingleton<InventoryRepository>(
+    () => InventoryRepositoryImpl(getIt<InventoryLocalDataSource>()),
+  );
+  getIt.registerLazySingleton(
+    () => GetProductMovementsUseCase(getIt<InventoryRepository>()),
+  );
+  getIt.registerLazySingleton(
+    () => AuditProductUseCase(getIt<InventoryRepository>()),
+  );
+
   getIt.registerLazySingleton<CategoryLocalDataSource>(
     () => CategoryLocalDataSource(getIt<AppDatabase>()),
   );
@@ -136,6 +174,24 @@ void setupServiceLocator() {
     )..loadProducts(),
   );
 
+  getIt.registerLazySingleton(
+    () => SalesCubit(
+      getIt<CreateSaleUseCase>(),
+      getIt<GetTodaySalesStatsUseCase>(),
+      onSaleSaved: () async {
+        await getIt<ProductCubit>().loadProducts();
+        await getIt<ActivityCubit>().loadActivities(refresh: true);
+      },
+    )..loadTodayStats(),
+  );
+
+  getIt.registerFactory(
+    () => InventoryCubit(
+      getIt<GetProductMovementsUseCase>(),
+      getIt<AuditProductUseCase>(),
+    ),
+  );
+
   getIt.registerLazySingleton<SettingsRepository>(
     () => SettingsRepositoryImpl(getIt<BackupService>()),
   );
@@ -152,6 +208,7 @@ void setupServiceLocator() {
       onBackupRestored: () async {
         await getIt<CategoryCubit>().loadCategories();
         await getIt<ProductCubit>().loadProducts();
+        await getIt<SalesCubit>().loadTodayStats();
         await getIt<ActivityCubit>().loadActivities(refresh: true);
       },
     ),

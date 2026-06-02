@@ -1,31 +1,51 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
 import 'tables/activity_log_table.dart';
 import 'tables/category_table.dart';
+import 'tables/inventory_log_table.dart';
 import 'tables/product_table.dart';
+import 'tables/sale_item_table.dart';
+import 'tables/sale_table.dart';
 
 class AppDatabase {
   static const _defaultDatabaseName = 'aslattara.db';
-  static const _databaseVersion = 4;
+  static const _databaseVersion = 5;
 
   final String databaseName;
   Database? _database;
+  String? _openedDatabaseName;
 
   AppDatabase({this.databaseName = _defaultDatabaseName});
 
   Future<Database> get database async {
-    if (_database != null) return _database!;
+    final activeDatabaseName = _activeDatabaseName;
+
+    if (_database != null && _openedDatabaseName == activeDatabaseName) {
+      return _database!;
+    }
+
+    await close();
 
     _database = await _openDatabase();
+    _openedDatabaseName = activeDatabaseName;
 
     return _database!;
+  }
+
+  String get _activeDatabaseName {
+    final uid = FirebaseAuth.instance.currentUser?.uid;
+    if (uid == null || uid.isEmpty) return databaseName;
+
+    final safeUid = uid.replaceAll(RegExp(r'[^a-zA-Z0-9_-]'), '_');
+    return 'aslattara_$safeUid.db';
   }
 
   Future<Database> _openDatabase() async {
     final databasePath = await getDatabasesPath();
 
-    final path = join(databasePath, databaseName);
+    final path = join(databasePath, _activeDatabaseName);
 
     return openDatabase(
       path,
@@ -37,6 +57,9 @@ class AppDatabase {
         await db.execute(CategoryTable.createTable);
         await db.execute(ProductTable.createTable);
         await db.execute(ActivityLogTable.createTable);
+        await db.execute(SaleTable.createTable);
+        await db.execute(SaleItemTable.createTable);
+        await db.execute(InventoryLogTable.createTable);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
@@ -50,6 +73,12 @@ class AppDatabase {
 
         if (oldVersion < 4) {
           await db.execute(ActivityLogTable.createTable);
+        }
+
+        if (oldVersion < 5) {
+          await db.execute(SaleTable.createTable);
+          await db.execute(SaleItemTable.createTable);
+          await db.execute(InventoryLogTable.createTable);
         }
       },
     );
@@ -90,5 +119,6 @@ class AppDatabase {
   Future<void> close() async {
     await _database?.close();
     _database = null;
+    _openedDatabaseName = null;
   }
 }

@@ -15,6 +15,8 @@ import '../../features/categories/presentation/manger/cubits/category_cubit.dart
 
 import '../../features/dashboard/presentation/views/dashboard_view.dart';
 import '../../features/dashboard/presentation/views/low_stock_view.dart';
+import '../../features/inventory/presentation/cubits/inventory_cubit.dart';
+import '../../features/inventory/presentation/views/inventory_audit_view.dart';
 
 import '../../features/navigation/presentation/views/main_navigation_view.dart';
 
@@ -31,6 +33,8 @@ import '../../features/products/presentation/views/add_product_view.dart';
 import '../../features/products/presentation/views/edit_product_view.dart';
 import '../../features/products/presentation/views/product_details_view.dart';
 import '../../features/products/presentation/views/products_view.dart';
+import '../../features/sales/presentation/cubits/sales_cubit.dart';
+import '../../features/sales/presentation/views/sell_product_view.dart';
 
 import '../services/service_locator.dart';
 
@@ -167,7 +171,10 @@ class AppRouter {
 
           return BlocProvider.value(
             value: cubit,
-            child: ProductDetailsView(product: product),
+            child: BlocProvider(
+              create: (_) => getIt<InventoryCubit>(),
+              child: ProductDetailsView(product: product),
+            ),
           );
         },
       ),
@@ -208,6 +215,32 @@ class AppRouter {
           return BlocProvider.value(
             value: getIt<ActivityCubit>()..loadActivities(refresh: true),
             child: const ActivitiesView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.sellProduct,
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: getIt<ProductCubit>()..loadProducts()),
+              BlocProvider.value(value: getIt<SalesCubit>()),
+            ],
+            child: const SellProductView(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: RouteNames.inventoryAudit,
+        builder: (context, state) {
+          return MultiBlocProvider(
+            providers: [
+              BlocProvider.value(value: getIt<ProductCubit>()..loadProducts()),
+              BlocProvider(create: (_) => getIt<InventoryCubit>()),
+            ],
+            child: const InventoryAuditView(),
           );
         },
       ),

@@ -11,6 +11,7 @@ import '../../../categories/presentation/views/categories_view.dart';
 
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
 import '../../../products/presentation/views/products_view.dart';
+import '../../../sales/presentation/cubits/sales_cubit.dart';
 import '../../../settings/presentation/manger/cubits/settings_cubit.dart';
 import '../../../settings/presentation/views/settings_view.dart';
 
@@ -28,6 +29,7 @@ class MainNavigationView extends StatelessWidget {
         BlocProvider.value(value: getIt<ActivityCubit>()),
         BlocProvider.value(value: getIt<SettingsCubit>()),
         BlocProvider.value(value: getIt<AuthCubit>()),
+        BlocProvider.value(value: getIt<SalesCubit>()),
       ],
       child: const _NavigationBody(),
     );
@@ -64,6 +66,11 @@ class _NavigationBodyState extends State<_NavigationBody> {
         currentIndex: currentIndex,
 
         onTap: (index) {
+          if (index == 0) {
+            context.read<ProductCubit>().loadProducts();
+            context.read<SalesCubit>().loadTodayStats();
+          }
+
           setState(() {
             currentIndex = index;
           });

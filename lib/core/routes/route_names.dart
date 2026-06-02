@@ -27,4 +27,6 @@ abstract class RouteNames {
   static const lowStock = '/lowStock';
   static const productDetails = '/productDetails';
   static const activities = '/activities';
+  static const sellProduct = '/sellProduct';
+  static const inventoryAudit = '/inventoryAudit';
 }

@@ -11,6 +11,7 @@ import '../widgets/product_actions.dart';
 import '../widgets/product_image_avatar.dart';
 import '../widgets/quantity_card.dart';
 import '../widgets/stock_status_badge.dart';
+import '../../../inventory/presentation/widgets/product_movement_history.dart';
 
 class ProductDetailsView extends StatelessWidget {
   final ProductEntity product;
@@ -99,6 +100,10 @@ class ProductDetailsView extends StatelessWidget {
             SizedBox(height: 30.h),
 
             ProductActions(product: product),
+
+            SizedBox(height: 24.h),
+
+            ProductMovementHistory(productId: product.id),
           ],
         ),
       ),
