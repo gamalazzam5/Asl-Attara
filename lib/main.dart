@@ -1,14 +1,20 @@
 import 'package:aslattara/core/constants/app_theme.dart';
 import 'package:aslattara/core/routes/app_router.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:device_preview/device_preview.dart';
 
 import 'core/services/service_locator.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main()async {
+  WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
   runApp(
     DevicePreview(

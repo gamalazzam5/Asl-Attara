@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../core/routes/route_names.dart';
 
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
@@ -59,7 +58,6 @@ class _DashboardViewState extends State<DashboardView> {
                       Expanded(
                         child: StatisticsCard(
                           title: 'إجمالي المنتجات',
-
                           value: totalProducts.toString(),
 
                           icon: Icons.inventory_2_outlined,

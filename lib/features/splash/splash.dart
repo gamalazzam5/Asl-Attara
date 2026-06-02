@@ -51,16 +51,16 @@ class _SplashViewState extends State<SplashView> {
               ),
             ),
 
-            // SizedBox(
-            //   height: 10.h,
-            // ),
-            //
-            // Text(
-            //   'تحت إدارة دكتور إياد المغربي',
-            //   style: TextStyles.text14.copyWith(
-            //     color: Colors.grey.shade600,
-            //   ),
-            // ),
+            SizedBox(
+              height: 10.h,
+            ),
+
+            Text(
+              'تحت إدارة أستاذ إياد المغربي',
+              style: TextStyles.text14.copyWith(
+                color: Colors.grey.shade600,
+              ),
+            ),
           ],
         ),
       ),
