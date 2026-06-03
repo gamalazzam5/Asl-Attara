@@ -26,32 +26,35 @@ class _SettingsViewState extends State<SettingsView> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          elevation: 0,
-          title: const Text('استعادة النسخة الاحتياطية'),
-          content: const Text(
-            'سيتم حذف البيانات الحالية واستبدالها بالنسخة المحفوظة على السحابه الالكترونيه. استخدم هذا الخيار فقط عند فقدان التطبيق أو تلف قاعدة البيانات.',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('إلغاء'),
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.errorColor,
-              ),
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text(
-                'استبدال البيانات',
-                style: TextStyle(color: Colors.white),
-              ),
+            elevation: 0,
+            title: const Text('استعادة النسخة الاحتياطية'),
+            content: const Text(
+              'سيتم حذف البيانات الحالية واستبدالها بالنسخة المحفوظة على Firebase. استخدم هذا الخيار فقط عند فقدان التطبيق أو تلف قاعدة البيانات.',
             ),
-          ],
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('إلغاء'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.errorColor,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text(
+                  'استبدال البيانات',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -65,32 +68,35 @@ class _SettingsViewState extends State<SettingsView> {
     final confirmed = await showDialog<bool>(
       context: context,
       builder: (context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          elevation: 0,
-          title: const Text('رفع نسخة احتياطية'),
-          content: const Text(
-            'سيتم استبدال النسخة الاحتياطية الحالية على Firebase ببيانات التطبيق الموجودة الآن. هل تريد المتابعة؟',
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: const Text('إلغاء'),
+        return Directionality(
+          textDirection: TextDirection.rtl,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16.r),
             ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryColor,
-              ),
-              onPressed: () => Navigator.of(context).pop(true),
-              child: const Text(
-                'رفع واستبدال',
-                style: TextStyle(color: Colors.white),
-              ),
+            elevation: 0,
+            title: const Text('رفع نسخة احتياطية'),
+            content: const Text(
+              'سيتم استبدال النسخة الاحتياطية الحالية على Firebase ببيانات التطبيق الموجودة الآن. هل تريد المتابعة؟',
             ),
-          ],
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: const Text('إلغاء'),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryColor,
+                ),
+                onPressed: () => Navigator.of(context).pop(true),
+                child: const Text(
+                  'رفع واستبدال',
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
@@ -102,52 +108,57 @@ class _SettingsViewState extends State<SettingsView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: BlocConsumer<SettingsCubit, SettingsState>(
-          listenWhen: (previous, current) {
-            return previous.successMessage != current.successMessage ||
-                previous.errorMessage != current.errorMessage;
-          },
-          listener: (context, state) {
-            final message = state.successMessage ?? state.errorMessage;
-            if (message == null) return;
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: BlocConsumer<SettingsCubit, SettingsState>(
+            listenWhen: (previous, current) {
+              return previous.successMessage != current.successMessage ||
+                  previous.errorMessage != current.errorMessage;
+            },
+            listener: (context, state) {
+              final message = state.successMessage ?? state.errorMessage;
+              if (message == null) return;
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                backgroundColor: state.successMessage != null
-                    ? AppColors.primaryColor
-                    : AppColors.errorColor,
-                content: Text(message),
-              ),
-            );
-          },
-          builder: (context, state) {
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(20.r),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'الإعدادات',
-                    textAlign: TextAlign.center,
-                    style: TextStyles.text22.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.primaryColor,
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: state.successMessage != null
+                      ? AppColors.primaryColor
+                      : AppColors.errorColor,
+                  content: Text(message),
+                ),
+              );
+            },
+            builder: (context, state) {
+              return SingleChildScrollView(
+                padding: EdgeInsets.all(20.r),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'الإعدادات',
+                      textAlign: TextAlign.center,
+                      style: TextStyles.text22.copyWith(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 24.h),
-
-                  _BackupPanel(state: state, onUploadPressed: _confirmUpload),
-                  SizedBox(height: 20.h),
-                  _DangerZone(state: state, onRestorePressed: _confirmRestore),
-                  SizedBox(height: 20.h),
-                  const _AccountPanel(),
-                ],
-              ),
-            );
-          },
+                    SizedBox(height: 24.h),
+                    _BackupPanel(state: state, onUploadPressed: _confirmUpload),
+                    SizedBox(height: 20.h),
+                    _DangerZone(
+                      state: state,
+                      onRestorePressed: _confirmRestore,
+                    ),
+                    SizedBox(height: 20.h),
+                    const _AccountPanel(),
+                  ],
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
@@ -211,7 +222,7 @@ class _BackupPanel extends StatelessWidget {
         border: Border.all(color: const Color(0xFFD7E8DE)),
       ),
       child: Column(
-        crossAxisAlignment: .stretch,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(
             children: [
@@ -251,9 +262,7 @@ class _BackupPanel extends StatelessWidget {
                   )
                 : const Icon(Icons.sync, color: Colors.white),
             label: Text(
-              isUploading
-                  ? 'جاري الرفع...'
-                  : 'رفع نسخة إلى السحابه الالكترونيه',
+              isUploading ? 'جاري الرفع...' : 'رفع نسخة إلى Firebase',
               style: const TextStyle(color: Colors.white),
             ),
           ),
@@ -380,8 +389,20 @@ class _BackupSummary extends StatelessWidget {
         ),
         SizedBox(height: 8.h),
         _InfoRow(
+          icon: Icons.point_of_sale_outlined,
+          label: 'المبيعات',
+          value: metadata.salesCount.toString(),
+        ),
+        SizedBox(height: 8.h),
+        _InfoRow(
+          icon: Icons.swap_horiz,
+          label: 'حركات المخزون',
+          value: metadata.inventoryLogsCount.toString(),
+        ),
+        SizedBox(height: 8.h),
+        _InfoRow(
           icon: Icons.history,
-          label: 'السجل',
+          label: 'العمليات',
           value: metadata.activitiesCount.toString(),
         ),
       ],

@@ -9,8 +9,11 @@ import '../database/tables/inventory_log_table.dart';
 import '../database/tables/product_table.dart';
 import '../database/tables/sale_item_table.dart';
 import '../database/tables/sale_table.dart';
+import 'backup_payload_normalizer.dart';
 
 class BackupService {
+  static const int _schemaVersion = 2;
+
   final AppDatabase appDatabase;
   final FirebaseFirestore firestore;
   final FirebaseAuth firebaseAuth;
@@ -65,6 +68,7 @@ class BackupService {
 
     final metadata = BackupMetadata(
       uploadedAt: now,
+      schemaVersion: _schemaVersion,
       categoriesCount: categories.length,
       productsCount: products.length,
       salesCount: sales.length,
@@ -80,8 +84,17 @@ class BackupService {
   }
 
   Future<BackupMetadata> restoreBackup() async {
-    final categories = await _readCollection(CategoryTable.tableName);
-    final products = await _readCollection(ProductTable.tableName);
+    final metadata = await getBackupMetadata();
+    if (metadata == null) throw const BackupNotFoundException();
+
+    final categories = BackupPayloadNormalizer.sanitizeRows(
+      tableName: CategoryTable.tableName,
+      rows: await _readCollection(CategoryTable.tableName),
+    );
+    final products = BackupPayloadNormalizer.sanitizeRows(
+      tableName: ProductTable.tableName,
+      rows: await _readCollection(ProductTable.tableName),
+    );
     final salesWithItems = await _readCollection(SaleTable.tableName);
     final sales = <Map<String, Object?>>[];
     final saleItems = <Map<String, Object?>>[];
@@ -89,20 +102,33 @@ class BackupService {
     for (final sale in salesWithItems) {
       final items = sale['items'];
       final saleRow = Map<String, Object?>.from(sale)..remove('items');
-      sales.add(saleRow);
+      final sanitizedSale = BackupPayloadNormalizer.sanitizeRow(
+        SaleTable.tableName,
+        saleRow,
+      );
+      if (sanitizedSale != null) sales.add(sanitizedSale);
 
       if (items is List) {
         for (final item in items) {
           if (item is Map) {
-            saleItems.add(
+            final sanitizedItem = BackupPayloadNormalizer.sanitizeRow(
+              SaleItemTable.tableName,
               item.map((key, value) => MapEntry(key.toString(), value)),
             );
+            if (sanitizedItem != null) saleItems.add(sanitizedItem);
           }
         }
       }
     }
-    final inventoryLogs = await _readCollection(InventoryLogTable.tableName);
-    final activities = await _readCollection(ActivityLogTable.tableName);
+
+    final inventoryLogs = BackupPayloadNormalizer.sanitizeRows(
+      tableName: InventoryLogTable.tableName,
+      rows: await _readCollection(InventoryLogTable.tableName),
+    );
+    final activities = BackupPayloadNormalizer.sanitizeRows(
+      tableName: ActivityLogTable.tableName,
+      rows: await _readCollection(ActivityLogTable.tableName),
+    );
 
     if (categories.isEmpty &&
         products.isEmpty &&
@@ -111,6 +137,22 @@ class BackupService {
         activities.isEmpty) {
       throw const BackupNotFoundException();
     }
+
+    BackupPayloadNormalizer.validateCounts(
+      counts: metadata,
+      categories: categories,
+      products: products,
+      sales: sales,
+      inventoryLogs: inventoryLogs,
+      activities: activities,
+    );
+    BackupPayloadNormalizer.validateReferences(
+      categories: categories,
+      products: products,
+      sales: sales,
+      saleItems: saleItems,
+      inventoryLogs: inventoryLogs,
+    );
 
     final db = await appDatabase.database;
     final now = DateTime.now();
@@ -140,16 +182,7 @@ class BackupService {
       });
     });
 
-    final metadata = await getBackupMetadata();
-    return metadata ??
-        BackupMetadata(
-          uploadedAt: now,
-          categoriesCount: categories.length,
-          productsCount: products.length,
-          salesCount: sales.length,
-          inventoryLogsCount: inventoryLogs.length,
-          activitiesCount: activities.length,
-        );
+    return metadata;
   }
 
   Future<void> _replaceCollection(
@@ -165,6 +198,12 @@ class BackupService {
     for (final doc in existing.docs) {
       batch.delete(doc.reference);
       operations++;
+
+      if (operations >= 450) {
+        await batch.commit();
+        batch = firestore.batch();
+        operations = 0;
+      }
     }
 
     for (final row in rows) {
@@ -206,8 +245,31 @@ class BackupService {
     final snapshot = await _userDocument.collection(collectionName).get();
 
     return snapshot.docs.map((doc) {
-      return doc.data().map((key, value) => MapEntry(key, value));
+      final data = doc.data().map(
+        (key, value) => MapEntry(key, _normalizeFirestoreValue(value)),
+      );
+
+      if (!data.containsKey('id')) {
+        final parsedId = int.tryParse(doc.id);
+        if (parsedId != null) data['id'] = parsedId;
+      }
+
+      return data;
     }).toList();
+  }
+
+  Object? _normalizeFirestoreValue(Object? value) {
+    if (value is Timestamp) return value.millisecondsSinceEpoch;
+    if (value is List) {
+      return value.map(_normalizeFirestoreValue).toList();
+    }
+    if (value is Map) {
+      return value.map(
+        (key, mapValue) =>
+            MapEntry(key.toString(), _normalizeFirestoreValue(mapValue)),
+      );
+    }
+    return value;
   }
 
   Future<void> _insertRows(
@@ -225,16 +287,23 @@ class BackupService {
   }
 }
 
-class BackupMetadata {
+class BackupMetadata implements BackupCounts {
   final DateTime uploadedAt;
+  final int schemaVersion;
+  @override
   final int categoriesCount;
+  @override
   final int productsCount;
+  @override
   final int salesCount;
+  @override
   final int inventoryLogsCount;
+  @override
   final int activitiesCount;
 
   const BackupMetadata({
     required this.uploadedAt,
+    this.schemaVersion = 1,
     required this.categoriesCount,
     required this.productsCount,
     required this.salesCount,
@@ -249,7 +318,10 @@ class BackupMetadata {
     return BackupMetadata(
       uploadedAt: uploadedAtValue is Timestamp
           ? uploadedAtValue.toDate()
+          : uploadedAtValue is int
+          ? DateTime.fromMillisecondsSinceEpoch(uploadedAtValue)
           : DateTime.now(),
+      schemaVersion: json['schemaVersion'] as int? ?? 1,
       categoriesCount: counts is Map ? (counts['categories'] as int? ?? 0) : 0,
       productsCount: counts is Map ? (counts['products'] as int? ?? 0) : 0,
       salesCount: counts is Map ? (counts['sales'] as int? ?? 0) : 0,
@@ -265,6 +337,7 @@ class BackupMetadata {
   Map<String, dynamic> toJson() {
     return {
       'uploadedAt': Timestamp.fromDate(uploadedAt),
+      'schemaVersion': schemaVersion,
       'counts': {
         'categories': categoriesCount,
         'products': productsCount,

@@ -50,57 +50,60 @@ class _ActivitiesViewState extends State<ActivitiesView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey.shade50,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: true,
-        title: Text(
-          'كل العمليات',
-          style: TextStyles.text18.copyWith(
-            color: AppColors.primaryColor,
-            fontWeight: FontWeight.bold,
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade50,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          scrolledUnderElevation: 0,
+          centerTitle: true,
+          title: Text(
+            'كل العمليات',
+            style: TextStyles.text18.copyWith(
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: BlocBuilder<ActivityCubit, ActivityState>(
-        builder: (context, state) {
-          if (state is ActivityLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (state is ActivityError) {
-            return Center(child: Text(state.message));
-          }
-
-          if (state is ActivityLoaded) {
-            if (state.activities.isEmpty) {
-              return const Center(child: Text('لا توجد عمليات حتى الآن'));
+        body: BlocBuilder<ActivityCubit, ActivityState>(
+          builder: (context, state) {
+            if (state is ActivityLoading) {
+              return const Center(child: CircularProgressIndicator());
             }
 
-            return RefreshIndicator(
-              onRefresh: _refresh,
-              child: ListView.separated(
-                controller: scrollController,
-                padding: EdgeInsets.all(20.r),
-                itemCount:
-                    state.activities.length + (state.isLoadingMore ? 1 : 0),
-                separatorBuilder: (context, index) => SizedBox(height: 12.h),
-                itemBuilder: (context, index) {
-                  if (index >= state.activities.length) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
+            if (state is ActivityError) {
+              return Center(child: Text(state.message));
+            }
 
-                  return ActivityTile(activity: state.activities[index]);
-                },
-              ),
-            );
-          }
+            if (state is ActivityLoaded) {
+              if (state.activities.isEmpty) {
+                return const Center(child: Text('لا توجد عمليات حتى الآن'));
+              }
 
-          return const SizedBox();
-        },
+              return RefreshIndicator(
+                onRefresh: _refresh,
+                child: ListView.separated(
+                  controller: scrollController,
+                  padding: EdgeInsets.all(20.r),
+                  itemCount:
+                      state.activities.length + (state.isLoadingMore ? 1 : 0),
+                  separatorBuilder: (context, index) => SizedBox(height: 12.h),
+                  itemBuilder: (context, index) {
+                    if (index >= state.activities.length) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+
+                    return ActivityTile(activity: state.activities[index]);
+                  },
+                ),
+              );
+            }
+
+            return const SizedBox();
+          },
+        ),
       ),
     );
   }

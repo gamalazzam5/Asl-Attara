@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../core/services/backup_payload_normalizer.dart';
+import '../../../../../core/services/backup_service.dart';
 import '../../../domain/usecases/get_backup_metadata.dart';
 import '../../../domain/usecases/restore_backup.dart';
 import '../../../domain/usecases/upload_backup.dart';
@@ -26,10 +28,7 @@ class SettingsCubit extends Cubit<SettingsState> {
       emit(state.copyWith(metadata: metadata, isLoading: false));
     } catch (e) {
       emit(
-        state.copyWith(
-          isLoading: false,
-          errorMessage: 'تعذر تحميل بيانات النسخة الاحتياطية',
-        ),
+        state.copyWith(isLoading: false, errorMessage: _backupErrorMessage(e)),
       );
     }
   }
@@ -58,7 +57,7 @@ class SettingsCubit extends Cubit<SettingsState> {
         state.copyWith(
           isLoading: false,
           action: SettingsAction.none,
-          errorMessage: 'تعذر رفع النسخة الاحتياطية',
+          errorMessage: _backupErrorMessage(e),
         ),
       );
     }
@@ -90,9 +89,25 @@ class SettingsCubit extends Cubit<SettingsState> {
         state.copyWith(
           isLoading: false,
           action: SettingsAction.none,
-          errorMessage: 'تعذر استعادة النسخة الاحتياطية',
+          errorMessage: _backupErrorMessage(e),
         ),
       );
     }
+  }
+
+  String _backupErrorMessage(Object error) {
+    if (error is BackupUserNotFoundException) {
+      return 'سجل الدخول أولا لاستخدام النسخ الاحتياطي';
+    }
+
+    if (error is BackupNotFoundException) {
+      return 'لا توجد نسخة احتياطية محفوظة للاستعادة';
+    }
+
+    if (error is BackupCorruptedException) {
+      return 'النسخة الاحتياطية غير مكتملة أو غير صالحة للاستعادة';
+    }
+
+    return 'تعذر تنفيذ عملية النسخ الاحتياطي. تحقق من الاتصال وحاول مرة أخرى';
   }
 }
