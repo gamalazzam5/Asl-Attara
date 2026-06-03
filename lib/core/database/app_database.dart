@@ -11,7 +11,7 @@ import 'tables/sale_table.dart';
 
 class AppDatabase {
   static const _defaultDatabaseName = 'aslattara.db';
-  static const _databaseVersion = 5;
+  static const _databaseVersion = 6;
 
   final String databaseName;
   Database? _database;
@@ -80,8 +80,41 @@ class AppDatabase {
           await db.execute(SaleItemTable.createTable);
           await db.execute(InventoryLogTable.createTable);
         }
+
+        if (oldVersion < 6) {
+          await _addSaleAmountColumns(db);
+        }
       },
     );
+  }
+
+  Future<void> _addSaleAmountColumns(Database db) async {
+    final columns = await db.rawQuery(
+      'PRAGMA table_info(${SaleItemTable.tableName})',
+    );
+    final columnNames = columns.map((column) => column['name']).toSet();
+
+    if (!columnNames.contains(SaleItemTable.enteredAmount)) {
+      await db.execute(
+        'ALTER TABLE ${SaleItemTable.tableName} '
+        'ADD COLUMN ${SaleItemTable.enteredAmount} REAL NOT NULL DEFAULT 0',
+      );
+      await db.execute(
+        'UPDATE ${SaleItemTable.tableName} '
+        'SET ${SaleItemTable.enteredAmount} = ${SaleItemTable.totalAmount}',
+      );
+    }
+
+    if (!columnNames.contains(SaleItemTable.calculatedQuantity)) {
+      await db.execute(
+        'ALTER TABLE ${SaleItemTable.tableName} '
+        'ADD COLUMN ${SaleItemTable.calculatedQuantity} REAL NOT NULL DEFAULT 0',
+      );
+      await db.execute(
+        'UPDATE ${SaleItemTable.tableName} '
+        'SET ${SaleItemTable.calculatedQuantity} = ${SaleItemTable.quantity}',
+      );
+    }
   }
 
   Future<void> _removeSeedProducts(Database db) async {

@@ -9,7 +9,7 @@ import 'package:device_preview/device_preview.dart';
 import 'core/services/service_locator.dart';
 import 'firebase_options.dart';
 
-void main()async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   setupServiceLocator();
   await Firebase.initializeApp(

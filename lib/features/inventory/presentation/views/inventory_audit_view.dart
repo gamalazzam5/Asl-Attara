@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
+import '../../../../core/utils/quantity_formatter.dart';
 import '../../../products/domain/entities/product_entity.dart';
 import '../../../products/presentation/manger/cubits/product_cubit.dart';
 import '../../../products/presentation/manger/cubits/product_state.dart';
@@ -48,7 +49,7 @@ class _InventoryAuditViewState extends State<InventoryAuditView> {
               surface: Colors.white,
               onSurface: Colors.black87,
             ),
-            dialogBackgroundColor: Colors.white,
+            dialogTheme: const DialogThemeData(backgroundColor: Colors.white),
           ),
           child: child!,
         );
@@ -101,198 +102,220 @@ class _InventoryAuditViewState extends State<InventoryAuditView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return Directionality(
+      textDirection: TextDirection.rtl,
+      child: Scaffold(
         backgroundColor: Colors.white,
-        scrolledUnderElevation: 0,
-        elevation: 0,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back, color: AppColors.primaryColor),
-        ),
-        title: Text(
-          'جرد المخزون',
-          style: TextStyles.text22.copyWith(
-            color: AppColors.primaryColor,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          scrolledUnderElevation: 0,
+          elevation: 0,
+          centerTitle: true,
+          leading: IconButton(
+            onPressed: () => context.pop(),
+            icon: const Icon(Icons.arrow_back, color: AppColors.primaryColor),
+          ),
+          title: Text(
+            'جرد المخزون',
+            style: TextStyles.text22.copyWith(
+              color: AppColors.primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-      body: BlocBuilder<ProductCubit, ProductState>(
-        builder: (context, productState) {
-          if (productState is ProductLoading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        body: BlocBuilder<ProductCubit, ProductState>(
+          builder: (context, productState) {
+            if (productState is ProductLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-          if (productState is! ProductLoaded || productState.products.isEmpty) {
-            return const Center(child: Text('لا توجد منتجات للجرد'));
-          }
+            if (productState is! ProductLoaded ||
+                productState.products.isEmpty) {
+              return const Center(child: Text('لا توجد منتجات للجرد'));
+            }
 
-          return SingleChildScrollView(
-            padding: EdgeInsets.all(20.r),
-            child: Column(
-              crossAxisAlignment: .stretch,
-              children: [
-                DropdownMenu<ProductEntity>(
-                  controller: _productSearchController,
-                  initialSelection: _selectedProduct,
-                  enableFilter: true,
-                  requestFocusOnTap: true,
-                  expandedInsets: EdgeInsets.zero,
-                  hintText: 'ابحث عن المنتج',
-                  menuStyle: MenuStyle(
-                    backgroundColor: WidgetStatePropertyAll(
-                      Color(0xFFF5F5F5),
-                    ),
-                    elevation: WidgetStatePropertyAll(10),
-                    shape: WidgetStatePropertyAll(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(20.r),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  DropdownMenu<ProductEntity>(
+                    controller: _productSearchController,
+                    initialSelection: _selectedProduct,
+                    enableFilter: true,
+                    requestFocusOnTap: true,
+                    expandedInsets: EdgeInsets.zero,
+                    hintText: 'ابحث عن المنتج',
+                    menuStyle: MenuStyle(
+                      backgroundColor: const WidgetStatePropertyAll(
+                        Color(0xFFF5F5F5),
                       ),
-                    ),
-                  ),
-                  label: const Text('اختر المنتج'),
-                  leadingIcon: const Icon(Icons.search),
-                  inputDecorationTheme: InputDecorationTheme(
-                    filled: true,
-                    fillColor: const Color(0xFFF3F4F6),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: Colors.grey.shade300),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: const BorderSide(
-                        color: Colors.black87,
-                        width: 1.5,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 12.h,
-                    ),
-                  ),
-
-                  dropdownMenuEntries: productState.products.map((product) {
-                    return DropdownMenuEntry(
-                      value: product,
-                      label:
-                          '${product.name} - ${product.quantity.toStringAsFixed(2)} ${product.unit}',
-                    );
-                  }).toList(),
-                  onSelected: (product) {
-                    setState(() => _selectedProduct = product);
-                  },
-                ),
-                SizedBox(height: 12.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => _pickDate(isFrom: true),
-                        icon: const Icon(Icons.date_range, color: Colors.black),
-                        label: Text(
-                          _fromDate == null
-                              ? 'من تاريخ'
-                              : _formatDate(_fromDate!),
-                          style: TextStyle(color: Colors.black),
+                      elevation: const WidgetStatePropertyAll(10),
+                      shape: WidgetStatePropertyAll(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
                         ),
                       ),
                     ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: OutlinedButton.icon(
-                        onPressed: () => _pickDate(isFrom: false),
-                        icon: const Icon(Icons.event, color: Colors.black),
-                        label: Text(
-                          _toDate == null ? 'إلى تاريخ' : _formatDate(_toDate!),
-                          style: TextStyle(color: Colors.black),
-
+                    label: const Text('اختر المنتج'),
+                    leadingIcon: const Icon(Icons.search),
+                    inputDecorationTheme: InputDecorationTheme(
+                      filled: true,
+                      fillColor: const Color(0xFFF3F4F6),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: BorderSide(color: Colors.grey.shade300),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                        borderSide: const BorderSide(
+                          color: Colors.black87,
+                          width: 1.5,
                         ),
                       ),
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 12.h,
+                      ),
                     ),
-                  ],
-                ),
-                SizedBox(height: 16.h),
-                ElevatedButton.icon(
-                  onPressed: _runAudit,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primaryColor,
-                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                    dropdownMenuEntries: productState.products.map((product) {
+                      return DropdownMenuEntry(
+                        value: product,
+                        label:
+                            '${product.name} - ${QuantityFormatter.format(product.quantity, product.unit)}',
+                      );
+                    }).toList(),
+                    onSelected: (product) {
+                      setState(() => _selectedProduct = product);
+                    },
                   ),
-                  icon: const Icon(Icons.fact_check, color: Colors.white),
-                  label: const Text(
-                    'تنفيذ الجرد',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-                SizedBox(height: 20.h),
-                BlocBuilder<InventoryCubit, InventoryState>(
-                  builder: (context, state) {
-                    if (state is InventoryLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-
-                    if (state is InventoryError) {
-                      return Center(child: Text(state.message));
-                    }
-
-                    if (state is! InventoryAuditLoaded) {
-                      return const SizedBox();
-                    }
-
-                    final audit = state.audit;
-
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
-                            _AuditCard(
-                              title: 'رصيد البداية',
-                              value: audit.openingQuantity.toStringAsFixed(2),
-                            ),
-                            SizedBox(width: 8.w),
-                            _AuditCard(
-                              title: 'المباع',
-                              value: audit.soldQuantity.toStringAsFixed(2),
-                              isAlert: true,
-                            ),
-                            SizedBox(width: 8.w),
-                            _AuditCard(
-                              title: 'الحالي',
-                              value: audit.currentQuantity.toStringAsFixed(2),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.h),
-                        Text(
-                          'سجل الحركة',
-                          style: TextStyles.text18.copyWith(
-                            fontWeight: FontWeight.bold,
+                  SizedBox(height: 12.h),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _pickDate(isFrom: true),
+                          icon: const Icon(
+                            Icons.date_range,
+                            color: Colors.black,
+                          ),
+                          label: Text(
+                            _fromDate == null
+                                ? 'من تاريخ'
+                                : _formatDate(_fromDate!),
+                            style: const TextStyle(color: Colors.black),
                           ),
                         ),
-                        SizedBox(height: 10.h),
-                        if (audit.movements.isEmpty)
-                          const Center(
-                            child: Text('لا توجد حركات في هذه الفترة'),
-                          )
-                        else
-                          ...audit.movements.map(InventoryMovementTile.new),
-                      ],
-                    );
-                  },
-                ),
-              ],
-            ),
-          );
-        },
+                      ),
+                      SizedBox(width: 12.w),
+                      Expanded(
+                        child: OutlinedButton.icon(
+                          onPressed: () => _pickDate(isFrom: false),
+                          icon: const Icon(Icons.event, color: Colors.black),
+                          label: Text(
+                            _toDate == null
+                                ? 'إلى تاريخ'
+                                : _formatDate(_toDate!),
+                            style: const TextStyle(color: Colors.black),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16.h),
+                  ElevatedButton.icon(
+                    onPressed: _runAudit,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primaryColor,
+                      padding: EdgeInsets.symmetric(vertical: 14.h),
+                    ),
+                    icon: const Icon(Icons.fact_check, color: Colors.white),
+                    label: const Text(
+                      'تنفيذ الجرد',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  SizedBox(height: 20.h),
+                  BlocBuilder<InventoryCubit, InventoryState>(
+                    builder: (context, state) {
+                      if (state is InventoryLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (state is InventoryError) {
+                        return Center(child: Text(state.message));
+                      }
+
+                      if (state is! InventoryAuditLoaded) {
+                        return const SizedBox();
+                      }
+
+                      final audit = state.audit;
+                      final selectedUnit = _selectedProduct?.unit ?? '';
+
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Row(
+                            children: [
+                              _AuditCard(
+                                title: 'رصيد البداية',
+                                value: QuantityFormatter.format(
+                                  audit.openingQuantity,
+                                  selectedUnit,
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              _AuditCard(
+                                title: 'المباع',
+                                value: QuantityFormatter.format(
+                                  audit.soldQuantity,
+                                  selectedUnit,
+                                ),
+                                isAlert: true,
+                              ),
+                              SizedBox(width: 8.w),
+                              _AuditCard(
+                                title: 'الحالي',
+                                value: QuantityFormatter.format(
+                                  audit.currentQuantity,
+                                  selectedUnit,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 20.h),
+                          Text(
+                            'سجل الحركة',
+                            style: TextStyles.text18.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          if (audit.movements.isEmpty)
+                            const Center(
+                              child: Text('لا توجد حركات في هذه الفترة'),
+                            )
+                          else
+                            ...audit.movements.map(
+                              (movement) => InventoryMovementTile(
+                                movement,
+                                unit: selectedUnit,
+                              ),
+                            ),
+                        ],
+                      );
+                    },
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -329,6 +352,7 @@ class _AuditCard extends StatelessWidget {
             SizedBox(height: 6.h),
             Text(
               value,
+              textAlign: TextAlign.center,
               style: TextStyles.text18.copyWith(
                 color: isAlert ? AppColors.errorColor : AppColors.primaryColor,
                 fontWeight: FontWeight.bold,

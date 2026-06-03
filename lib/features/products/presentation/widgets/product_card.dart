@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/text_style.dart';
+import '../../../../core/utils/quantity_formatter.dart';
 import '../../domain/entities/product_entity.dart';
 
 class ProductCard extends StatelessWidget {
@@ -92,7 +93,7 @@ class ProductCard extends StatelessWidget {
 
               /// Quantity Left
               Text(
-                '${product.quantity} ${product.unit}',
+                QuantityFormatter.format(product.quantity, product.unit),
 
                 style: TextStyles.text18.copyWith(
                   fontWeight: FontWeight.bold,

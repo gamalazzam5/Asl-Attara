@@ -12,7 +12,12 @@ abstract class SalesRepository {
 
 class SaleDraftItem {
   final ProductEntity product;
-  final double quantity;
+  final double enteredAmount;
+  final double calculatedQuantity;
 
-  const SaleDraftItem({required this.product, required this.quantity});
+  const SaleDraftItem({
+    required this.product,
+    required this.enteredAmount,
+    required this.calculatedQuantity,
+  });
 }

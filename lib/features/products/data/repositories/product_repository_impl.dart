@@ -1,8 +1,9 @@
 import '../../../../core/database/tables/inventory_log_table.dart';
-import '../../domain/entities/product_entity.dart';
-import '../../domain/repositories/product_repository.dart';
+import '../../../../core/utils/quantity_formatter.dart';
 import '../../../activity/data/datasource/activity_local_data_source.dart';
 import '../../../activity/data/models/activity_log_model.dart';
+import '../../domain/entities/product_entity.dart';
+import '../../domain/repositories/product_repository.dart';
 import '../datasource/product_local_data_source.dart';
 import '../models/product_model.dart';
 
@@ -33,7 +34,8 @@ class ProductRepositoryImpl implements ProductRepository {
       quantityBefore: 0,
       quantityAfter: product.quantity,
       type: 'stock_added',
-      description: 'إضافة مخزون ${product.quantity} ${product.unit}',
+      description:
+          'إضافة مخزون ${QuantityFormatter.format(product.quantity, product.unit)}',
     );
   }
 
@@ -66,7 +68,7 @@ class ProductRepositoryImpl implements ProductRepository {
         quantityAfter: product.quantity,
         type: 'inventory_updated',
         description:
-            'تعديل المخزون ${changeQuantity > 0 ? '+' : ''}${changeQuantity.toStringAsFixed(2)} ${product.unit}',
+            'تعديل المخزون ${QuantityFormatter.format(changeQuantity, product.unit, includeSign: true)}',
       );
     }
   }

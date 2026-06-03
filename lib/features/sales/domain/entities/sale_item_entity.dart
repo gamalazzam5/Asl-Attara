@@ -3,6 +3,8 @@ class SaleItemEntity {
   final int saleId;
   final int productId;
   final String productName;
+  final double enteredAmount;
+  final double calculatedQuantity;
   final double quantity;
   final String unit;
   final double buyPrice;
@@ -15,6 +17,8 @@ class SaleItemEntity {
     required this.saleId,
     required this.productId,
     required this.productName,
+    required this.enteredAmount,
+    required this.calculatedQuantity,
     required this.quantity,
     required this.unit,
     required this.buyPrice,

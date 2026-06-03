@@ -25,13 +25,18 @@ class SalesCubit extends Cubit<SalesState> {
 
     final productIds = <int>{};
     for (final item in items) {
-      if (item.quantity <= 0) {
-        emit(const SalesError('كل الكميات يجب أن تكون أكبر من صفر'));
+      if (item.enteredAmount <= 0) {
+        emit(const SalesError('أدخل مبلغ البيع لكل منتج'));
         return;
       }
 
-      if (item.quantity > item.product.quantity) {
-        emit(SalesError('الكمية غير متاحة للمنتج "${item.product.name}"'));
+      if (item.product.sellPrice <= 0 || item.calculatedQuantity <= 0) {
+        emit(SalesError('سعر البيع غير صحيح للمنتج "${item.product.name}"'));
+        return;
+      }
+
+      if (item.calculatedQuantity > item.product.quantity) {
+        emit(const SalesError('الكمية المطلوبة أكبر من المخزون المتاح'));
         return;
       }
 

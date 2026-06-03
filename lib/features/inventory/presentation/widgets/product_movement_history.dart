@@ -9,8 +9,13 @@ import 'inventory_movement_tile.dart';
 
 class ProductMovementHistory extends StatefulWidget {
   final int productId;
+  final String unit;
 
-  const ProductMovementHistory({super.key, required this.productId});
+  const ProductMovementHistory({
+    super.key,
+    required this.productId,
+    required this.unit,
+  });
 
   @override
   State<ProductMovementHistory> createState() => _ProductMovementHistoryState();
@@ -33,7 +38,7 @@ class _ProductMovementHistoryState extends State<ProductMovementHistory> {
 
         if (state is InventoryMovementsLoaded) {
           return Column(
-            crossAxisAlignment: .stretch,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 'حركة المنتج',
@@ -43,7 +48,12 @@ class _ProductMovementHistoryState extends State<ProductMovementHistory> {
               if (state.movements.isEmpty)
                 const Text('لا توجد حركة مسجلة لهذا المنتج')
               else
-                ...state.movements.take(8).map(InventoryMovementTile.new),
+                ...state.movements
+                    .take(8)
+                    .map(
+                      (movement) =>
+                          InventoryMovementTile(movement, unit: widget.unit),
+                    ),
             ],
           );
         }

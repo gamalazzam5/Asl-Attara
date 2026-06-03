@@ -103,7 +103,7 @@ class ProductDetailsView extends StatelessWidget {
 
             SizedBox(height: 24.h),
 
-            ProductMovementHistory(productId: product.id),
+            ProductMovementHistory(productId: product.id, unit: product.unit),
           ],
         ),
       ),

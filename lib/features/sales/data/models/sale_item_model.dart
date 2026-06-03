@@ -7,6 +7,8 @@ class SaleItemModel extends SaleItemEntity {
     required super.saleId,
     required super.productId,
     required super.productName,
+    required super.enteredAmount,
+    required super.calculatedQuantity,
     required super.quantity,
     required super.unit,
     required super.buyPrice,
@@ -21,6 +23,12 @@ class SaleItemModel extends SaleItemEntity {
       saleId: json[SaleItemTable.saleId] as int,
       productId: json[SaleItemTable.productId] as int,
       productName: json[SaleItemTable.productName] as String,
+      enteredAmount:
+          (json[SaleItemTable.enteredAmount] as num?)?.toDouble() ??
+          (json[SaleItemTable.totalAmount] as num).toDouble(),
+      calculatedQuantity:
+          (json[SaleItemTable.calculatedQuantity] as num?)?.toDouble() ??
+          (json[SaleItemTable.quantity] as num).toDouble(),
       quantity: (json[SaleItemTable.quantity] as num).toDouble(),
       unit: json[SaleItemTable.unit] as String,
       buyPrice: (json[SaleItemTable.buyPrice] as num).toDouble(),
@@ -36,6 +44,8 @@ class SaleItemModel extends SaleItemEntity {
       SaleItemTable.saleId: saleId,
       SaleItemTable.productId: productId,
       SaleItemTable.productName: productName,
+      SaleItemTable.enteredAmount: enteredAmount,
+      SaleItemTable.calculatedQuantity: calculatedQuantity,
       SaleItemTable.quantity: quantity,
       SaleItemTable.unit: unit,
       SaleItemTable.buyPrice: buyPrice,

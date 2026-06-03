@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/text_style.dart';
+import '../../../../core/utils/quantity_formatter.dart';
 
 class QuantityCard extends StatelessWidget {
   final double quantity;
@@ -30,7 +31,7 @@ class QuantityCard extends StatelessWidget {
           SizedBox(height: 10.h),
 
           Text(
-            '$quantity',
+            QuantityFormatter.format(quantity, unit),
 
             style: TextStyles.text24.copyWith(
               fontWeight: FontWeight.bold,
@@ -38,8 +39,6 @@ class QuantityCard extends StatelessWidget {
               color: AppColors.primaryColor,
             ),
           ),
-
-          Text(unit, style: TextStyles.text16),
         ],
       ),
     );
