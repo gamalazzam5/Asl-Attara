@@ -1,17 +1,96 @@
-# aslattara
+# Asl Attara – Inventory & Sales Management System
 
-A new Flutter project.
+A cross-platform inventory and sales management application designed for small businesses. The system supports offline-first functionality with secure cloud synchronization, allowing users to manage products, track inventory movements, record sales transactions, and maintain data backups.
+
+## Features
+
+* User Authentication (Login, Register, Forgot Password)
+* Product Management
+* Category Management
+* Sales Recording
+* Automatic Inventory Updates
+* Inventory Movement Tracking
+* Inventory Auditing
+* Activity Logs
+* Offline-First Experience
+* Secure Cloud Backup & Synchronization
+* User-Specific Data Isolation
+
+## Tech Stack
+
+* Flutter
+* Dart
+* Firebase Authentication
+* Cloud Firestore
+* SQLite (sqflite)
+* Flutter Bloc (Cubit)
+* Clean Architecture
+* GetIt (Dependency Injection)
+
+## Architecture
+
+The project follows Clean Architecture principles and is organized using a feature-based structure:
+
+```text
+lib/
+├── core/
+├── features/
+│   ├── auth/
+│   ├── products/
+│   ├── categories/
+│   ├── sales/
+│   ├── inventory/
+│   └── activity/
+└── main.dart
+```
+
+Each feature is separated into:
+
+```text
+feature/
+├── data/
+├── domain/
+└── presentation/
+```
+
+## Offline-First Strategy
+
+SQLite is used as the primary local database to ensure fast performance and uninterrupted operation without internet access.
+
+Firebase Authentication and Cloud Firestore are used for:
+
+* Secure user authentication
+* Cloud backup
+* Data synchronization
+* User-specific data storage
+
+## Security
+
+Firestore Security Rules ensure that each user can only access their own data.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. Clone the repository.
+2. Install dependencies:
 
-A few resources to get you started if this is your first Flutter project:
+```bash
+flutter pub get
+```
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+3. Configure Firebase:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```bash
+flutterfire configure
+```
+
+4. Run the application:
+
+```bash
+flutter run
+```
+
+## Author
+
+Gamal Azzam
+
+* LinkedIn: https://www.linkedin.com/in/gamal-3zzam/
